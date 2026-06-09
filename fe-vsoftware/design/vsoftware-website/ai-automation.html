@@ -1,0 +1,449 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI &amp; Automation — Chatbot, workflow tự động hóa cho doanh nghiệp — Vsoftware</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --blue: #1E5BC6; --blue-dark: #1749A8; --blue-light: #EBF1FB; --orange: #F47920; --orange-dark: #D96510; --orange-light: #FEF3E8; --dark: #1A1A1A; --gray-700: #374151; --gray-600: #6B7280; --gray-400: #9CA3AF; --gray-200: #E5E7EB; --bg: #F5F7FA; --white: #FFFFFF; --gradient: linear-gradient(135deg, #1E5BC6 0%, #2E6FD6 55%, #F47920 100%); --shadow: 0 2px 8px rgba(0,0,0,0.06); --radius: 6px; --radius-lg: 12px; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Manrope', sans-serif; color: var(--dark); background: var(--white); overflow-x: hidden; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,.95); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); height: 96px; }
+    nav .nav-inner { max-width: 1140px; margin: 0 auto; padding: 0 24px; height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .nav-logo img { height: 88px; } .nav-logo-text { font-size: 22px; font-weight: 800; color: var(--blue); display: none; } .nav-logo-text span { color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 2px; }
+    .nav-links a { font-size: 12px; font-weight: 800; color: var(--gray-700); padding: 8px 13px; border-radius: var(--radius); text-decoration: none; transition: all .15s; white-space: nowrap; text-transform: uppercase; letter-spacing: .04em; }
+    .nav-links a:hover, .nav-links a.active { color: var(--blue); }
+    .nav-item { position: relative; display: flex; align-items: center; height: 96px; }
+    .nav-item > a { display: flex; align-items: center; gap: 4px; height: 100%; }
+    .nav-item > a::after { content: '▾'; font-size: 10px; opacity: .5; transition: transform .2s; }
+    .nav-item.open > a::after { transform: rotate(180deg); }
+    .mega-dropdown { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-6px); transition: opacity .18s ease, transform .18s ease, visibility .18s; position: fixed; top: 96px; left: 0; right: 0; background: var(--white); border-top: 2px solid var(--blue); border-bottom: 1px solid var(--gray-200); box-shadow: 0 16px 48px rgba(0,0,0,.12); z-index: 200; }
+    .nav-item.open .mega-dropdown { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+    .mega-inner { max-width: 1140px; margin: 0 auto; padding: 32px 24px 0; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .mega-col { padding: 0 24px 32px; border-right: 1px solid var(--gray-200); }
+    .mega-col:first-child { padding-left: 0; } .mega-col:last-child { border-right: none; }
+    .mega-col-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .mega-col-title.blue { color: var(--blue); } .mega-col-title.orange { color: var(--orange); }
+    .mega-col-title::before { content: ''; display: inline-block; width: 3px; height: 14px; border-radius: 2px; background: currentColor; }
+    .mega-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; text-decoration: none; transition: all .15s; margin-bottom: 2px; }
+    .mega-item:hover { background: var(--bg); } .mega-item:hover .mega-item-name { color: var(--blue); }
+    .mega-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .mega-icon.blue { background: var(--blue); } .mega-icon.orange { background: var(--orange); }
+    .mega-item-name { font-size: 14px; font-weight: 700; color: var(--dark); display: block; line-height: 1.3; transition: color .15s; }
+    .mega-item-sub { font-size: 12px; color: var(--gray-600); display: block; margin-top: 1px; }
+    .mega-footer { border-top: 1px solid var(--gray-200); background: var(--bg); }
+    .mega-footer-inner { max-width: 1140px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .mega-footer-text strong { font-size: 14px; font-weight: 700; color: var(--dark); display: block; } .mega-footer-text span { font-size: 13px; color: var(--gray-600); }
+    .nav-cta { display: flex; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; border-radius: var(--radius); font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; transition: all .18s; }
+    .btn-secondary { background: var(--orange); color: var(--white); } .btn-secondary:hover { background: var(--orange-dark); }
+    @keyframes pulse-ring { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.55); opacity: 0; } }
+    @keyframes cta-pulse-blue { 0% { box-shadow: 0 0 0 0 rgba(30,91,198,.55); } 70% { box-shadow: 0 0 0 14px rgba(30,91,198,0); } 100% { box-shadow: 0 0 0 0 rgba(30,91,198,0); } }
+    @keyframes cta-pulse-orange { 0% { box-shadow: 0 0 0 0 rgba(244,121,32,.55); } 70% { box-shadow: 0 0 0 14px rgba(244,121,32,0); } 100% { box-shadow: 0 0 0 0 rgba(244,121,32,0); } }
+    .btn-pulse { background: var(--orange); color: var(--white); position: relative; }
+    .btn-pulse::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); background: var(--orange); z-index: -1; animation: pulse-ring 1.8s ease-out infinite; }
+    .btn-pulse:hover { background: var(--orange-dark); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; border-radius: 6px; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; transition: all .2s; }
+    .mobile-menu { display: none; position: fixed; top: 96px; left: 0; right: 0; bottom: 0; background: var(--white); z-index: 99; padding: 24px; overflow-y: auto; flex-direction: column; gap: 4px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 16px; font-weight: 700; color: var(--dark); text-decoration: none; padding: 13px 16px; border-radius: 8px; border-bottom: 1px solid var(--gray-200); display: block; }
+    .mobile-menu a:hover { background: var(--blue-light); color: var(--blue); }
+    .mobile-menu .m-section { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--gray-400); padding: 16px 16px 6px; }
+    .mobile-menu .m-sub { font-size: 14px; font-weight: 600; color: var(--gray-600); padding: 10px 28px; border-bottom: none; }
+    .mobile-menu .m-cta { background: var(--blue); color: var(--white) !important; border-radius: 8px; text-align: center; margin-top: 16px; border-bottom: none; }
+    .page-hero { background: linear-gradient(135deg, #1E5BC6 0%, #1749A8 60%, #0D2757 100%); padding: 13px 0; margin-top: 68px; }
+    .page-hero .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,.5); flex-shrink: 0; flex-wrap: wrap; }
+    .breadcrumb a { color: rgba(255,255,255,.5); text-decoration: none; } .breadcrumb a:hover { color: var(--white); } .breadcrumb span { color: rgba(255,255,255,.25); }
+    .page-hero h1 { font-size: 18px; font-weight: 800; color: var(--white); text-transform: uppercase; line-height: 1; margin: 0; white-space: nowrap; }
+    .page-hero h1 em { font-style: normal; color: var(--orange); }
+    .article-layout { padding: 36px 0 72px; background: var(--bg); }
+    .article-wrap { max-width: 1400px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: 1fr 268px; gap: 28px; align-items: start; }
+    .article-main { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; }
+    .article-content { padding: 36px 40px 40px; }
+    .article-title { font-size: clamp(22px, 2.8vw, 30px); font-weight: 800; line-height: 1.25; color: var(--dark); margin-bottom: 16px; }
+    .article-body { font-size: 15.5px; color: var(--gray-700); line-height: 1.8; }
+    .article-body h2 { font-size: 20px; font-weight: 800; color: var(--dark); margin: 36px 0 14px; padding-left: 14px; border-left: 4px solid var(--blue); }
+    .article-body p { margin-bottom: 18px; }
+    .article-body blockquote { border-left: 4px solid var(--blue); padding: 16px 20px; background: var(--blue-light); border-radius: 0 8px 8px 0; margin: 28px 0; }
+    .article-body blockquote p { color: var(--blue-dark); font-weight: 600; font-size: 15px; line-height: 1.65; margin: 0; font-style: italic; }
+    .signal-card { background: var(--bg); border-radius: 10px; padding: 20px 24px; margin: 20px 0; border-left: 4px solid var(--blue); }
+    .signal-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: var(--white); font-size: 13px; font-weight: 800; margin-bottom: 10px; }
+    .signal-card h3 { font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 8px; margin-top: 0; }
+    .signal-card p { font-size: 14.5px; color: var(--gray-600); line-height: 1.7; margin: 0; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--blue); text-decoration: none; padding: 8px 0; margin-bottom: 20px; }
+    .back-link:hover { color: var(--blue-dark); }
+    .sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 138px; }
+    .sidebar-widget { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; border-top: 3px solid var(--blue); }
+    .widget-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; color: var(--dark); padding: 14px 18px 12px; border-bottom: 1px solid var(--gray-200); }
+    .cat-list { display: flex; flex-direction: column; gap: 2px; padding: 10px; }
+    .cat-list-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: var(--radius); font-size: 13.5px; font-weight: 600; color: var(--gray-700); text-decoration: none; transition: all .15s; }
+    .cat-list-item:hover { background: var(--blue-light); color: var(--blue); }
+    .cat-list-badge { font-size: 11px; font-weight: 700; min-width: 22px; height: 20px; border-radius: 100px; display: inline-flex; align-items: center; justify-content: center; padding: 0 6px; background: rgba(0,0,0,.07); }
+    .svc-list { display: flex; flex-direction: column; padding: 10px; }
+    .svc-item { display: flex; gap: 12px; align-items: center; text-decoration: none; color: inherit; padding: 10px; border-radius: var(--radius); transition: all .15s; }
+    .svc-item:hover { background: var(--blue-light); }
+    .svc-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .svc-icon.orange { background: var(--orange); } .svc-icon.teal { background: #0D9488; } .svc-icon.purple { background: #7C3AED; }
+    .svc-info strong { display: block; font-size: 13px; font-weight: 700; color: var(--dark); line-height: 1.3; } .svc-info span { font-size: 11.5px; color: var(--gray-600); }
+    .newsletter-widget { background: var(--gradient); border-radius: var(--radius-lg); padding: 28px 24px; text-align: center; }
+    .newsletter-widget h3 { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+    .newsletter-widget p { font-size: 13px; color: rgba(255,255,255,.75); margin-bottom: 18px; line-height: 1.5; }
+    .newsletter-form { display: flex; flex-direction: column; gap: 10px; }
+    .newsletter-form input { padding: 10px 14px; border-radius: var(--radius); border: none; font-family: 'Manrope', sans-serif; font-size: 13.5px; outline: none; }
+    .newsletter-form button { padding: 11px 0; border-radius: var(--radius); border: none; background: var(--white); color: var(--blue); font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
+    .newsletter-form button:hover { background: var(--orange-light); color: var(--orange-dark); }
+    footer { background: #0D2757; color: rgba(255,255,255,.65); padding: 56px 0 32px; }
+    .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+    .footer-brand-logo { height: 80px; width: auto; display: block; margin-bottom: 14px; mix-blend-mode: screen; }
+    .footer-brand p { font-size: 14px; line-height: 1.65; margin-bottom: 20px; }
+    .footer-col h4 { font-size: 11px; font-weight: 800; color: var(--white); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .footer-col a { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: rgba(255,255,255,.5); text-decoration: none; margin-bottom: 11px; transition: all .15s; }
+    .footer-col a:hover { color: var(--white); padding-left: 2px; } .footer-col a .fi { font-size: 14px; width: 20px; flex-shrink: 0; opacity: .75; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-size: 13px; } .footer-vitechgroup { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,.4); } .footer-vitechgroup strong { color: rgba(255,255,255,.7); }
+    .footer-legal { display: flex; gap: 16px; font-size: 13px; } .footer-legal a { color: rgba(255,255,255,.4); text-decoration: none; } .footer-legal a:hover { color: var(--white); }
+    @media (max-width: 900px) { .nav-links { display: none; } .hamburger { display: flex; } .nav-cta { display: none; } }
+    @media (max-width: 1100px) { .article-wrap { grid-template-columns: 1fr; } .sidebar { position: static; display: none; } }
+    @media (max-width: 768px) { .article-content { padding: 24px 20px; } .article-wrap { padding: 0 16px; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .article-title { font-size: 20px; } }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0; }
+    .feature-item { background: var(--bg); border-radius: 10px; padding: 20px 18px; border-top: 3px solid var(--blue); }
+    .feature-item.orange { border-top-color: var(--orange); }
+    .feature-icon { font-size: 26px; margin-bottom: 10px; display: block; }
+    .feature-item h3 { font-size: 14px; font-weight: 800; color: var(--dark); margin-bottom: 6px; margin-top: 0; }
+    .feature-item p { font-size: 13px; color: var(--gray-600); line-height: 1.6; margin: 0; }
+    .cta-service { background: var(--gradient); border-radius: 12px; padding: 28px 32px; text-align: center; margin-top: 32px; }
+    .cta-service h3 { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 10px; }
+    .cta-service p { font-size: 14px; color: rgba(255,255,255,.8); margin-bottom: 20px; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-service a { display: inline-flex; align-items: center; gap: 8px; background: var(--white); color: var(--blue); padding: 11px 28px; border-radius: 6px; font-weight: 800; font-size: 15px; text-decoration: none; transition: all .18s; animation: cta-pulse-blue 2s ease-out infinite; }
+    .cta-service a:hover { background: var(--orange-light); color: var(--orange-dark); }
+    .cta-service a.cta-ghost { background: var(--orange); color: var(--white); border: none; animation: cta-pulse-orange 2s ease-out infinite .8s; }
+    .cta-service a.cta-ghost:hover { background: var(--orange-dark); color: var(--white); transform: translateY(-1px); }
+    @media (max-width: 768px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .features-grid { grid-template-columns: 1fr; } }
+    .mega-inner-2col { grid-template-columns: repeat(2, 1fr); }
+  </style>
+</head>
+<body>
+<!-- ─── NAVBAR ─── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="demo-index.html">
+      <img src="./Logo Vsoftware/logo ngang.png" alt="Vsoftware" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+      <span class="nav-logo-text"><span>V</span>software</span>
+    </a>
+    <div class="nav-links">
+      <a href="demo-index.html">Trang chủ</a>
+      <a href="gioi-thieu.html">Giới thiệu</a>
+      <div class="nav-item">
+        <a href="demo-index.html#services" class="active">Dịch vụ</a>
+        <div class="mega-dropdown">
+          <div class="mega-inner">
+            <div class="mega-col">
+              <div class="mega-col-title blue">Phần mềm &amp; Vận hành</div>
+              <a href="phan-mem-ban-hang.html" class="mega-item"><div class="mega-icon blue">🛒</div><div class="mega-item-text"><span class="mega-item-name">Phần mềm bán hàng / POS</span><span class="mega-item-sub">Đa chi nhánh, online-offline</span></div></a>
+              <a href="crm-cho-sme.html" class="mega-item"><div class="mega-icon blue">👥</div><div class="mega-item-text"><span class="mega-item-name">CRM cho SME</span><span class="mega-item-sub">Lead, pipeline, chăm khách</span></div></a>
+              <a href="quan-ly-kho.html" class="mega-item"><div class="mega-icon blue">📦</div><div class="mega-item-text"><span class="mega-item-name">Quản lý kho / WMS</span><span class="mega-item-sub">Xuất nhập tồn, mã vạch</span></div></a>
+              <a href="app-ban-hang.html" class="mega-item"><div class="mega-icon blue">📱</div><div class="mega-item-text"><span class="mega-item-name">App bán hàng đa kênh</span><span class="mega-item-sub">Web + Zalo Mini + Mobile</span></div></a>
+              <a href="ai-automation.html" class="mega-item"><div class="mega-icon blue">🤖</div><div class="mega-item-text"><span class="mega-item-name">AI &amp; Automation</span><span class="mega-item-sub">Chatbot, workflow, tự động hóa</span></div></a>
+            </div>
+            <div class="mega-col">
+              <div class="mega-col-title orange">Theo ngành nghề</div>
+              <a href="spa-tham-my.html" class="mega-item"><div class="mega-icon orange">💆</div><div class="mega-item-text"><span class="mega-item-name">Spa / Thẩm mỹ viện</span><span class="mega-item-sub">Đặt lịch, liệu trình, thẻ</span></div></a>
+              <a href="nha-khoa.html" class="mega-item"><div class="mega-icon orange">🦷</div><div class="mega-item-text"><span class="mega-item-name">Nha khoa / Phòng khám</span><span class="mega-item-sub">Hồ sơ BN, lịch hẹn, đơn thuốc</span></div></a>
+              <a href="nha-hang-fb.html" class="mega-item"><div class="mega-icon orange">🍜</div><div class="mega-item-text"><span class="mega-item-name">Nhà hàng / F&amp;B</span><span class="mega-item-sub">Order, bếp, ship, thành viên</span></div></a>
+              <a href="gym-fitness.html" class="mega-item"><div class="mega-icon orange">💪</div><div class="mega-item-text"><span class="mega-item-name">Gym / Yoga / Fitness</span><span class="mega-item-sub">Thẻ tập, PT, lịch lớp</span></div></a>
+              <a href="trung-tam-dao-tao.html" class="mega-item"><div class="mega-icon orange">🎓</div><div class="mega-item-text"><span class="mega-item-name">Trung tâm đào tạo</span><span class="mega-item-sub">Học viên, lớp học, học phí</span></div></a>
+            </div>
+            <div class="mega-col">
+              <div class="mega-col-title blue">Thiết kế &amp; Nền tảng</div>
+              <a href="thiet-ke-website.html" class="mega-item"><div class="mega-icon blue">🎨</div><div class="mega-item-text"><span class="mega-item-name">Thiết kế Website</span><span class="mega-item-sub">UI/UX, Figma, mobile-first</span></div></a>
+              <a href="website-landing.html" class="mega-item"><div class="mega-icon blue">🌐</div><div class="mega-item-text"><span class="mega-item-name">Website &amp; Landing Page</span><span class="mega-item-sub">SEO ready, tích hợp CRM</span></div></a>
+              <a href="app-goi-xe.html" class="mega-item"><div class="mega-icon blue">🚗</div><div class="mega-item-text"><span class="mega-item-name">App gọi xe / gọi thợ</span><span class="mega-item-sub">On-demand, dispatch, tracking</span></div></a>
+              <a href="app-dat-lich.html" class="mega-item"><div class="mega-icon blue">📅</div><div class="mega-item-text"><span class="mega-item-name">App đặt lịch / Booking</span><span class="mega-item-sub">Lịch hẹn dịch vụ, tích hợp Zalo</span></div></a>
+              <a href="tich-hop.html" class="mega-item"><div class="mega-icon blue">🔗</div><div class="mega-item-text"><span class="mega-item-name">Tích hợp hệ thống</span><span class="mega-item-sub">MISA, Zalo, ngân hàng, sàn TMĐT</span></div></a>
+            </div>
+          </div>
+          <div class="mega-footer">
+            <div class="mega-footer-inner">
+              <div class="mega-footer-text"><strong>Không thấy ngành của bạn?</strong><span>Tư vấn miễn phí 30 phút — đội Vsoftware sẽ may đo riêng.</span></div>
+              <a href="lien-he.html" class="btn btn-secondary">Liên hệ ngay →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="tin-tuc.html">Tin tức</a>
+      <a href="tin-tuc.html">Tin tức</a>
+
+      <div class="nav-item">
+        <a href="demo-index.html#ai-agent">Phần mềm AI Agent</a>
+        <div class="mega-dropdown">
+          <div class="mega-inner mega-inner-2col">
+            <div class="mega-col">
+              <div class="mega-col-title blue">Kinh doanh & Khách hàng</div>
+              <a href="ai-agent-sales.html" class="mega-item">
+                <div class="mega-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M1 14h2m18 0h2"/><circle cx="9.5" cy="13.5" r="1.5" fill="white" stroke="none"/><circle cx="14.5" cy="13.5" r="1.5" fill="white" stroke="none"/><path d="M9 17.5h6"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Sales</span>
+                  <span class="mega-item-sub">Chăm lead 24/7, auto reply, báo giá</span>
+                </div>
+              </a>
+              <a href="ai-agent-marketing.html" class="mega-item">
+                <div class="mega-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 6.5a1.5 1.5 0 0 0 1 1L21.5 11l-6.5 2a1.5 1.5 0 0 0-1 1L12 20.5l-2-6.5a1.5 1.5 0 0 0-1-1L2.5 11l6.5-2a1.5 1.5 0 0 0 1-1L12 2z"/><path d="M5 3.5v2m-1 1h2"/><path d="M19 17.5v2m-1 1h2"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Marketing</span>
+                  <span class="mega-item-sub">Gen content, lịch đăng, A/B test</span>
+                </div>
+              </a>
+              <a href="ai-agent-cskh.html" class="mega-item">
+                <div class="mega-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1.5" fill="white" stroke="none"/><circle cx="15" cy="10" r="1.5" fill="white" stroke="none"/><path d="M9.5 13.5h5"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent CSKH</span>
+                  <span class="mega-item-sub">Chatbot đa kênh + Voice Bot tổng đài</span>
+                </div>
+              </a>
+            </div>
+            <div class="mega-col">
+              <div class="mega-col-title orange">Vận hành & Quản trị</div>
+              <a href="ai-agent-ketoan.html" class="mega-item">
+                <div class="mega-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M15 2v2M9 2v2M15 20v2M9 20v2M22 15h-2M22 9h-2M2 15h2M2 9h2"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Kế toán</span>
+                  <span class="mega-item-sub">Đối soát tự động, cảnh báo dòng tiền</span>
+                </div>
+              </a>
+              <a href="ai-agent-nhansu.html" class="mega-item">
+                <div class="mega-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Nhân sự</span>
+                  <span class="mega-item-sub">Sàng CV, onboard, đánh giá KPI</span>
+                </div>
+              </a>
+              <a href="ai-agent-baocao-ceo.html" class="mega-item">
+                <div class="mega-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Báo cáo CEO</span>
+                  <span class="mega-item-sub">Dashboard tự động, cảnh báo KPI</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="mega-footer">
+            <div class="mega-footer-inner">
+              <div class="mega-footer-text">
+                <strong>Cần AI Agent theo nghiệp vụ riêng?</strong>
+                <span>Vsoftware build AI Agent custom — tích hợp sâu vào phần mềm doanh nghiệp của bạn.</span>
+              </div>
+              <a href="lien-he.html" class="btn btn-secondary">Tư vấn miễn phí →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="lien-he.html">Liên hệ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="lien-he.html" class="btn btn-pulse">Tư vấn miễn phí</a>
+    </div>
+    <button type="button" class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="demo-index.html">🏠 Trang chủ</a>
+  <div class="m-section">Giới thiệu</div>
+  <a href="demo-index.html#why-us" class="m-sub">🏢 Về Vsoftware</a>
+  <a href="demo-index.html#how-it-works" class="m-sub">⚙️ Quy trình làm việc</a>
+  <a href="demo-index.html#why-us" class="m-sub">🏆 Thuộc ViTechGroup</a>
+  <div class="m-section">Phần mềm & Vận hành</div>
+  <a href="phan-mem-ban-hang.html" class="m-sub">🛒 Phần mềm bán hàng / POS</a>
+  <a href="crm-cho-sme.html" class="m-sub">👥 CRM cho SME</a>
+  <a href="quan-ly-kho.html" class="m-sub">📦 Quản lý kho / WMS</a>
+  <a href="app-ban-hang.html" class="m-sub">📱 App bán hàng đa kênh</a>
+  <a href="ai-automation.html" class="m-sub">🤖 AI & Automation</a>
+  <div class="m-section">Theo ngành nghề</div>
+  <a href="spa-tham-my.html" class="m-sub">💆 Spa / Thẩm mỹ viện</a>
+  <a href="nha-khoa.html" class="m-sub">🦷 Nha khoa / Phòng khám</a>
+  <a href="nha-hang-fb.html" class="m-sub">🍜 Nhà hàng / F&B</a>
+  <a href="gym-fitness.html" class="m-sub">💪 Gym / Yoga / Fitness</a>
+  <a href="trung-tam-dao-tao.html" class="m-sub">🎓 Trung tâm đào tạo</a>
+  <div class="m-section">Thiết kế & Nền tảng</div>
+  <a href="thiet-ke-website.html" class="m-sub">🎨 Thiết kế Website</a>
+  <a href="website-landing.html" class="m-sub">🌐 Website & Landing Page</a>
+  <a href="app-goi-xe.html" class="m-sub">🚗 App gọi xe / gọi thợ</a>
+  <a href="app-dat-lich.html" class="m-sub">📅 App đặt lịch / Booking</a>
+  <a href="tich-hop.html" class="m-sub">🔗 Tích hợp hệ thống</a>
+  <a href="tin-tuc.html">📰 Tin tức</a>
+  <div class="m-section">Phần mềm AI Agent</div>
+  <a href="ai-agent-sales.html" class="m-sub">🤝 AI Agent Sales</a>
+  <a href="ai-agent-marketing.html" class="m-sub">📣 AI Agent Marketing</a>
+  <a href="ai-agent-cskh.html" class="m-sub">💬 AI Agent CSKH</a>
+  <a href="ai-agent-ketoan.html" class="m-sub">💳 AI Agent Kế toán</a>
+  <a href="ai-agent-nhansu.html" class="m-sub">👥 AI Agent Nhân sự</a>
+  <a href="ai-agent-baocao-ceo.html" class="m-sub">📊 AI Agent Báo cáo CEO</a>
+  <a href="lien-he.html" class="m-cta btn-pulse">🗓️ Tư vấn miễn phí ngay</a>
+</div>
+<div class="page-hero">
+  <div class="container">
+    <h1>Dịch <em>Vụ</em> Vsoftware</h1>
+    <div class="breadcrumb">
+      <a href="demo-index.html">Trang chủ</a><span>›</span>
+      <a href="demo-index.html#services" class="active">Dịch vụ</a><span>›</span>
+      <span>AI &amp; Automation</span>
+    </div>
+  </div>
+</div>
+<div class="article-layout">
+  <div class="article-wrap">
+    <div>
+      <a href="demo-index.html#services" class="back-link">← Về trang Dịch vụ</a>
+      <article class="article-main">
+        <div class="article-content">
+          <h1 class="article-title">AI &amp; Automation — Chatbot, workflow tự động hóa, chăm sóc khách hàng không cần nhân sự 24/7</h1>
+          <div class="article-body">
+            <p>AI không còn là tương lai — nó là lợi thế cạnh tranh ngay hôm nay. Vsoftware giúp doanh nghiệp SME tích hợp AI vào quy trình thực tế: không cần team AI riêng, không cần kiến thức kỹ thuật sâu — chỉ cần kết quả.</p>
+            <h2>3 bài toán AI giải được ngay cho SME Việt</h2>
+            <div class="signal-card">
+              <div class="signal-num">1</div>
+              <h3>Khách nhắn 11 giờ đêm không ai trả lời — sang hôm sau khách đã mua chỗ khác</h3>
+              <p>Ngoài giờ làm việc là khoảng trống. Chatbot AI trả lời tức thì, hỏi thêm thông tin, chốt lịch hẹn — thay cho nhân viên CSKH. Không cần trả thêm lương ca đêm.</p>
+            </div>
+            <div class="signal-card">
+              <div class="signal-num">2</div>
+              <h3>Nhân viên dành 3 tiếng mỗi ngày cho việc copy-paste, nhập liệu, tổng hợp báo cáo thủ công</h3>
+              <p>Workflow tự động kết nối các hệ thống: đơn hàng tạo xong thì tự tạo phiếu giao, tự gửi email xác nhận, tự cập nhật CRM. Không cần người làm cầu nối giữa các phần mềm.</p>
+            </div>
+            <div class="signal-card">
+              <div class="signal-num">3</div>
+              <h3>Không tận dụng được dữ liệu đang có — tháng nào cũng hỏi "khách nào sắp rời bỏ?"</h3>
+              <p>AI phân tích hành vi mua hàng, nhận diện khách có nguy cơ churn, tự kích hoạt chiến dịch chăm sóc lại. Biến dữ liệu đang ngủ trong CRM thành doanh thu thực.</p>
+            </div>
+            <h2>Giải pháp AI &amp; Automation của Vsoftware</h2>
+            <div class="features-grid">
+              <div class="feature-item"><span class="feature-icon">🤖</span><h3>Chatbot AI</h3><p>Trả lời câu hỏi, tư vấn sản phẩm, chốt lịch hẹn — trên Zalo OA, Facebook, website 24/7</p></div>
+              <div class="feature-item"><span class="feature-icon">⚙️</span><h3>Workflow tự động</h3><p>Kết nối hệ thống, tự động hóa quy trình lặp lại — không cần nhân sự làm cầu nối</p></div>
+              <div class="feature-item orange"><span class="feature-icon">📧</span><h3>Chăm sóc tự động</h3><p>Gửi Zalo/Email theo hành vi khách hàng — đúng người, đúng thời điểm, đúng thông điệp</p></div>
+              <div class="feature-item orange"><span class="feature-icon">🔍</span><h3>Phân tích dữ liệu AI</h3><p>Nhận diện xu hướng, dự báo doanh số, cảnh báo khách có nguy cơ rời bỏ</p></div>
+              <div class="feature-item"><span class="feature-icon">📋</span><h3>Báo cáo tự động</h3><p>Dashboard AI tổng hợp dữ liệu từ nhiều nguồn, gửi báo cáo định kỳ qua Zalo/Email</p></div>
+              <div class="feature-item"><span class="feature-icon">🔗</span><h3>Tích hợp sẵn có</h3><p>Kết nối với hệ thống Vsoftware hiện tại: CRM, POS, kho — không cần xây mới hoàn toàn</p></div>
+            </div>
+            <blockquote>
+              <p>"AI thực dụng không phải ChatGPT hay robot sắc nét — là con bot nhắn Zalo đúng lúc khách sắp quên mình, là workflow tự điền form khi nhân viên ngủ. Vsoftware xây những thứ đó."</p>
+            </blockquote>
+            <div class="cta-service">
+              <h3>Tự động hóa quy trình — tiết kiệm nhân sự &amp; tăng doanh thu</h3>
+              <p>Đội ngũ Vsoftware phân tích bài toán và đề xuất giải pháp phù hợp — hoàn toàn miễn phí</p>
+              <div class="cta-btns">
+                <a href="https://zalo.me/vsoftware">💬 Chat Zalo ngay</a>
+                <a href="tel:+84123456789" class="cta-ghost">📞 Gọi tư vấn</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+    <aside class="sidebar">
+      <div class="sidebar-widget">
+        <div class="widget-title">Danh mục</div>
+        <div class="cat-list">
+          <a href="tin-tuc.html" class="cat-list-item">Tất cả bài viết <span class="cat-list-badge">9</span></a>
+          <a href="tin-tuc.html" class="cat-list-item">AI &amp; Công nghệ <span class="cat-list-badge">3</span></a>
+          <a href="tin-tuc.html" class="cat-list-item">Tự động hóa <span class="cat-list-badge">2</span></a>
+          <a href="tin-tuc.html" class="cat-list-item">Chatbot &amp; Zalo OA <span class="cat-list-badge">2</span></a>
+          <a href="tin-tuc.html" class="cat-list-item">Chia sẻ kinh nghiệm <span class="cat-list-badge">2</span></a>
+        </div>
+      </div>
+      <div class="sidebar-widget">
+        <div class="widget-title">Dịch vụ nổi bật</div>
+        <div class="svc-list">
+          <a href="ai-automation.html" class="svc-item"><div class="svc-icon">🤖</div><div class="svc-info"><strong>AI &amp; Automation</strong><span>Chatbot, workflow tự động hóa</span></div></a>
+          <a href="crm-cho-sme.html" class="svc-item"><div class="svc-icon orange">👥</div><div class="svc-info"><strong>CRM cho SME</strong><span>AI chăm sóc khách tự động</span></div></a>
+          <a href="tich-hop.html" class="svc-item"><div class="svc-icon teal">🔗</div><div class="svc-info"><strong>Tích hợp hệ thống</strong><span>Kết nối CRM + Zalo + hệ thống</span></div></a>
+          <a href="app-ban-hang.html" class="svc-item"><div class="svc-icon purple">📱</div><div class="svc-info"><strong>App bán hàng đa kênh</strong><span>AI đề xuất sản phẩm, upsell</span></div></a>
+        </div>
+      </div>
+      <div class="newsletter-widget">
+        <h3>Nhận kiến thức mỗi tuần</h3>
+        <p>Bài viết mới về AI, automation cho SME Việt.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Email của bạn…" autocomplete="email">
+          <button type="button">Đăng ký →</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="footer-brand-logo" src="./Logo Vsoftware/logo am ban ngang.png" alt="Vsoftware" onerror="this.style.display='none'">
+        <p>Phần mềm theo yêu cầu, vừa vặn cho doanh nghiệp Việt. Giải quyết bài toán thực chiến — không phải trang trí công nghệ.</p>
+        <div class="footer-vitechgroup"><span>Thuộc hệ sinh thái</span><strong>ViTechGroup</strong></div>
+      </div>
+      <div class="footer-col">
+        <h4>Dịch vụ</h4>
+        <a href="phan-mem-ban-hang.html"><span class="fi">⚙️</span>Phần mềm theo yêu cầu</a>
+        <a href="crm-cho-sme.html"><span class="fi">👥</span>CRM &amp; Bán hàng</a>
+        <a href="app-ban-hang.html"><span class="fi">📱</span>App Mobile</a>
+        <a href="ai-automation.html"><span class="fi">🤖</span>AI &amp; Automation</a>
+        <a href="website-landing.html"><span class="fi">🌐</span>Website &amp; Landing</a>
+        <a href="thiet-ke-website.html"><span class="fi">🎨</span>Thiết kế Website</a>
+      </div>
+      <div class="footer-col">
+        <h4>Công ty</h4>
+        <a href="demo-index.html#why-us"><span class="fi">🏢</span>Về Vsoftware</a>
+        <a href="demo-index.html#how-it-works"><span class="fi">🔄</span>Quy trình làm việc</a>
+        <a href="tin-tuc.html"><span class="fi">📝</span>Blog công nghệ</a>
+        <a href="lien-he.html"><span class="fi">💼</span>Liên hệ hợp tác</a>
+      </div>
+      <div class="footer-col">
+        <h4>Liên hệ</h4>
+        <a href="mailto:hello@vsoftware.vn"><span class="fi">✉️</span>hello@vsoftware.vn</a>
+        <a href="demo-index.html"><span class="fi">🌍</span>vsoftware.vn</a>
+        <a href="#"><span class="fi">📘</span>Facebook</a>
+        <a href="#"><span class="fi">💬</span>Zalo OA</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Vsoftware · ViTechGroup · All rights reserved.</p>
+      <div class="footer-legal"><a href="#">Chính sách bảo mật</a><a href="#">Điều khoản sử dụng</a></div>
+    </div>
+  </div>
+</footer>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    const isOpen = mobileMenu.classList.contains('open');
+    hamburger.querySelectorAll('span')[0].style.transform = isOpen ? 'translateY(7px) rotate(45deg)' : '';
+    hamburger.querySelectorAll('span')[1].style.opacity = isOpen ? '0' : '1';
+    hamburger.querySelectorAll('span')[2].style.transform = isOpen ? 'translateY(-7px) rotate(-45deg)' : '';
+  });
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const panel = item.querySelector('.mega-dropdown, .dropdown');
+    if (!panel) return;
+    let hideTimer;
+    const show = () => { clearTimeout(hideTimer); item.classList.add('open'); };
+    const hide = () => { hideTimer = setTimeout(() => item.classList.remove('open'), 120); };
+    item.addEventListener('mouseenter', show);
+    item.addEventListener('mouseleave', hide);
+    panel.addEventListener('mouseenter', show);
+    panel.addEventListener('mouseleave', hide);
+  });
+</script>
+</body>
+</html>

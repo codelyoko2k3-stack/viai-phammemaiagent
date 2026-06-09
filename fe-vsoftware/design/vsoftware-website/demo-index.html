@@ -1,0 +1,1839 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vsoftware — Phần mềm theo yêu cầu cho SMEs</title>
+  <meta name="description" content="Vsoftware xây dựng phần mềm quản lý theo yêu cầu cho doanh nghiệp vừa và nhỏ: spa, nhà hàng, phòng khám, bán lẻ, logistics. AI Agent tự động hóa vận hành. Triển khai trong 4–8 tuần.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Vsoftware — Phần mềm theo yêu cầu cho SMEs">
+  <meta property="og:description" content="Phần mềm quản lý doanh nghiệp theo yêu cầu. AI Agent & Automation. Triển khai 4–8 tuần. Hỗ trợ trọn đời.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vsoftware.vn/">
+  <meta property="og:image" content="https://vsoftware.vn/Logo Vsoftware/logo ngang.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #1E5BC6;
+      --blue-dark: #1749A8;
+      --blue-light: #EBF1FB;
+      --orange: #F47920;
+      --orange-dark: #D96510;
+      --orange-light: #FEF3E8;
+      --dark: #1A1A1A;
+      --gray-700: #374151;
+      --gray-600: #6B7280;
+      --gray-400: #9CA3AF;
+      --gray-200: #E5E7EB;
+      --bg: #F5F7FA;
+      --white: #FFFFFF;
+      --gradient: linear-gradient(135deg, #1E5BC6 0%, #2E6FD6 55%, #F47920 100%);
+      --shadow: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.09);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+      --radius: 6px;
+      --radius-lg: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Manrope', sans-serif; color: var(--dark); background: var(--white); overflow-x: hidden; }
+
+    /* ─── UTILITY ─── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 56px 0; }
+    .section-dark { background: var(--dark); color: var(--white); }
+    .section-gray { background: var(--bg); }
+    .tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--orange); background: var(--orange-light); padding: 4px 12px; border-radius: 100px; margin-bottom: 16px; }
+    .tag-blue { color: var(--blue); background: var(--blue-light); }
+    h2.section-title { font-size: clamp(24px, 3.5vw, 36px); font-weight: 800; line-height: 1.15; color: var(--dark); margin-bottom: 16px; text-transform: uppercase; letter-spacing: .01em; }
+    h2.section-title span { color: var(--blue); }
+    .section-sub { font-size: 17px; color: var(--gray-600); line-height: 1.6; max-width: 560px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; border-radius: var(--radius); font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; transition: all .18s; }
+    .btn-primary { background: var(--blue); color: var(--white); }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(30,91,198,.28); }
+    @keyframes pulse-ring { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.55); opacity: 0; } }
+    .btn-pulse { background: var(--orange); color: var(--white); position: relative; }
+    .btn-pulse::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); background: var(--orange); z-index: -1; animation: pulse-ring 1.8s ease-out infinite; }
+    .btn-pulse:hover { background: var(--orange-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(244,121,32,.4); }
+    .btn-pulse:hover::after { animation: none; }
+    .btn-secondary { background: var(--orange); color: var(--white); }
+    .btn-secondary:hover { background: var(--orange-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(244,121,32,.28); }
+    .btn-ghost { background: transparent; color: var(--blue); border: 2px solid var(--blue); }
+    .btn-ghost:hover { background: var(--blue-light); }
+    .btn-ghost-white { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.4); }
+    .btn-ghost-white:hover { background: rgba(255,255,255,.1); }
+
+    /* ─── NAVBAR ─── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,.95); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); height: 96px; }
+    nav .nav-inner { max-width: 1140px; margin: 0 auto; padding: 0 24px; height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .nav-logo img { height: 88px; }
+    .nav-logo-text { font-size: 22px; font-weight: 800; color: var(--blue); letter-spacing: -.5px; display: none; }
+    .nav-logo-text span { color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 2px; }
+    .nav-links a { font-size: 12px; font-weight: 800; color: var(--gray-700); padding: 8px 13px; border-radius: var(--radius); text-decoration: none; transition: all .15s; white-space: nowrap; text-transform: uppercase; letter-spacing: .04em; }
+    .nav-links a:hover { color: var(--blue); background: var(--blue-light); }
+    .nav-links a.active { color: var(--blue); }
+    /* Dropdown */
+    .nav-item { position: relative; display: flex; align-items: center; height: 96px; }
+    .nav-item > a { display: flex; align-items: center; gap: 4px; height: 100%; }
+    .nav-item > a::after { content: '▾'; font-size: 10px; opacity: .5; transition: transform .2s; }
+    .nav-item.open > a::after { transform: rotate(180deg); }
+    .dropdown { display: none; position: absolute; top: 96px; left: 0; background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px; box-shadow: var(--shadow-lg); min-width: 200px; padding: 8px; z-index: 200; }
+    .nav-item.open .dropdown { display: block; }
+    .dropdown a { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; color: var(--gray-700); text-decoration: none; transition: all .15s; white-space: nowrap; }
+    .dropdown a:hover { background: var(--blue-light); color: var(--blue); }
+    .dropdown a span.d-icon { font-size: 16px; width: 24px; }
+    .dropdown-divider { height: 1px; background: var(--gray-200); margin: 6px 0; }
+
+    /* ─── MEGA DROPDOWN ─── */
+    .mega-dropdown { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-6px); transition: opacity .18s ease, transform .18s ease, visibility .18s; position: fixed; top: 96px; left: 0; right: 0; background: var(--white); border-top: 2px solid var(--blue); border-bottom: 1px solid var(--gray-200); box-shadow: 0 16px 48px rgba(0,0,0,.12); z-index: 200; }
+    .nav-item.open .mega-dropdown { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+    .mega-inner { max-width: 1140px; margin: 0 auto; padding: 32px 24px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+    .mega-col { padding: 0 24px 32px; border-right: 1px solid var(--gray-200); }
+    .mega-col:first-child { padding-left: 0; }
+    .mega-col:last-child { border-right: none; }
+    .mega-col-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .mega-col-title.blue { color: var(--blue); }
+    .mega-col-title.orange { color: var(--orange); }
+    .mega-col-title::before { content: ''; display: inline-block; width: 3px; height: 14px; border-radius: 2px; background: currentColor; }
+    .mega-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; text-decoration: none; transition: all .15s; margin-bottom: 2px; }
+    .mega-item:hover { background: var(--bg); }
+    .mega-item:hover .mega-item-name { color: var(--blue); }
+    .mega-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .mega-icon.blue { background: var(--blue); }
+    .mega-icon.orange { background: var(--orange); }
+    .mega-item-text { flex: 1; }
+    .mega-item-name { font-size: 14px; font-weight: 700; color: var(--dark); display: block; line-height: 1.3; transition: color .15s; }
+    .mega-item-sub { font-size: 12px; color: var(--gray-600); display: block; margin-top: 1px; }
+    .mega-footer { border-top: 1px solid var(--gray-200); background: var(--bg); }
+    .mega-footer-inner { max-width: 1140px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .mega-footer-text strong { font-size: 14px; font-weight: 700; color: var(--dark); display: block; }
+    .mega-footer-text span { font-size: 13px; color: var(--gray-600); }
+    .mega-footer .btn { padding: 9px 20px; font-size: 13px; white-space: nowrap; }
+    .nav-cta { display: flex; align-items: center; gap: 10px; }
+    .nav-cta .btn { padding: 9px 20px; font-size: 14px; }
+
+    /* ─── HERO ─── */
+    .hero { min-height: 67vh; display: flex; align-items: center; padding-top: 96px; background: linear-gradient(160deg, #F0F5FF 0%, #FFFFFF 40%, #FFF8F2 100%); position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(30,91,198,.08) 0%, transparent 70%); pointer-events: none; }
+    .hero::after { content: ''; position: absolute; bottom: -100px; left: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(244,121,32,.07) 0%, transparent 70%); pointer-events: none; }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; padding: 48px 0 40px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--blue-light); color: var(--blue); font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--orange); border-radius: 50%; }
+    .hero h1 { font-size: clamp(36px, 4.5vw, 54px); font-weight: 800; line-height: 1.12; color: var(--dark); margin-bottom: 24px; }
+    .hero h1 em { font-style: normal; color: var(--blue); position: relative; }
+    .hero h1 em::after { content: ''; position: absolute; bottom: 2px; left: 0; right: 0; height: 3px; background: var(--orange); border-radius: 2px; }
+    .hero-sub { font-size: 18px; color: var(--gray-600); line-height: 1.65; margin-bottom: 36px; max-width: 520px; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+    .hero-trust { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .hero-trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-600); font-weight: 600; }
+    .hero-trust-item svg { color: var(--blue); }
+    .trust-dot { width: 4px; height: 4px; background: var(--gray-400); border-radius: 50%; }
+
+    /* Dashboard Mockup */
+    .hero-visual { position: relative; }
+    .mockup-shell { background: var(--white); border-radius: 16px; box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); overflow: hidden; }
+    .mockup-bar { background: var(--bg); border-bottom: 1px solid var(--gray-200); padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #FF5F57; }
+    .dot-yellow { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+    .mockup-url { flex: 1; background: var(--white); border-radius: 4px; padding: 5px 12px; font-size: 11px; color: var(--gray-600); text-align: center; border: 1px solid var(--gray-200); }
+    .mockup-body { padding: 20px; }
+    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .dash-title { font-size: 15px; font-weight: 800; color: var(--dark); }
+    .dash-badge { background: var(--blue); color: var(--white); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 100px; }
+    .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+    .stat-card { background: var(--bg); border-radius: 8px; padding: 12px; }
+    .stat-card.accent { background: var(--blue); }
+    .stat-card.accent .stat-label, .stat-card.accent .stat-val { color: rgba(255,255,255,.85); }
+    .stat-card.accent .stat-val { color: var(--white); }
+    .stat-label { font-size: 10px; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+    .stat-val { font-size: 20px; font-weight: 800; color: var(--dark); }
+    .stat-change { font-size: 10px; font-weight: 600; color: #10B981; }
+    .dash-chart { background: var(--bg); border-radius: 8px; padding: 14px; margin-bottom: 12px; }
+    .chart-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 4px; height: 60px; }
+    .chart-bar { flex: 1; border-radius: 4px 4px 0 0; min-height: 12px; }
+    .chart-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+    .chart-labels span { font-size: 9px; color: var(--gray-400); text-align: center; flex: 1; }
+    .dash-list { display: flex; flex-direction: column; gap: 8px; }
+    .dash-list-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--bg); border-radius: 6px; }
+    .dash-list-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--white); flex-shrink: 0; }
+    .dash-list-info { flex: 1; }
+    .dash-list-name { font-size: 11px; font-weight: 700; color: var(--dark); }
+    .dash-list-sub { font-size: 10px; color: var(--gray-600); }
+    .dash-list-amount { font-size: 12px; font-weight: 700; color: var(--blue); }
+    .float-card { position: absolute; background: var(--white); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.12); padding: 12px 16px; display: flex; align-items: center; gap: 10px; animation: float 3s ease-in-out infinite; }
+    .float-card.card-1 { top: -20px; right: -24px; animation-delay: 0s; }
+    .float-card.card-2 { bottom: 20px; left: -32px; animation-delay: 1.5s; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .float-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .float-text .ft-val { font-size: 14px; font-weight: 800; color: var(--dark); }
+    .float-text .ft-label { font-size: 11px; color: var(--gray-600); }
+
+    /* ─── PAIN SECTION ─── */
+    .pain-section { background: linear-gradient(160deg, #EBF1FB 0%, #D4E3F7 100%); padding: 56px 0; }
+    .pain-header { text-align: center; margin-bottom: 48px; }
+    .pain-header h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 800; color: #0D2757; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .01em; }
+    .pain-header h2 span { color: var(--blue); }
+    .pain-header p { font-size: 17px; color: var(--gray-600); }
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .pain-card { border-radius: var(--radius-lg); padding: 28px; transition: all .22s; border: 1px solid rgba(30,91,198,.1); background: var(--white); box-shadow: 0 4px 16px rgba(30,91,198,.07); }
+    .pain-card.pc-blue { background: var(--white); }
+    .pain-card.pc-orange { background: var(--white); }
+    .pain-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(30,91,198,.14); border-color: rgba(30,91,198,.22); }
+    .pain-card-header { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; margin-bottom: 18px; }
+    .pain-icon { width: 88px; height: 88px; border-radius: 22px; color: var(--white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+    .pc-blue .pain-icon { background: linear-gradient(135deg, #1E5BC6 0%, #1749A8 100%); }
+    .pc-orange .pain-icon { background: linear-gradient(135deg, #F47920 0%, #D96510 100%); }
+    .pain-icon svg { width: 48px; height: 48px; stroke: currentColor; }
+    .pain-card h3 { font-size: 17px; font-weight: 800; color: #0D2757; margin-bottom: 0; line-height: 1.35; letter-spacing: -.01em; }
+    .pain-card p { font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+
+    /* ─── AI AGENT SECTION ─── */
+    .ai-section { background: var(--white); padding: 56px 0; }
+    .ai-header { text-align: center; margin-bottom: 56px; }
+    .ai-header h2 { font-size: clamp(26px, 3.5vw, 40px); font-weight: 800; color: #0D2757; line-height: 1.2; margin-bottom: 14px; }
+    .ai-header h2 em { font-style: normal; color: var(--orange); }
+    .ai-header p { font-size: 17px; color: var(--gray-600); max-width: 540px; margin: 0 auto; line-height: 1.65; }
+    .ai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media(max-width:768px){ .ai-grid { grid-template-columns: 1fr; } }
+    @media(min-width:769px) and (max-width:1023px){ .ai-grid { grid-template-columns: repeat(2,1fr); } }
+    .ai-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 14px; transition: all .22s; position: relative; overflow: hidden; }
+    .ai-card:hover { border-color: rgba(30,91,198,.3); box-shadow: 0 12px 40px rgba(30,91,198,.1); transform: translateY(-3px); }
+    .ai-card.featured { background: linear-gradient(135deg, #0D2757 0%, #1E5BC6 100%); border-color: transparent; color: var(--white); }
+    .ai-card.featured:hover { box-shadow: 0 16px 48px rgba(30,91,198,.35); }
+    .ai-badge { position: absolute; top: 18px; right: 18px; background: var(--orange); color: var(--white); font-size: 10px; font-weight: 800; letter-spacing: .08em; padding: 3px 10px; border-radius: 100px; }
+    .ai-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ai-icon.ic-blue { background: linear-gradient(135deg, #1E5BC6 0%, #1749A8 100%); }
+    .ai-icon.ic-orange { background: linear-gradient(135deg, #F47920 0%, #D96510 100%); }
+    .ai-icon.ic-white { background: rgba(255,255,255,.2); }
+    .ai-icon svg { width: 28px; height: 28px; stroke: #fff; }
+    .ai-card-title { font-size: 18px; font-weight: 800; color: #0D2757; line-height: 1.3; }
+    .ai-card.featured .ai-card-title { color: var(--white); }
+    .ai-card-desc { font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+    .ai-card.featured .ai-card-desc { color: rgba(255,255,255,.75); }
+    .ai-checks { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
+    .ai-checks li { font-size: 13px; color: var(--gray-700); display: flex; gap: 8px; align-items: flex-start; }
+    .ai-checks li::before { content: '✓'; color: var(--blue); font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+    .ai-card.featured .ai-checks li { color: rgba(255,255,255,.85); }
+    .ai-card.featured .ai-checks li::before { color: #F47920; }
+
+    /* ─── SERVICES ─── */
+    .services-header { text-align: center; margin-bottom: 56px; }
+    .services-header .section-sub { margin: 0 auto; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .service-card { border: 1.5px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px 28px 24px; background: var(--white); transition: all .2s; cursor: default; }
+    .service-card:hover { border-color: var(--blue); box-shadow: 0 8px 32px rgba(30,91,198,.1); transform: translateY(-2px); }
+    .service-card:hover .service-icon { filter: brightness(1.12); transform: scale(1.06); }
+    .service-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .service-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--blue); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; transition: all .2s; }
+    .service-icon.orange { background: var(--orange); }
+    .service-card h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 0; line-height: 1.35; }
+    .service-card p { font-size: 14px; color: var(--gray-600); line-height: 1.65; margin-bottom: 14px; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .s-tag { font-size: 11px; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: 3px 10px; border-radius: 100px; }
+
+    /* ─── HOW IT WORKS ─── */
+    .hiw-section { background: #0D2757; }
+    .hiw-section .section-title { color: var(--white); }
+    .hiw-section .section-title span { color: #5B9BFF; }
+    .hiw-section .section-sub { color: rgba(255,255,255,.6); }
+    .hiw-header { text-align: center; margin-bottom: 56px; }
+    .hiw-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+    .hiw-steps::before { content: ''; position: absolute; top: 32px; left: 12.5%; right: 12.5%; height: 2px; background: linear-gradient(to right, var(--blue), var(--orange)); z-index: 0; }
+    .hiw-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+    .step-num { width: 64px; height: 64px; border-radius: 50%; background: #0D2757; border: 3px solid var(--blue); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; color: var(--white); margin: 0 auto 20px; box-shadow: 0 0 0 6px rgba(30,91,198,.15); transition: all .2s; }
+    .hiw-step:last-child .step-num { border-color: var(--orange); box-shadow: 0 0 0 6px rgba(244,121,32,.15); }
+    .hiw-step h3 { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .hiw-step p { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.6; }
+    .hiw-step p strong { color: var(--white); }
+    .step-emoji { font-size: 20px; }
+    /* mega 2-col variant for AI Agent dropdown */
+    .mega-inner-2col { grid-template-columns: repeat(2, 1fr); }
+
+    /* ─── WHY SECTION ─── */
+    .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .why-list { display: flex; flex-direction: column; gap: 24px; }
+    .why-item { display: flex; gap: 16px; align-items: flex-start; }
+    .why-icon { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .why-icon.blue { background: var(--blue-light); }
+    .why-icon.orange { background: var(--orange-light); }
+    .why-item h3 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+    .why-item p { font-size: 14px; color: var(--gray-600); line-height: 1.6; }
+    .why-visual { background: var(--gradient); border-radius: 20px; padding: 40px; color: var(--white); }
+    .why-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .why-stat { background: rgba(255,255,255,.12); border-radius: 12px; padding: 24px; text-align: center; }
+    .why-stat-num { font-size: 36px; font-weight: 800; color: var(--white); display: block; }
+    .why-stat-label { font-size: 13px; color: rgba(255,255,255,.75); margin-top: 4px; display: block; }
+    .why-quote { margin-top: 24px; background: rgba(255,255,255,.1); border-radius: 12px; padding: 20px; border-left: 3px solid var(--orange); }
+    .why-quote p { font-size: 14px; color: rgba(255,255,255,.9); line-height: 1.65; font-style: italic; }
+    .why-quote cite { font-size: 12px; color: rgba(255,255,255,.6); margin-top: 8px; display: block; font-style: normal; font-weight: 600; }
+
+    /* ─── SHOWCASE / UI MOCKUP ─── */
+    .showcase-section { background: var(--bg); }
+    .showcase-header { text-align: center; margin-bottom: 48px; }
+    .showcase-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+    .stab { padding: 9px 20px; border-radius: 100px; font-size: 13px; font-weight: 700; cursor: pointer; border: 2px solid var(--gray-200); background: var(--white); color: var(--gray-600); transition: all .15s; }
+    .stab.active { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .showcase-panels { position: relative; }
+    .showcase-panel { display: none; }
+    .showcase-panel.active { display: block; animation: swFade .22s ease; }
+    @keyframes swFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .showcase-window { background: var(--white); border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid var(--gray-200); }
+    .sw-phone { background: var(--white); border-radius: 12px; border: 1px solid var(--gray-200); width: 200px; box-shadow: var(--shadow-md); overflow: hidden; flex-shrink: 0; }
+    .sw-phone-bar { background: var(--blue); color: var(--white); font-size: 11px; font-weight: 700; padding: 8px 12px; text-align: center; }
+    .sw-phone-kpi { display: grid; grid-template-columns: repeat(3,1fr); border-bottom: 1px solid var(--gray-200); }
+    .sw-phone-stat { text-align: center; padding: 9px 4px; border-right: 1px solid var(--gray-200); }
+    .sw-phone-stat:last-child { border-right: none; }
+    .sw-phone-stat-val { font-size: 13px; font-weight: 800; color: var(--dark); }
+    .sw-phone-stat-lbl { font-size: 9px; color: var(--gray-600); margin-top: 2px; line-height: 1.2; }
+    .sw-phone-list, .sw-phone-product { padding: 6px 8px; }
+    .sw-phone-item, .sw-phone-prod-item { display: flex; align-items: center; gap: 6px; padding: 5px 2px; border-bottom: 1px solid var(--gray-200); font-size: 10px; }
+    .sw-phone-item:last-child, .sw-phone-prod-item:last-child { border-bottom: none; }
+    .sw-phone-item strong, .sw-phone-prod-item strong { font-size: 10px; font-weight: 700; color: var(--dark); display: block; }
+    .sw-phone-item p, .sw-phone-prod-item p { font-size: 9px; color: var(--gray-600); margin: 0; }
+    .sw-phone-prod-icon { font-size: 16px; line-height: 1; }
+    .sw-phone-qty { background: var(--blue); color: var(--white); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; margin-left: auto; flex-shrink: 0; }
+    .sw-phone-total { padding: 8px; background: var(--bg); border-top: 1px solid var(--gray-200); font-size: 11px; }
+    .sw-phone-pay-btn { background: var(--blue); color: var(--white); text-align: center; border-radius: 6px; padding: 7px; font-size: 11px; font-weight: 700; margin-top: 6px; }
+    .sw-phones-wrap { display: flex; gap: 20px; justify-content: center; align-items: flex-start; padding: 4px 0; }
+    .sw-topbar { background: var(--dark); padding: 12px 20px; display: flex; align-items: center; gap: 12px; }
+    .sw-dots { display: flex; gap: 6px; }
+    .sw-nav-icons { margin-left: auto; display: flex; gap: 16px; }
+    .sw-nav-icons span { width: 6px; height: 6px; background: rgba(255,255,255,.3); border-radius: 50%; display: block; }
+    .sw-body { display: grid; grid-template-columns: 220px 1fr; min-height: 380px; }
+    .sw-sidebar { background: #0F1724; padding: 20px 16px; }
+    .sw-sidebar-logo { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 28px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .sw-menu-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 6px; font-size: 13px; color: rgba(255,255,255,.5); cursor: pointer; margin-bottom: 2px; transition: all .15s; }
+    .sw-menu-item.active { background: var(--blue); color: var(--white); }
+    .sw-menu-item:hover:not(.active) { background: rgba(255,255,255,.05); color: rgba(255,255,255,.8); }
+    .sw-menu-icon { font-size: 15px; }
+    .sw-content { padding: 24px; background: var(--bg); }
+    .sw-page-title { font-size: 17px; font-weight: 800; color: var(--dark); margin-bottom: 20px; }
+    .sw-kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    .sw-kpi { background: var(--white); border-radius: 8px; padding: 14px; box-shadow: var(--shadow); }
+    .sw-kpi-label { font-size: 11px; color: var(--gray-600); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+    .sw-kpi-val { font-size: 22px; font-weight: 800; color: var(--dark); }
+    .sw-kpi-trend { font-size: 11px; font-weight: 600; color: #10B981; }
+    .sw-kpi-trend.down { color: #EF4444; }
+    .sw-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .sw-card { background: var(--white); border-radius: 8px; padding: 16px; box-shadow: var(--shadow); }
+    .sw-card-title { font-size: 12px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+    .sw-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .sw-bar-label { font-size: 11px; color: var(--gray-600); width: 70px; flex-shrink: 0; }
+    .sw-bar-track { flex: 1; height: 7px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+    .sw-bar-fill { height: 100%; border-radius: 4px; }
+    .sw-table { width: 100%; }
+    .sw-table tr { border-bottom: 1px solid var(--bg); }
+    .sw-table td { padding: 7px 8px; font-size: 11px; color: var(--gray-700); }
+    .sw-table td:first-child { font-weight: 600; }
+    .sw-pill { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 10px; font-weight: 700; }
+    .sw-pill.green { background: #D1FAE5; color: #065F46; }
+    .sw-pill.orange { background: var(--orange-light); color: #9A3412; }
+    .sw-pill.blue { background: var(--blue-light); color: var(--blue-dark); }
+
+    /* ─── PRICING ─── */
+    .price-section { background: var(--bg); }
+    .price-header { text-align: center; margin-bottom: 56px; }
+    .price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; max-width: 960px; margin: 0 auto; align-items: start; }
+    @media(max-width:768px){ .price-grid { grid-template-columns: 1fr; max-width: 420px; } }
+    .price-card { background: var(--white); border: 2px solid var(--gray-200); border-radius: 20px; padding: 32px; position: relative; display: flex; flex-direction: column; }
+    .price-card.featured { border-color: var(--orange); box-shadow: 0 8px 40px rgba(244,121,32,.15); }
+    .price-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--orange); color: var(--white); font-size: 11px; font-weight: 800; letter-spacing: .08em; padding: 5px 18px; border-radius: 100px; white-space: nowrap; }
+    .price-name { font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+    .price-sub { font-size: 13px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.4; }
+    .price-amount { display: flex; align-items: baseline; gap: 2px; margin-bottom: 4px; }
+    .price-amount .from { font-size: 15px; font-weight: 600; color: var(--gray-600); margin-right: 4px; }
+    .price-amount .num { font-size: 44px; font-weight: 800; color: var(--blue); line-height: 1; }
+    .price-amount .unit { font-size: 20px; font-weight: 700; color: var(--blue); }
+    .price-period { font-size: 13px; color: var(--gray-600); margin-bottom: 24px; }
+    .price-divider { border: none; border-top: 1px solid var(--gray-200); margin: 0 0 20px; }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; flex: 1; }
+    .price-features li { font-size: 14px; color: var(--gray-700); display: flex; gap: 10px; align-items: flex-start; line-height: 1.45; }
+    .price-features li::before { content: '✓'; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+    .price-card:not(.featured) .price-features li::before { color: var(--blue); }
+    .price-card.featured .price-features li::before { color: var(--orange); }
+    .price-card.featured .price-features li { font-weight: 600; color: var(--dark); }
+    .price-btn { display: block; width: 100%; padding: 14px; border-radius: 10px; font-family: 'Manrope',sans-serif; font-size: 15px; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer; border: 2px solid; transition: all .18s; }
+    .price-btn-ghost { border-color: var(--gray-200); color: var(--dark); background: transparent; }
+    .price-btn-ghost:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+    .price-btn-solid { background: var(--orange); color: var(--white); border-color: var(--orange); }
+    .price-btn-solid:hover { background: var(--orange-dark); border-color: var(--orange-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(244,121,32,.35); }
+    .price-title { margin: 0 auto 16px; }
+    .price-desc { margin: 0 auto; }
+    .price-note { text-align: center; margin-top: 24px; font-size: 13px; color: var(--gray-600); }
+
+    /* ─── GALLERY ─── */
+    .gallery-section { background: var(--bg); padding: 48px 0 40px; }
+    .gallery-title { text-align: center; font-size: clamp(22px, 3vw, 34px); font-weight: 800; letter-spacing: .02em; text-transform: uppercase; margin-bottom: 40px; line-height: 1.2; }
+    .gallery-title .gt-blue { color: var(--blue); }
+    .gallery-title .gt-orange { color: var(--orange); }
+    .gallery-slider-wrap { position: relative; }
+    .gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 46px; height: 46px; border-radius: 50%; background: var(--white); border: 2px solid var(--gray-200); box-shadow: 0 4px 16px rgba(0,0,0,.12); cursor: pointer; font-size: 22px; font-weight: 700; color: var(--blue); display: flex; align-items: center; justify-content: center; transition: all .18s; line-height: 1; }
+    .gallery-arrow:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .gallery-prev { left: -23px; }
+    .gallery-next { right: -23px; }
+    .gallery-page { display: none; }
+    .gallery-page.active { display: block; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .gallery-item { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: var(--gray-200); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-dots { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 28px; }
+    .gallery-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gray-200); border: none; cursor: pointer; transition: all .25s; padding: 0; }
+    .gallery-dot.active { background: var(--blue); width: 26px; border-radius: 4px; }
+    @media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } .gallery-arrow { display: none; } }
+    @media (max-width: 480px) { .gallery-grid { grid-template-columns: 1fr; } }
+
+    /* ─── NEWS SECTION ─── */
+    .news-section { padding: 48px 0 56px; background: var(--bg); }
+    .news-section-title { text-align: center; font-size: clamp(22px, 2.8vw, 32px); font-weight: 800; color: var(--dark); margin-bottom: 48px; }
+    .news-section-title em { font-style: normal; color: var(--blue); }
+    .news-grid { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; }
+    .news-featured { background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); text-decoration: none; display: block; transition: box-shadow .2s; }
+    .news-featured:hover { box-shadow: var(--shadow-lg); }
+    .news-featured-img { position: relative; height: 340px; overflow: hidden; }
+    .news-featured-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s; }
+    .news-featured:hover .news-featured-img img { transform: scale(1.04); }
+    .news-badge { position: absolute; top: 16px; left: 16px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; padding: 5px 12px; border-radius: 100px; background: var(--white); color: var(--blue); box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+    .news-featured-body { padding: 28px 32px 32px; }
+    .news-featured-title { font-size: clamp(18px, 2vw, 22px); font-weight: 800; color: var(--dark); margin-bottom: 12px; line-height: 1.35; }
+    .news-meta { font-size: 12.5px; color: var(--gray-400); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+    .news-meta svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .news-excerpt { font-size: 14.5px; color: var(--gray-600); line-height: 1.7; margin-bottom: 18px; }
+    .news-read-more { font-size: 13px; font-weight: 800; color: var(--blue); display: inline-flex; align-items: center; gap: 4px; text-decoration: none; transition: gap .15s; }
+    .news-featured:hover .news-read-more { gap: 8px; }
+    .news-list { display: flex; flex-direction: column; gap: 16px; }
+    .news-card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); text-decoration: none; display: flex; align-items: stretch; transition: box-shadow .2s; }
+    .news-card:hover { box-shadow: var(--shadow-md); }
+    .news-card-img { width: 100px; flex-shrink: 0; overflow: hidden; }
+    .news-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+    .news-card:hover .news-card-img img { transform: scale(1.06); }
+    .news-card-body { padding: 14px 16px; display: flex; flex-direction: column; justify-content: center; flex: 1; }
+    .news-card-title { font-size: 13.5px; font-weight: 800; color: var(--dark); margin-bottom: 6px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .news-card:hover .news-card-title { color: var(--blue); }
+    .news-card-meta { font-size: 11.5px; color: var(--gray-400); margin-bottom: 6px; }
+    .news-card-excerpt { font-size: 12.5px; color: var(--gray-600); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px; }
+    .news-card-link { font-size: 12px; font-weight: 800; color: var(--blue); }
+    .news-view-all { text-align: center; margin-top: 40px; }
+    .news-view-all a { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--blue); text-decoration: none; border: 2px solid var(--blue); padding: 10px 28px; border-radius: 6px; transition: all .15s; }
+    .news-view-all a:hover { background: var(--blue); color: var(--white); }
+    @media (max-width: 900px) { .news-grid { grid-template-columns: 1fr; } .news-featured-img { height: 240px; } }
+    @media (max-width: 600px) { .news-card-img { width: 80px; } .news-featured-body { padding: 20px; } }
+
+    /* ─── CTA SECTION ─── */
+    .cta-section { background: var(--gradient); padding: 64px 0; text-align: center; }
+    .cta-section h2 { font-size: clamp(24px, 3.5vw, 40px); font-weight: 800; color: var(--white); margin-bottom: 16px; text-transform: uppercase; letter-spacing: .01em; }
+    .cta-section p { font-size: 18px; color: rgba(255,255,255,.8); margin-bottom: 40px; max-width: 540px; margin-left: auto; margin-right: auto; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .cta-note { margin-top: 20px; font-size: 13px; color: rgba(255,255,255,.6); }
+
+    /* ─── FOOTER ─── */
+    footer { background: #0D2757; color: rgba(255,255,255,.65); padding: 64px 0 0; }
+    .footer-inner { display: grid; grid-template-columns: 2.2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    @media(max-width:900px){ .footer-inner { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:480px){ .footer-inner { grid-template-columns: 1fr; } }
+    .footer-brand-logo { height: 80px; width: auto; display: block; margin-bottom: 14px; mix-blend-mode: screen; }
+    .footer-member { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+    .footer-brand p { font-size: 13.5px; line-height: 1.7; color: rgba(255,255,255,.6); }
+    .footer-brand p strong { color: var(--white); font-weight: 800; }
+    .social-links { display: flex; gap: 10px; margin-top: 22px; }
+    .social-btn { width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,.09); display: flex; align-items: center; justify-content: center; text-decoration: none; color: rgba(255,255,255,.75); transition: all .15s; }
+    .social-btn:hover { background: rgba(255,255,255,.18); color: var(--white); }
+    .social-btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .footer-col h4 { font-size: 11px; font-weight: 800; color: var(--white); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .fcol-icon { width: 24px; height: 24px; background: var(--orange); border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .fcol-icon svg { width: 13px; height: 13px; stroke: #fff; fill: none; }
+    .footer-col a { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; color: rgba(255,255,255,.5); text-decoration: none; margin-bottom: 12px; transition: all .15s; line-height: 1.4; }
+    .footer-col a::before { content: '>'; color: var(--orange); font-weight: 700; flex-shrink: 0; }
+    .footer-col a:hover { color: var(--white); transform: translateX(3px); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 20px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom-copy { font-size: 13px; color: rgba(255,255,255,.4); }
+    .footer-bottom-copy strong { color: rgba(255,255,255,.85); font-weight: 800; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { font-size: 13px; color: rgba(255,255,255,.4); text-decoration: none; transition: color .15s; }
+    .footer-bottom-links a:hover { color: rgba(255,255,255,.8); }
+    .social-btn:hover { background: var(--blue); }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; border-radius: 6px; background: none; border: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; transition: all .2s; }
+    .mobile-menu { display: none; position: fixed; top: 96px; left: 0; right: 0; bottom: 0; background: var(--white); z-index: 99; padding: 24px; overflow-y: auto; flex-direction: column; gap: 4px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 16px; font-weight: 700; color: var(--dark); text-decoration: none; padding: 13px 16px; border-radius: 8px; border-bottom: 1px solid var(--gray-200); display: block; }
+    .mobile-menu a:hover { background: var(--blue-light); color: var(--blue); }
+    .mobile-menu .m-section { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--gray-400); padding: 16px 16px 6px; }
+    .mobile-menu .m-sub { font-size: 14px; font-weight: 600; color: var(--gray-600); padding: 10px 28px; border-bottom: none; }
+    .mobile-menu .m-cta { background: var(--blue); color: var(--white) !important; border-radius: 8px; text-align: center; margin-top: 16px; border-bottom: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-cta { display: none; }
+    }
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 48px 0; text-align: center; }
+      .hero-cta { justify-content: center; }
+      .hero-trust { justify-content: center; }
+      .hero-visual { order: -1; }
+      .float-card { display: none; }
+      .hiw-steps { grid-template-columns: repeat(2, 1fr); }
+      .hiw-steps::before { display: none; }
+      .why-inner { grid-template-columns: 1fr; }
+      .sw-body { grid-template-columns: 1fr; }
+      .sw-sidebar { display: none; }
+      .sw-kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .section { padding: 56px 0; }
+      .hero h1 { font-size: 32px; }
+      .hiw-steps { grid-template-columns: 1fr; }
+    }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ─── -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <img src="./Logo Vsoftware/logo ngang.png" alt="Vsoftware" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+      <span class="nav-logo-text" style="display:none"><span>V</span>software</span>
+    </a>
+    <div class="nav-links">
+      <a href="#" class="active">Trang chủ</a>
+
+      <a href="gioi-thieu.html">Giới thiệu</a>
+
+      <div class="nav-item">
+        <a href="#services">Dịch vụ</a>
+        <div class="mega-dropdown">
+          <div class="mega-inner">
+
+            <!-- Cột 1: Phần mềm & Vận hành -->
+            <div class="mega-col">
+              <div class="mega-col-title blue">Phần mềm & Vận hành</div>
+              <a href="phan-mem-ban-hang.html" class="mega-item">
+                <div class="mega-icon blue">🛒</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Phần mềm bán hàng / POS</span>
+                  <span class="mega-item-sub">Đa chi nhánh, online-offline</span>
+                </div>
+              </a>
+              <a href="crm-cho-sme.html" class="mega-item">
+                <div class="mega-icon blue">👥</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">CRM cho SME</span>
+                  <span class="mega-item-sub">Lead, pipeline, chăm khách</span>
+                </div>
+              </a>
+              <a href="quan-ly-kho.html" class="mega-item">
+                <div class="mega-icon blue">📦</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Quản lý kho / WMS</span>
+                  <span class="mega-item-sub">Xuất nhập tồn, mã vạch</span>
+                </div>
+              </a>
+              <a href="app-ban-hang.html" class="mega-item">
+                <div class="mega-icon blue">📱</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">App bán hàng đa kênh</span>
+                  <span class="mega-item-sub">Web + Zalo Mini + Mobile</span>
+                </div>
+              </a>
+              <a href="ai-automation.html" class="mega-item">
+                <div class="mega-icon blue">🤖</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI & Automation</span>
+                  <span class="mega-item-sub">Chatbot, workflow, tự động hóa</span>
+                </div>
+              </a>
+            </div>
+
+            <!-- Cột 2: Theo ngành nghề -->
+            <div class="mega-col">
+              <div class="mega-col-title orange">Theo ngành nghề</div>
+              <a href="spa-tham-my.html" class="mega-item">
+                <div class="mega-icon orange">💆</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Spa / Thẩm mỹ viện</span>
+                  <span class="mega-item-sub">Đặt lịch, liệu trình, thẻ</span>
+                </div>
+              </a>
+              <a href="nha-khoa.html" class="mega-item">
+                <div class="mega-icon orange">🦷</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Nha khoa / Phòng khám</span>
+                  <span class="mega-item-sub">Hồ sơ BN, lịch hẹn, đơn thuốc</span>
+                </div>
+              </a>
+              <a href="nha-hang-fb.html" class="mega-item">
+                <div class="mega-icon orange">🍜</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Nhà hàng / F&B</span>
+                  <span class="mega-item-sub">Order, bếp, ship, thành viên</span>
+                </div>
+              </a>
+              <a href="gym-fitness.html" class="mega-item">
+                <div class="mega-icon orange">💪</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Gym / Yoga / Fitness</span>
+                  <span class="mega-item-sub">Thẻ tập, PT, lịch lớp</span>
+                </div>
+              </a>
+              <a href="trung-tam-dao-tao.html" class="mega-item">
+                <div class="mega-icon orange">🎓</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Trung tâm đào tạo</span>
+                  <span class="mega-item-sub">Học viên, lớp học, học phí</span>
+                </div>
+              </a>
+            </div>
+
+            <!-- Cột 3: Thiết kế & Nền tảng -->
+            <div class="mega-col">
+              <div class="mega-col-title blue">Thiết kế & Nền tảng</div>
+              <a href="thiet-ke-website.html" class="mega-item">
+                <div class="mega-icon blue">🎨</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Thiết kế Website</span>
+                  <span class="mega-item-sub">UI/UX, Figma, mobile-first</span>
+                </div>
+              </a>
+              <a href="website-landing.html" class="mega-item">
+                <div class="mega-icon blue">🌐</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Website & Landing Page</span>
+                  <span class="mega-item-sub">SEO ready, tích hợp CRM</span>
+                </div>
+              </a>
+              <a href="app-goi-xe.html" class="mega-item">
+                <div class="mega-icon blue">🚗</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">App gọi xe / gọi thợ</span>
+                  <span class="mega-item-sub">On-demand, dispatch, tracking</span>
+                </div>
+              </a>
+              <a href="app-dat-lich.html" class="mega-item">
+                <div class="mega-icon blue">📅</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">App đặt lịch / Booking</span>
+                  <span class="mega-item-sub">Lịch hẹn dịch vụ, tích hợp Zalo</span>
+                </div>
+              </a>
+              <a href="tich-hop.html" class="mega-item">
+                <div class="mega-icon blue">🔗</div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">Tích hợp hệ thống</span>
+                  <span class="mega-item-sub">MISA, Zalo, ngân hàng, sàn TMĐT</span>
+                </div>
+              </a>
+            </div>
+
+          </div>
+          <div class="mega-footer">
+            <div class="mega-footer-inner">
+              <div class="mega-footer-text">
+                <strong>Không thấy ngành của bạn?</strong>
+                <span>Tư vấn miễn phí 30 phút — đội Vsoftware sẽ may đo riêng.</span>
+              </div>
+              <a href="#contact" class="btn btn-secondary">Liên hệ ngay →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="tin-tuc.html">Tin tức</a>
+
+      <div class="nav-item">
+        <a href="#ai-agent">Phần mềm AI Agent</a>
+        <div class="mega-dropdown">
+          <div class="mega-inner mega-inner-2col">
+
+            <!-- Cột 1: Kinh doanh -->
+            <div class="mega-col">
+              <div class="mega-col-title blue">Kinh doanh & Khách hàng</div>
+              <a href="ai-agent-sales.html" class="mega-item">
+                <div class="mega-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M1 14h2m18 0h2"/><circle cx="9.5" cy="13.5" r="1.5" fill="white" stroke="none"/><circle cx="14.5" cy="13.5" r="1.5" fill="white" stroke="none"/><path d="M9 17.5h6"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Sales</span>
+                  <span class="mega-item-sub">Chăm lead 24/7, auto reply, báo giá</span>
+                </div>
+              </a>
+              <a href="ai-agent-marketing.html" class="mega-item">
+                <div class="mega-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2 6.5a1.5 1.5 0 0 0 1 1L21.5 11l-6.5 2a1.5 1.5 0 0 0-1 1L12 20.5l-2-6.5a1.5 1.5 0 0 0-1-1L2.5 11l6.5-2a1.5 1.5 0 0 0 1-1L12 2z"/><path d="M5 3.5v2m-1 1h2"/><path d="M19 17.5v2m-1 1h2"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Marketing</span>
+                  <span class="mega-item-sub">Gen content, lịch đăng, A/B test</span>
+                </div>
+              </a>
+              <a href="ai-agent-cskh.html" class="mega-item">
+                <div class="mega-icon blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="9" cy="10" r="1.5" fill="white" stroke="none"/><circle cx="15" cy="10" r="1.5" fill="white" stroke="none"/><path d="M9.5 13.5h5"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent CSKH</span>
+                  <span class="mega-item-sub">Chatbot đa kênh + Voice Bot tổng đài</span>
+                </div>
+              </a>
+            </div>
+
+            <!-- Cột 2: Vận hành nội bộ -->
+            <div class="mega-col">
+              <div class="mega-col-title orange">Vận hành & Quản trị</div>
+              <a href="ai-agent-ketoan.html" class="mega-item">
+                <div class="mega-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M15 2v2M9 2v2M15 20v2M9 20v2M22 15h-2M22 9h-2M2 15h2M2 9h2"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Kế toán</span>
+                  <span class="mega-item-sub">Đối soát tự động, cảnh báo dòng tiền</span>
+                </div>
+              </a>
+              <a href="ai-agent-nhansu.html" class="mega-item">
+                <div class="mega-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Nhân sự</span>
+                  <span class="mega-item-sub">Sàng CV, onboard, đánh giá KPI</span>
+                </div>
+              </a>
+              <a href="ai-agent-baocao-ceo.html" class="mega-item">
+                <div class="mega-icon orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                <div class="mega-item-text">
+                  <span class="mega-item-name">AI Agent Báo cáo CEO</span>
+                  <span class="mega-item-sub">Dashboard tự động, cảnh báo KPI</span>
+                </div>
+              </a>
+            </div>
+
+          </div>
+          <div class="mega-footer">
+            <div class="mega-footer-inner">
+              <div class="mega-footer-text">
+                <strong>Cần AI Agent theo nghiệp vụ riêng?</strong>
+                <span>Vsoftware build AI Agent custom — tích hợp sâu vào phần mềm doanh nghiệp của bạn.</span>
+              </div>
+              <a href="#contact" class="btn btn-secondary">Tư vấn miễn phí →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="lien-he.html">Liên hệ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-pulse">Tư vấn miễn phí</a>
+    </div>
+    <button type="button" class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#">🏠 Trang chủ</a>
+  <div class="m-section">Giới thiệu</div>
+  <a href="#why-us" class="m-sub">🏢 Về Vsoftware</a>
+  <a href="#how-it-works" class="m-sub">⚙️ Quy trình làm việc</a>
+  <a href="#why-us" class="m-sub">🏆 Thuộc ViTechGroup</a>
+  <div class="m-section">Phần mềm & Vận hành</div>
+  <a href="phan-mem-ban-hang.html" class="m-sub">🛒 Phần mềm bán hàng / POS</a>
+  <a href="crm-cho-sme.html" class="m-sub">👥 CRM cho SME</a>
+  <a href="quan-ly-kho.html" class="m-sub">📦 Quản lý kho / WMS</a>
+  <a href="app-ban-hang.html" class="m-sub">📱 App bán hàng đa kênh</a>
+  <a href="ai-automation.html" class="m-sub">🤖 AI & Automation</a>
+  <div class="m-section">Theo ngành nghề</div>
+  <a href="spa-tham-my.html" class="m-sub">💆 Spa / Thẩm mỹ viện</a>
+  <a href="nha-khoa.html" class="m-sub">🦷 Nha khoa / Phòng khám</a>
+  <a href="nha-hang-fb.html" class="m-sub">🍜 Nhà hàng / F&B</a>
+  <a href="gym-fitness.html" class="m-sub">💪 Gym / Yoga / Fitness</a>
+  <a href="trung-tam-dao-tao.html" class="m-sub">🎓 Trung tâm đào tạo</a>
+  <div class="m-section">Thiết kế & Nền tảng</div>
+  <a href="thiet-ke-website.html" class="m-sub">🎨 Thiết kế Website</a>
+  <a href="website-landing.html" class="m-sub">🌐 Website & Landing Page</a>
+  <a href="app-goi-xe.html" class="m-sub">🚗 App gọi xe / gọi thợ</a>
+  <a href="app-dat-lich.html" class="m-sub">📅 App đặt lịch / Booking</a>
+  <a href="tich-hop.html" class="m-sub">🔗 Tích hợp hệ thống</a>
+  <a href="tin-tuc.html">📰 Tin tức</a>
+  <div class="m-section">Phần mềm Ai Agent</div>
+  <a href="#ai-agent" class="m-sub">🤖 AI Agent Sales</a>
+  <a href="#ai-agent" class="m-sub">📣 AI Agent Marketing</a>
+  <a href="#ai-agent" class="m-sub">💬 AI Agent CSKH</a>
+  <a href="#ai-agent" class="m-sub">📊 AI Agent Báo cáo CEO</a>
+  <a href="#contact" class="m-cta btn-pulse">🗓️ Tư vấn miễn phí ngay</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1>Phần mềm<br><em>vừa vặn</em> cho<br>doanh nghiệp Việt</h1>
+        <p class="hero-sub">
+          Không dùng chung giải pháp đại trà. Vsoftware xây cho bạn
+          đúng bài toán — CRM, App Mobile, Automation, Workflow —
+          đúng chi phí, đúng tiến độ.
+        </p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-pulse">
+            Tư vấn miễn phí 30 phút
+          </a>
+          <a href="#services" class="btn btn-ghost">
+            Xem dịch vụ →
+          </a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-item">✅ Không cần đặt cọc lớn</div>
+          <div class="trust-dot"></div>
+          <div class="hero-trust-item">✅ Demo trước khi ký hợp đồng</div>
+          <div class="trust-dot"></div>
+          <div class="hero-trust-item">✅ Bảo hành 12 tháng</div>
+        </div>
+      </div>
+
+      <!-- Dashboard Mockup -->
+      <div class="hero-visual">
+        <div class="float-card card-1">
+          <div class="float-icon" style="background:#D1FAE5">✅</div>
+          <div class="float-text">
+            <div class="ft-val">Bàn giao đúng hạn</div>
+            <div class="ft-label">100% dự án cam kết</div>
+          </div>
+        </div>
+        <div class="mockup-shell">
+          <div class="mockup-bar">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+            <div class="mockup-url">app.vsoftware.vn/crm/dashboard</div>
+          </div>
+          <div class="mockup-body">
+            <div class="dash-header">
+              <div class="dash-title">📊 CRM Dashboard</div>
+              <div class="dash-badge">LIVE</div>
+            </div>
+            <div class="dash-stats">
+              <div class="stat-card accent">
+                <div class="stat-label">Doanh thu T5</div>
+                <div class="stat-val">₫842M</div>
+                <div class="stat-change">↑ 18% tháng trước</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Leads mới</div>
+                <div class="stat-val">247</div>
+                <div class="stat-change" style="color:#10B981">↑ 32 leads</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Tỉ lệ chốt</div>
+                <div class="stat-val">38%</div>
+                <div class="stat-change" style="color:#10B981">↑ 5%</div>
+              </div>
+            </div>
+            <div class="dash-chart">
+              <div style="font-size:11px;font-weight:700;color:#374151;margin-bottom:10px">Doanh số 6 tháng gần nhất</div>
+              <div class="chart-row">
+                <div class="chart-bar" style="height:38%;background:#1E5BC6;opacity:.4"></div>
+                <div class="chart-bar" style="height:55%;background:#1E5BC6;opacity:.55"></div>
+                <div class="chart-bar" style="height:45%;background:#1E5BC6;opacity:.6"></div>
+                <div class="chart-bar" style="height:70%;background:#1E5BC6;opacity:.7"></div>
+                <div class="chart-bar" style="height:60%;background:#1E5BC6;opacity:.8"></div>
+                <div class="chart-bar" style="height:100%;background:#1E5BC6"></div>
+              </div>
+              <div class="chart-labels">
+                <span>T12</span><span>T1</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span>
+              </div>
+            </div>
+            <div class="dash-list">
+              <div class="dash-list-item">
+                <div class="dash-list-avatar" style="background:#1E5BC6">MH</div>
+                <div class="dash-list-info">
+                  <div class="dash-list-name">Minh Hùng Corp</div>
+                  <div class="dash-list-sub">Đang đàm phán · 3 ngày</div>
+                </div>
+                <div class="dash-list-amount">₫85M</div>
+              </div>
+              <div class="dash-list-item">
+                <div class="dash-list-avatar" style="background:#F47920">AT</div>
+                <div class="dash-list-info">
+                  <div class="dash-list-name">Anh Tú Foods</div>
+                  <div class="dash-list-sub">Chờ ký hợp đồng · hôm nay</div>
+                </div>
+                <div class="dash-list-amount">₫120M</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="float-card card-2">
+          <div class="float-icon" style="background:var(--orange-light)">🚀</div>
+          <div class="float-text">
+            <div class="ft-val">Triển khai 4–8 tuần</div>
+            <div class="ft-label">Nhanh hơn thị trường 2x</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PAIN POINTS ─── -->
+<section class="pain-section">
+  <div class="container">
+    <div class="pain-header">
+      <h2>Những vấn đề mà hầu hết<br>SME Việt đang mắc kẹt</h2>
+      <p>Nếu 1 trong 4 điều dưới đây đúng với doanh nghiệp bạn — Vsoftware sinh ra để giải quyết.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card pc-blue">
+        <div class="pain-card-header">
+          <div class="pain-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
+            </svg>
+          </div>
+          <h3>Quản lý bằng Excel, Zalo, giấy tờ</h3>
+        </div>
+        <p>Dữ liệu phân tán, sai sót, mất thời gian tổng hợp. Sếp muốn báo cáo — nhân viên loay hoay cả ngày.</p>
+      </div>
+      <div class="pain-card pc-orange">
+        <div class="pain-card-header">
+          <div class="pain-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/>
+              <path d="M16.5 9.4 7.55 4.24"/>
+              <polyline points="3.29 7 12 12 20.71 7"/>
+              <line x1="12" y1="22" x2="12" y2="12"/>
+              <path d="m17 13 5 5m-5 0 5-5"/>
+            </svg>
+          </div>
+          <h3>Phần mềm mua rồi không dùng được</h3>
+        </div>
+        <p>Mua giải pháp có sẵn nhưng không vừa quy trình. Tiền mất, nhân viên vẫn làm tay, không ai hài lòng.</p>
+      </div>
+      <div class="pain-card pc-blue">
+        <div class="pain-card-header">
+          <div class="pain-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+              <circle cx="19" cy="11" r="2"/>
+              <path d="M19 8v1M19 13v1M16.5 9.5l.7.7M21.5 12.5l.7.7M22 11h-1M17 11h-1M21.5 9.5l-.7.7M16.5 12.5l-.7.7"/>
+            </svg>
+          </div>
+          <h3>Quy trình vận hành bằng người, không bằng hệ thống</h3>
+        </div>
+        <p>Nhân viên chủ chốt nghỉ việc — quy trình đứng lại. Kiến thức nằm trong đầu người chứ không trong phần mềm. Không thể mở rộng.</p>
+      </div>
+      <div class="pain-card pc-orange">
+        <div class="pain-card-header">
+          <div class="pain-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/>
+              <polyline points="16 17 22 17 22 11"/>
+            </svg>
+          </div>
+          <h3>Không có dữ liệu để ra quyết định</h3>
+        </div>
+        <p>Không biết khách nào sinh lời, kênh nào hiệu quả, nhân viên nào bán tốt. Quyết định bằng cảm tính = rủi ro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="services-header">
+      <h2 class="section-title">Vsoftware làm <span>được gì</span> cho bạn?</h2>
+      <p class="section-sub">6 nhóm giải pháp, mỗi cái đều xuất phát từ bài toán thực tế của SME Việt — không phải từ wishlist công nghệ.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-card-header">
+          <div class="service-icon">💻</div>
+          <h3>Phần mềm theo yêu cầu</h3>
+        </div>
+        <p>Build từ đầu theo đúng quy trình, đúng ngành của bạn. Bán hàng, kho, nhân sự, kế toán — không giới hạn.</p>
+        <div class="service-tags">
+          <span class="s-tag">Web App</span>
+          <span class="s-tag">Desktop</span>
+          <span class="s-tag">Đa nền tảng</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-header">
+          <div class="service-icon orange">📊</div>
+          <h3>CRM — Quản lý khách hàng</h3>
+        </div>
+        <p>Pipeline bán hàng, lịch sử giao dịch, chăm sóc tự động, báo cáo real-time. Sales không còn quên follow-up.</p>
+        <div class="service-tags">
+          <span class="s-tag">Pipeline</span>
+          <span class="s-tag">Automation</span>
+          <span class="s-tag">Báo cáo</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-header">
+          <div class="service-icon">📱</div>
+          <h3>App Mobile cho doanh nghiệp</h3>
+        </div>
+        <p>iOS + Android. App cho nhân viên, app cho khách hàng. Phê duyệt đơn hàng trên điện thoại, chấm công GPS.</p>
+        <div class="service-tags">
+          <span class="s-tag">iOS</span>
+          <span class="s-tag">Android</span>
+          <span class="s-tag">React Native</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-header">
+          <div class="service-icon orange">⚡</div>
+          <h3>AI & Automation</h3>
+        </div>
+        <p>Tự động hóa quy trình lặp đi lặp lại. Chatbot tư vấn 24/7, phân loại đơn hàng, tóm tắt email khách tự động.</p>
+        <div class="service-tags">
+          <span class="s-tag">Chatbot AI</span>
+          <span class="s-tag">Workflow</span>
+          <span class="s-tag">OCR</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-header">
+          <div class="service-icon">🌐</div>
+          <h3>Website & Landing Page</h3>
+        </div>
+        <p>Website bán hàng, landing campaign, portfolio công ty. Chuẩn SEO, tốc độ cao, tích hợp form lead và CRM.</p>
+        <div class="service-tags">
+          <span class="s-tag">Next.js</span>
+          <span class="s-tag">CMS</span>
+          <span class="s-tag">SEO Ready</span>
+        </div>
+      </div>
+      <div class="service-card" id="design-web">
+        <div class="service-card-header">
+          <div class="service-icon orange">🎨</div>
+          <h3>Thiết kế Website</h3>
+        </div>
+        <p>Thiết kế UI/UX chuyên nghiệp từ Figma đến prototype tương tác. Đúng thương hiệu, mobile-first, người dùng hiểu ngay khi lần đầu vào trang.</p>
+        <div class="service-tags">
+          <span class="s-tag">UI/UX</span>
+          <span class="s-tag">Figma</span>
+          <span class="s-tag">Prototype</span>
+          <span class="s-tag">Mobile-first</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AI AGENT ─── -->
+<section class="ai-section" id="ai-agent">
+  <div class="container">
+    <div class="ai-header">
+      <h2>AI Agent theo <em>từng phòng ban</em></h2>
+      <p>Không phải chatbot trả lời câu hỏi. Đây là nhân viên AI làm việc 24/7 — tích hợp sâu với phần mềm doanh nghiệp.</p>
+    </div>
+    <div class="ai-grid">
+
+      <!-- Sales -->
+      <div class="ai-card">
+        <span class="ai-badge">BÁN CHẠY</span>
+        <div class="ai-icon ic-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+        <div class="ai-card-title">AI Agent Sales</div>
+        <p class="ai-card-desc">Chăm lead 24/7, viết kịch bản tư vấn, nhắc lịch, đồng bộ CRM. Không bỏ sót khách quan tâm.</p>
+        <ul class="ai-checks">
+          <li>Auto reply Facebook / Zalo / Web</li>
+          <li>Sinh quote, gửi báo giá tự động</li>
+          <li>Phân loại lead nóng / ấm / nguội</li>
+        </ul>
+      </div>
+
+      <!-- Marketing -->
+      <div class="ai-card">
+        <div class="ai-icon ic-orange">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <div class="ai-card-title">AI Agent Marketing</div>
+        <p class="ai-card-desc">Gen content, lên kế hoạch post, A/B test caption, phân tích hiệu suất chiến dịch.</p>
+        <ul class="ai-checks">
+          <li>Sinh content fanpage, Tiktok, blog</li>
+          <li>Lên content calendar 30 ngày</li>
+          <li>Dashboard hiệu suất realtime</li>
+        </ul>
+      </div>
+
+      <!-- CSKH -->
+      <div class="ai-card">
+        <div class="ai-icon ic-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="ai-card-title">AI Agent CSKH</div>
+        <p class="ai-card-desc">Chatbot đa kênh + Voice Bot. Trả lời nghiệp vụ, tra cứu đơn, escalate đúng người.</p>
+        <ul class="ai-checks">
+          <li>Facebook + Zalo + Web + Email</li>
+          <li>Voice Bot tổng đài tự động</li>
+          <li>Học theo data lịch sử CSKH</li>
+        </ul>
+      </div>
+
+      <!-- Kế toán -->
+      <div class="ai-card">
+        <div class="ai-icon ic-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+        </div>
+        <div class="ai-card-title">AI Agent Kế toán</div>
+        <p class="ai-card-desc">Đối soát số liệu, cảnh báo bất thường, kết nối hóa đơn điện tử, lập báo cáo định kỳ.</p>
+        <ul class="ai-checks">
+          <li>Tự động đối soát giao dịch ngân hàng</li>
+          <li>Cảnh báo dòng tiền âm</li>
+          <li>Tích hợp Fast / Misa / Bravo</li>
+        </ul>
+      </div>
+
+      <!-- Nhân sự -->
+      <div class="ai-card">
+        <div class="ai-icon ic-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="ai-card-title">AI Agent Nhân sự</div>
+        <p class="ai-card-desc">Sàng CV, hỏi đáp ứng viên, onboard nhân sự mới, đánh giá KPI định kỳ.</p>
+        <ul class="ai-checks">
+          <li>Tự động chấm CV theo JD</li>
+          <li>Chatbot onboarding nội bộ</li>
+          <li>Tổng hợp đánh giá 360°</li>
+        </ul>
+      </div>
+
+      <!-- Báo cáo CEO — featured -->
+      <div class="ai-card featured">
+        <div class="ai-icon ic-white">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+          </svg>
+        </div>
+        <div class="ai-card-title">AI Agent Báo cáo CEO</div>
+        <p class="ai-card-desc">Daily / Weekly dashboard tự động. Cảnh báo rủi ro. Gọi ý hành động chiến lược.</p>
+        <ul class="ai-checks">
+          <li>Báo cáo daily qua Zalo / Telegram</li>
+          <li>Tổng hợp data đa nguồn</li>
+          <li>Cảnh báo bất thường KPI</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="section hiw-section" id="how-it-works">
+  <div class="container">
+    <div class="hiw-header">
+      <h2 class="section-title">4 bước — từ ý tưởng đến<br><span>phần mềm chạy thật</span></h2>
+      <p class="section-sub" style="margin: 0 auto">Bạn không cần biết kỹ thuật. Vsoftware đồng hành từng bước — từ buổi tư vấn đầu tiên đến khi hệ thống ổn định.</p>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="step-num">1</div>
+        <h3>Tư vấn & Phân tích</h3>
+        <p>Nghe bài toán, phân tích quy trình hiện tại, đề xuất giải pháp phù hợp nhất. <strong>Miễn phí 30 phút.</strong></p>
+      </div>
+      <div class="hiw-step">
+        <div class="step-num">2</div>
+        <h3>Thiết kế & Demo</h3>
+        <p>Wireframe, UI mockup đúng nghiệp vụ của bạn. <strong>Anh xem trước khi ký</strong> — không ưng thì nói thẳng.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="step-num">3</div>
+        <h3>Phát triển & Test</h3>
+        <p>Code, test kỹ, demo từng module. Cập nhật tiến độ hàng tuần. <strong>Không biến mất giữa dự án.</strong></p>
+      </div>
+      <div class="hiw-step">
+        <div class="step-num" style="border-color:var(--orange);color:var(--orange)">4</div>
+        <h3>Bàn giao & Hỗ trợ</h3>
+        <p>Training nhân viên, tài liệu sử dụng, hỗ trợ 24/7 tháng đầu. <strong>Bảo hành 12 tháng.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHY VSOFTWARE ─── -->
+<section class="section" id="why-us">
+  <div class="container">
+    <div class="why-inner">
+      <div>
+        <h2 class="section-title">Không phải vì chúng tôi<br>nói hay — mà vì <span>chúng tôi<br>làm được</span></h2>
+        <p class="section-sub" style="margin-bottom: 36px">Vsoftware thuộc hệ sinh thái ViTechGroup. Đội ngũ đã xây dựng và vận hành nhiều sản phẩm phần mềm thực tế — không phải team học việc.</p>
+        <div class="why-list">
+          <div class="why-item">
+            <div class="why-icon blue">🎯</div>
+            <div>
+              <h3>Đúng bài toán — không bán tính năng thừa</h3>
+              <p>Chúng tôi phân tích quy trình thực tế của bạn, chỉ build những gì bạn thực sự cần. Không phình scope, không thu thêm chi phí ẩn.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon orange">⚡</div>
+            <div>
+              <h3>Triển khai nhanh 4–8 tuần</h3>
+              <p>Methodology chia nhỏ module, bàn giao cuốn chiếu. Bạn dùng được phần đầu trong khi phần sau đang build — không chờ đợi mòn mỏi.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon blue">🏢</div>
+            <div>
+              <h3>Thuộc ViTechGroup — có pháp nhân, có địa chỉ</h3>
+              <p>Không phải freelancer "biến mất sau khi nhận tiền". Hợp đồng rõ ràng, có văn phòng, có đội ngũ chuyên trách bảo hành sau bàn giao.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon orange">💰</div>
+            <div>
+              <h3>Chi phí minh bạch từ đầu</h3>
+              <p>Báo giá chi tiết theo module. Không tăng giá giữa dự án. Dự án nhỏ từ 30 triệu, thanh toán theo milestone thực tế bàn giao.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="why-visual">
+          <div class="why-stat-grid">
+            <div class="why-stat">
+              <span class="why-stat-num">8+</span>
+              <span class="why-stat-label">Năm kinh nghiệm<br>team công nghệ</span>
+            </div>
+            <div class="why-stat">
+              <span class="why-stat-num">4–8<br><span style="font-size:18px">tuần</span></span>
+              <span class="why-stat-label">Thời gian triển khai<br>trung bình</span>
+            </div>
+            <div class="why-stat">
+              <span class="why-stat-num">100%</span>
+              <span class="why-stat-label">Dự án có demo<br>trước khi ký</span>
+            </div>
+            <div class="why-stat">
+              <span class="why-stat-num">12<br><span style="font-size:18px">tháng</span></span>
+              <span class="why-stat-label">Bảo hành & hỗ trợ<br>sau bàn giao</span>
+            </div>
+          </div>
+          <div class="why-quote">
+            <p>"Vsoftware không chỉ viết code. Chúng tôi đồng hành cùng bạn xây dựng hệ thống — từ bài toán thực tế đến phần mềm vận hành thực sự."</p>
+            <cite>— Lê Đức Nam, Founder & CEO ViTechGroup</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── UI SHOWCASE ─── -->
+<section class="section showcase-section" id="showcase">
+  <div class="container">
+    <div class="showcase-header">
+      <h2 class="section-title">Xem <span>chúng tôi có thể build</span> gì cho bạn</h2>
+      <p class="section-sub" style="margin: 0 auto">Không phải ảnh Photoshop đẹp trên mạng. Đây là UI style chúng tôi build — clean, chuyên nghiệp, dễ dùng.</p>
+    </div>
+    <div class="showcase-tabs">
+      <button class="stab active">📊 CRM & Sales</button>
+      <button class="stab">📦 Quản lý kho</button>
+      <button class="stab">📱 App Mobile</button>
+      <button class="stab">📈 Báo cáo Analytics</button>
+    </div>
+    <div class="showcase-panels">
+
+      <!-- Panel 0: CRM & Sales -->
+      <div class="showcase-panel active">
+        <div class="showcase-window">
+          <div class="sw-topbar">
+            <div class="sw-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+            <span style="color:rgba(255,255,255,.4);font-size:12px;margin-left:12px">CRM Vsoftware · Quản lý khách hàng &amp; doanh số</span>
+          </div>
+          <div class="sw-body">
+            <div class="sw-sidebar">
+              <div class="sw-sidebar-logo">⚡ CRM Pro</div>
+              <div class="sw-menu-item active"><span class="sw-menu-icon">📊</span> Dashboard</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">👥</span> Khách hàng</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">💼</span> Cơ hội</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📅</span> Lịch hẹn</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📋</span> Báo giá</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📈</span> Báo cáo</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">⚙️</span> Cài đặt</div>
+            </div>
+            <div class="sw-content">
+              <div class="sw-page-title">Dashboard tổng quan</div>
+              <div class="sw-kpi-row">
+                <div class="sw-kpi"><div class="sw-kpi-label">Doanh thu tháng</div><div class="sw-kpi-val">₫1.2B</div><div class="sw-kpi-trend">↑ 23% vs T4</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Leads mới</div><div class="sw-kpi-val">384</div><div class="sw-kpi-trend">↑ 47 leads</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Tỉ lệ chốt</div><div class="sw-kpi-val">41%</div><div class="sw-kpi-trend">↑ 3%</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Chưa follow</div><div class="sw-kpi-val">12</div><div class="sw-kpi-trend down">⚠ Cần xử lý</div></div>
+              </div>
+              <div class="sw-grid-2">
+                <div class="sw-card">
+                  <div class="sw-card-title">Pipeline theo giai đoạn</div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">Mới tiếp cận</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:90%;background:#1E5BC6"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:28px;text-align:right">142</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">Đang tư vấn</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:62%;background:#2E6FD6"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:28px;text-align:right">98</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">Chờ báo giá</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:45%;background:#F47920"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:28px;text-align:right">71</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">Sắp chốt</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:30%;background:#10B981"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:28px;text-align:right">47</span></div>
+                </div>
+                <div class="sw-card">
+                  <div class="sw-card-title">Cơ hội gần đây</div>
+                  <table class="sw-table">
+                    <tr><td>Minh Hùng Corp</td><td>₫85M</td><td><span class="sw-pill blue">Tư vấn</span></td></tr>
+                    <tr><td>Anh Tú Foods</td><td>₫120M</td><td><span class="sw-pill green">Chốt hôm nay</span></td></tr>
+                    <tr><td>Thanh Bình Co.</td><td>₫55M</td><td><span class="sw-pill orange">Chờ báo giá</span></td></tr>
+                    <tr><td>Hoàng Gia SME</td><td>₫200M</td><td><span class="sw-pill blue">Demo</span></td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 1: Quản lý kho -->
+      <div class="showcase-panel">
+        <div class="showcase-window">
+          <div class="sw-topbar">
+            <div class="sw-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+            <span style="color:rgba(255,255,255,.4);font-size:12px;margin-left:12px">WMS Vsoftware · Quản lý kho &amp; xuất nhập tồn</span>
+          </div>
+          <div class="sw-body">
+            <div class="sw-sidebar">
+              <div class="sw-sidebar-logo">📦 Kho Pro</div>
+              <div class="sw-menu-item active"><span class="sw-menu-icon">📊</span> Tổng quan</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📥</span> Nhập kho</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📤</span> Xuất kho</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📋</span> Tồn kho</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">🔍</span> Barcode</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📈</span> Báo cáo</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">⚙️</span> Cài đặt</div>
+            </div>
+            <div class="sw-content">
+              <div class="sw-page-title">Tổng quan kho hàng</div>
+              <div class="sw-kpi-row">
+                <div class="sw-kpi"><div class="sw-kpi-label">Tổng SKU</div><div class="sw-kpi-val">1,247</div><div class="sw-kpi-trend">↑ 18 SKU mới</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Xuất hôm nay</div><div class="sw-kpi-val">38</div><div class="sw-kpi-trend">↑ 12% vs hôm qua</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Nhập hôm nay</div><div class="sw-kpi-val">12</div><div class="sw-kpi-trend">4 đơn đang xử lý</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Cảnh báo tồn</div><div class="sw-kpi-val">5</div><div class="sw-kpi-trend down">⚠ Sắp hết hàng</div></div>
+              </div>
+              <div class="sw-grid-2" style="margin-top:12px">
+                <div class="sw-card">
+                  <div class="sw-card-title">Hàng sắp hết tồn</div>
+                  <table class="sw-table">
+                    <tr><td>Cà phê Arabica 500g</td><td style="font-weight:700;color:#F47920">23</td><td><span class="sw-pill orange">Sắp hết</span></td></tr>
+                    <tr><td>Hộp đựng nắp trong</td><td style="font-weight:700;color:#DC2626">8</td><td><span class="sw-pill" style="background:#FEE2E2;color:#DC2626">Hết hàng</span></td></tr>
+                    <tr><td>Túi giấy kraft M</td><td style="font-weight:700;color:#F47920">41</td><td><span class="sw-pill orange">Sắp hết</span></td></tr>
+                    <tr><td>Nước uống Vital 350ml</td><td style="font-weight:700;color:#F47920">67</td><td><span class="sw-pill orange">Sắp hết</span></td></tr>
+                  </table>
+                </div>
+                <div class="sw-card">
+                  <div class="sw-card-title">Xuất nhập theo ngày</div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">Thứ Hai</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:70%;background:#1E5BC6"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:28px;text-align:right">28</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">Thứ Ba</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:55%;background:#2E6FD6"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:28px;text-align:right">22</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">Thứ Tư</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:95%;background:#F47920"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:28px;text-align:right">38</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">Thứ Năm</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:45%;background:#10B981"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:28px;text-align:right">18</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: App Mobile -->
+      <div class="showcase-panel">
+        <div class="showcase-window">
+          <div class="sw-topbar">
+            <div class="sw-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+            <span style="color:rgba(255,255,255,.4);font-size:12px;margin-left:12px">App Mobile Vsoftware · Quản lý &amp; bán hàng trên điện thoại</span>
+          </div>
+          <div class="sw-body">
+            <div class="sw-sidebar">
+              <div class="sw-sidebar-logo">📱 App Pro</div>
+              <div class="sw-menu-item active"><span class="sw-menu-icon">🏠</span> Trang chủ</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">🛒</span> Đơn hàng</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">👥</span> Khách hàng</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📦</span> Sản phẩm</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📊</span> Báo cáo</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">🔔</span> Thông báo</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">⚙️</span> Cài đặt</div>
+            </div>
+            <div class="sw-content">
+              <div class="sw-page-title">Giao diện app mobile</div>
+              <div class="sw-phones-wrap">
+                <div class="sw-phone">
+                  <div class="sw-phone-bar">📊 Dashboard hôm nay</div>
+                  <div class="sw-phone-kpi">
+                    <div class="sw-phone-stat"><div class="sw-phone-stat-val">₫48M</div><div class="sw-phone-stat-lbl">Doanh thu</div></div>
+                    <div class="sw-phone-stat"><div class="sw-phone-stat-val">23</div><div class="sw-phone-stat-lbl">Đơn mới</div></div>
+                    <div class="sw-phone-stat"><div class="sw-phone-stat-val">94%</div><div class="sw-phone-stat-lbl">Giao thành công</div></div>
+                  </div>
+                  <div class="sw-phone-list">
+                    <div class="sw-phone-item"><span>🟢</span><div><strong>#DH2851 — Minh Hùng Corp</strong><p>₫2.4M · Đang giao</p></div><span class="sw-pill green" style="margin-left:auto;flex-shrink:0">Giao</span></div>
+                    <div class="sw-phone-item"><span>🟡</span><div><strong>#DH2850 — Thanh Bình Co.</strong><p>₫890K · Đang xử lý</p></div><span class="sw-pill orange" style="margin-left:auto;flex-shrink:0">Xử lý</span></div>
+                    <div class="sw-phone-item"><span>🔵</span><div><strong>#DH2849 — Lan Anh Foods</strong><p>₫5.2M · Mới</p></div><span class="sw-pill blue" style="margin-left:auto;flex-shrink:0">Mới</span></div>
+                  </div>
+                </div>
+                <div class="sw-phone">
+                  <div class="sw-phone-bar">🛒 Bán hàng nhanh / POS</div>
+                  <div class="sw-phone-product">
+                    <div class="sw-phone-prod-item"><span class="sw-phone-prod-icon">☕</span><div><strong>Cà phê sữa đá</strong><p>₫35,000 / ly</p></div><span class="sw-phone-qty">2</span></div>
+                    <div class="sw-phone-prod-item"><span class="sw-phone-prod-icon">🧋</span><div><strong>Trà sữa taro</strong><p>₫45,000 / ly</p></div><span class="sw-phone-qty">1</span></div>
+                    <div class="sw-phone-prod-item"><span class="sw-phone-prod-icon">🥤</span><div><strong>Sinh tố xoài</strong><p>₫40,000 / ly</p></div><span class="sw-phone-qty">3</span></div>
+                    <div class="sw-phone-prod-item"><span class="sw-phone-prod-icon">🍰</span><div><strong>Bánh tiramisu</strong><p>₫65,000 / cái</p></div><span class="sw-phone-qty">1</span></div>
+                  </div>
+                  <div class="sw-phone-total">
+                    <div style="display:flex;justify-content:space-between"><span>Tổng cộng:</span><strong style="color:#1E5BC6">₫290,000</strong></div>
+                    <div class="sw-phone-pay-btn">💳 Thanh toán ngay</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Báo cáo Analytics -->
+      <div class="showcase-panel">
+        <div class="showcase-window">
+          <div class="sw-topbar">
+            <div class="sw-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+            <span style="color:rgba(255,255,255,.4);font-size:12px;margin-left:12px">Analytics Vsoftware · Báo cáo kinh doanh realtime</span>
+          </div>
+          <div class="sw-body">
+            <div class="sw-sidebar">
+              <div class="sw-sidebar-logo">📈 Analytics</div>
+              <div class="sw-menu-item active"><span class="sw-menu-icon">📊</span> Tổng quan</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">💰</span> Doanh thu</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">👥</span> Khách hàng</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📦</span> Sản phẩm</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">🏆</span> Nhân viên</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">📤</span> Xuất báo cáo</div>
+              <div class="sw-menu-item"><span class="sw-menu-icon">⚙️</span> Cài đặt</div>
+            </div>
+            <div class="sw-content">
+              <div class="sw-page-title">Tổng quan tháng 5/2026</div>
+              <div class="sw-kpi-row">
+                <div class="sw-kpi"><div class="sw-kpi-label">Doanh thu</div><div class="sw-kpi-val">₫3.8B</div><div class="sw-kpi-trend">↑ 18% vs T4</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Đơn hàng</div><div class="sw-kpi-val">1,892</div><div class="sw-kpi-trend">↑ 241 đơn</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Khách mới</div><div class="sw-kpi-val">438</div><div class="sw-kpi-trend">↑ 23%</div></div>
+                <div class="sw-kpi"><div class="sw-kpi-label">Lợi nhuận</div><div class="sw-kpi-val">34%</div><div class="sw-kpi-trend">↑ 2%</div></div>
+              </div>
+              <div class="sw-grid-2" style="margin-top:12px">
+                <div class="sw-card">
+                  <div class="sw-card-title">Doanh thu theo tháng</div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">T1</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:52%;background:#1E5BC6"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:36px;text-align:right">2.1B</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">T2</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:58%;background:#1E5BC6"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:36px;text-align:right">2.4B</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">T3</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:62%;background:#2E6FD6"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:36px;text-align:right">2.5B</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">T4</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:78%;background:#2E6FD6"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:36px;text-align:right">3.2B</span></div>
+                  <div class="sw-bar-row"><span class="sw-bar-label">T5</span><div class="sw-bar-track"><div class="sw-bar-fill" style="width:95%;background:#F47920"></div></div><span style="font-size:11px;color:#374151;font-weight:700;width:36px;text-align:right">3.8B</span></div>
+                </div>
+                <div class="sw-card">
+                  <div class="sw-card-title">Top nhân viên tháng 5</div>
+                  <table class="sw-table">
+                    <tr><td>🥇 Nguyễn Thanh Hà</td><td style="font-weight:700;color:#1E5BC6">₫980M</td><td><span class="sw-pill green">↑ 32%</span></td></tr>
+                    <tr><td>🥈 Trần Minh Tuấn</td><td style="font-weight:700;color:#1E5BC6">₫870M</td><td><span class="sw-pill green">↑ 18%</span></td></tr>
+                    <tr><td>🥉 Lê Thu Trang</td><td style="font-weight:700;color:#1E5BC6">₫720M</td><td><span class="sw-pill blue">↑ 5%</span></td></tr>
+                    <tr><td>Phạm Đức Long</td><td style="font-weight:700;color:#6B7280">₫540M</td><td><span class="sw-pill orange">↓ 2%</span></td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end showcase-panels -->
+  </div>
+</section>
+
+<!-- ─── PRICING ─── -->
+<section class="section price-section" id="pricing">
+  <div class="container">
+    <div class="price-header">
+      <h2 class="section-title price-title">Giá minh bạch — <span>không ẩn phí</span></h2>
+      <p class="section-sub price-desc">Vsoftware báo giá theo module thực tế sau khi nghe bài toán. Dưới đây là khung tham khảo để bạn chủ động ngân sách.</p>
+    </div>
+    <div class="price-grid">
+
+      <!-- Starter -->
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-sub">Hộ KD, Startup, Shop nhỏ</div>
+        <div class="price-amount">
+          <span class="from">từ</span>
+          <span class="num">15</span>
+          <span class="unit">tr</span>
+        </div>
+        <div class="price-period">/ dự án trọn gói</div>
+        <hr class="price-divider">
+        <ul class="price-features">
+          <li>1 phần mềm vertical chuẩn hoá</li>
+          <li>1 AI Agent cơ bản (Sales hoặc CSKH)</li>
+          <li>Triển khai 2–4 tuần</li>
+          <li>Đào tạo 1 buổi</li>
+          <li>Bảo hành 6 tháng</li>
+        </ul>
+        <a href="https://zalo.me/vsoftware" class="price-btn price-btn-ghost">Nhận tư vấn</a>
+      </div>
+
+      <!-- Growth -->
+      <div class="price-card featured">
+        <span class="price-badge">PHỔ BIẾN NHẤT</span>
+        <div class="price-name">Growth</div>
+        <div class="price-sub">SME 10–50 nhân sự</div>
+        <div class="price-amount">
+          <span class="from">từ</span>
+          <span class="num">80</span>
+          <span class="unit">tr</span>
+        </div>
+        <div class="price-period">/ dự án trọn gói</div>
+        <hr class="price-divider">
+        <ul class="price-features">
+          <li>Phần mềm theo yêu cầu (custom)</li>
+          <li>2–3 module mở rộng theo nghiệp vụ</li>
+          <li>2 AI Agent (Sales + CSKH/Marketing)</li>
+          <li>App Mobile hỗ trợ (nếu cần)</li>
+          <li>Bảo hành 12 tháng + đào tạo nội bộ</li>
+        </ul>
+        <a href="https://zalo.me/vsoftware" class="price-btn price-btn-solid">Đặt lịch khảo sát</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="price-card">
+        <div class="price-name">Enterprise</div>
+        <div class="price-sub">SME 50+ / Chuyển đổi số tổng thể</div>
+        <div class="price-amount">
+          <span class="from">từ</span>
+          <span class="num">300</span>
+          <span class="unit">tr</span>
+        </div>
+        <div class="price-period">/ dự án trọn gói</div>
+        <hr class="price-divider">
+        <ul class="price-features">
+          <li>Full custom theo nghiệp vụ riêng</li>
+          <li>AI Agent <strong>toàn phòng ban</strong></li>
+          <li>App Mobile iOS + Android</li>
+          <li>Tích hợp ERP, CRM, kế toán có sẵn</li>
+          <li>Bảo hành 18 tháng + SLA cam kết</li>
+        </ul>
+        <a href="tel:+84123456789" class="price-btn price-btn-ghost">Gặp chuyên gia</a>
+      </div>
+
+    </div>
+    <p class="price-note">* Giá cuối xác nhận sau buổi tư vấn phân tích bài toán. Không có phí ẩn.</p>
+  </div>
+</section>
+
+<!-- ─── GALLERY ─── -->
+<section class="gallery-section">
+  <div class="container">
+    <h2 class="gallery-title">
+      <span class="gt-blue">Vsoftware</span> <span class="gt-orange">và những dấu ấn nổi bật</span>
+    </h2>
+    <div class="gallery-slider-wrap">
+      <button type="button" class="gallery-arrow gallery-prev">&#8249;</button>
+
+      <!-- Page 1 -->
+      <div class="gallery-page active">
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&h=450&q=80" alt="Analytics dashboard" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&h=450&q=80" alt="Team collaboration" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&h=450&q=80" alt="Business data" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=600&h=450&q=80" alt="Tech meeting" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&h=450&q=80" alt="Data charts" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&h=450&q=80" alt="Business presentation" loading="lazy"></div>
+        </div>
+      </div>
+
+      <!-- Page 2 -->
+      <div class="gallery-page">
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&h=450&q=80" alt="Business meeting" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=600&h=450&q=80" alt="Startup team" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&h=450&q=80" alt="Tech professional" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&w=600&h=450&q=80" alt="Code screen" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&h=450&q=80" alt="Office environment" loading="lazy"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=600&h=450&q=80" alt="Team meeting" loading="lazy"></div>
+        </div>
+      </div>
+
+      <button type="button" class="gallery-arrow gallery-next">&#8250;</button>
+    </div>
+    <div class="gallery-dots">
+      <button type="button" class="gallery-dot active" aria-label="Trang 1"></button>
+      <button type="button" class="gallery-dot" aria-label="Trang 2"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NEWS SECTION ─── -->
+<section class="news-section">
+  <div class="container">
+    <h2 class="news-section-title">Tin tức &amp; <em>Kiến thức công nghệ</em></h2>
+    <div class="news-grid">
+
+      <!-- Featured -->
+      <a href="bai-viet.html" class="news-featured">
+        <div class="news-featured-img">
+          <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=900&h=340&q=80" alt="AI cho doanh nghiệp" loading="lazy">
+          <span class="news-badge">Kiến thức AI</span>
+        </div>
+        <div class="news-featured-body">
+          <div class="news-featured-title">AI Agent cho doanh nghiệp Việt: Từ chatbot đơn giản đến nhân viên AI làm việc 24/7</div>
+          <div class="news-meta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Vsoftware Team — 18/05/2026
+          </div>
+          <p class="news-excerpt">Phân biệt chatbot trả lời câu hỏi và AI Agent thực sự làm việc: xử lý đơn hàng, chăm lead, tổng hợp báo cáo, tự động hóa quy trình vận hành — tất cả không cần con người giám sát.</p>
+          <span class="news-read-more">Đọc thêm »</span>
+        </div>
+      </a>
+
+      <!-- 3 side articles -->
+      <div class="news-list">
+        <a href="bai-viet.html" class="news-card">
+          <div class="news-card-img">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=200&h=120&q=80" alt="Phần mềm bán hàng" loading="lazy">
+          </div>
+          <div class="news-card-body">
+            <div class="news-card-title">Top 10 phần mềm quản lý bán hàng tốt nhất cho SME Việt 2026</div>
+            <div class="news-card-meta">Vsoftware Team — 15/05/2026</div>
+            <div class="news-card-excerpt">So sánh tính năng, giá cả và phù hợp theo ngành — từ POS đơn giản đến CRM đầy đủ.</div>
+            <span class="news-card-link">Đọc thêm »</span>
+          </div>
+        </a>
+        <a href="bai-viet.html" class="news-card">
+          <div class="news-card-img">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=200&h=120&q=80" alt="Setup CSKH" loading="lazy">
+          </div>
+          <div class="news-card-body">
+            <div class="news-card-title">Hướng dẫn setup AI CSKH trong 1 ngày — không cần lập trình</div>
+            <div class="news-card-meta">Vsoftware Team — 12/05/2026</div>
+            <div class="news-card-excerpt">Tài liệu chi tiết từ A–Z: đăng ký, train AI, kết nối Zalo OA và Facebook, go-live trong 24 giờ.</div>
+            <span class="news-card-link">Đọc thêm »</span>
+          </div>
+        </a>
+        <a href="bai-viet.html" class="news-card">
+          <div class="news-card-img">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=200&h=120&q=80" alt="Case study" loading="lazy">
+          </div>
+          <div class="news-card-body">
+            <div class="news-card-title">Case Study: Chuỗi spa 5 chi nhánh tăng 40% doanh thu sau 3 tháng</div>
+            <div class="news-card-meta">Vsoftware Team — 08/05/2026</div>
+            <div class="news-card-excerpt">Câu chuyện thực tế từ khách hàng — từ Excel và Zalo thủ công đến hệ thống tự động hoàn toàn.</div>
+            <span class="news-card-link">Đọc thêm »</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="news-view-all">
+      <a href="tin-tuc.html">Xem tất cả bài viết →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <h2>Nói chuyện 30 phút —<br>biết ngay có làm được không</h2>
+    <p>Không ràng buộc. Không phí tư vấn. Vsoftware sẽ phân tích bài toán và đề xuất giải pháp phù hợp nhất — dù bạn có chọn chúng tôi hay không.</p>
+    <div class="cta-btns">
+      <a href="tel:+84123456789" class="btn btn-pulse" style="font-size:16px;padding:15px 32px">
+        📞 Gọi ngay
+      </a>
+      <a href="https://zalo.me/vsoftware" class="btn btn-ghost-white" style="font-size:16px;padding:15px 32px">
+        💬 Chat Zalo
+      </a>
+    </div>
+    <div class="cta-note">Hoặc email: hello@vsoftware.vn · Phản hồi trong 2 giờ làm việc</div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <img class="footer-brand-logo" src="./Logo Vsoftware/logo am ban ngang.png" alt="Vsoftware" onerror="this.style.display='none'">
+        <div class="footer-member">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="var(--orange)"><polygon points="6,0 7.5,4.5 12,4.5 8.5,7.5 10,12 6,9 2,12 3.5,7.5 0,4.5 4.5,4.5"/></svg>
+          Member of ViTechGroup
+        </div>
+        <p>Phần mềm theo yêu cầu chuẩn SME Việt — giao nhanh hơn 30–50% nhờ AI Agent. Đồng hành cùng doanh nghiệp Việt chuyển đổi số một cách <strong>rõ ràng, thực tế và bền vững</strong>.</p>
+        <div class="social-links">
+          <a href="#" class="social-btn" title="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" class="social-btn" title="YouTube">
+            <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0D2757"/></svg>
+          </a>
+          <a href="#" class="social-btn" title="Zalo">
+            <svg viewBox="0 0 24 24"><text x="3" y="17" font-size="14" font-weight="800" fill="currentColor" font-family="Manrope,sans-serif">Z</text></svg>
+          </a>
+          <a href="#" class="social-btn" title="TikTok">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Dịch vụ -->
+      <div class="footer-col">
+        <h4>
+          <span class="fcol-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+          </span>
+          Dịch vụ
+        </h4>
+        <a href="#">Phần mềm theo yêu cầu</a>
+        <a href="#">App Mobile</a>
+        <a href="#">AI Agent &amp; Automation</a>
+        <a href="#">Chuyển đổi số</a>
+      </div>
+
+      <!-- Giải pháp -->
+      <div class="footer-col">
+        <h4>
+          <span class="fcol-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </span>
+          Giải pháp
+        </h4>
+        <a href="phan-mem-ban-hang.html">Phần mềm bán hàng</a>
+        <a href="crm-cho-sme.html">CRM cho SME</a>
+        <a href="spa-tham-my.html">Quản lý spa, nha khoa</a>
+        <a href="nha-hang-fb.html">F&amp;B, Khách sạn</a>
+      </div>
+
+      <!-- Hệ sinh thái -->
+      <div class="footer-col">
+        <h4>
+          <span class="fcol-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          </span>
+          Hệ sinh thái
+        </h4>
+        <a href="#">ViTechGroup</a>
+        <a href="#">MKTSoftware</a>
+        <a href="#">VIAI</a>
+        <a href="#">Phần mềm MKT</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-bottom-copy">© 2026 Vsoftware — Thành viên hệ sinh thái <strong>ViTechGroup</strong>. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Chính sách bảo mật</a>
+        <a href="#">Điều khoản</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Showcase tabs — switch panels
+  const stabs = document.querySelectorAll('.stab');
+  const panels = document.querySelectorAll('.showcase-panel');
+  stabs.forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      stabs.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      panels[i].classList.add('active');
+    });
+  });
+
+  // Hamburger toggle
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        mobileMenu.classList.remove('open');
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+    const isOpen = mobileMenu.classList.contains('open');
+    hamburger.querySelectorAll('span')[0].style.transform = isOpen ? 'translateY(7px) rotate(45deg)' : '';
+    hamburger.querySelectorAll('span')[1].style.opacity = isOpen ? '0' : '1';
+    hamburger.querySelectorAll('span')[2].style.transform = isOpen ? 'translateY(-7px) rotate(-45deg)' : '';
+  });
+
+  // Dropdown / Mega dropdown hover — dùng JS timeout để chuột có thể di chuyển xuống
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const panel = item.querySelector('.mega-dropdown, .dropdown');
+    if (!panel) return;
+    let hideTimer;
+
+    const show = () => {
+      clearTimeout(hideTimer);
+      item.classList.add('open');
+    };
+    const hide = () => {
+      hideTimer = setTimeout(() => item.classList.remove('open'), 120);
+    };
+
+    item.addEventListener('mouseenter', show);
+    item.addEventListener('mouseleave', hide);
+    panel.addEventListener('mouseenter', show);
+    panel.addEventListener('mouseleave', hide);
+  });
+
+  // ─── Gallery carousel ───
+  const gPages = document.querySelectorAll('.gallery-page');
+  const gDots  = document.querySelectorAll('.gallery-dot');
+  const gPrev  = document.querySelector('.gallery-prev');
+  const gNext  = document.querySelector('.gallery-next');
+  let gCur = 0;
+
+  function gGoTo(n) {
+    gPages[gCur].classList.remove('active');
+    gDots[gCur].classList.remove('active');
+    gCur = (n + gPages.length) % gPages.length;
+    gPages[gCur].classList.add('active');
+    gDots[gCur].classList.add('active');
+  }
+
+  gPrev.addEventListener('click', () => { gGoTo(gCur - 1); resetTimer(); });
+  gNext.addEventListener('click', () => { gGoTo(gCur + 1); resetTimer(); });
+  gDots.forEach((d, i) => d.addEventListener('click', () => { gGoTo(i); resetTimer(); }));
+
+  let gTimer = setInterval(() => gGoTo(gCur + 1), 5000);
+  function resetTimer() { clearInterval(gTimer); gTimer = setInterval(() => gGoTo(gCur + 1), 5000); }
+  document.querySelector('.gallery-slider-wrap').addEventListener('mouseenter', () => clearInterval(gTimer));
+  document.querySelector('.gallery-slider-wrap').addEventListener('mouseleave', () => { clearInterval(gTimer); gTimer = setInterval(() => gGoTo(gCur + 1), 5000); });
+
+
+</script>
+</body>
+</html>
