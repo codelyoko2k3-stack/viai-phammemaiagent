@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: viai-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: viai_db
+      POSTGRES_USER: viai_user
+      POSTGRES_PASSWORD: viai_pass_2026_secure
+    volumes:
+      - viai_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U viai_user -d viai_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./be-vsoftware
+      dockerfile: Dockerfile
+    container_name: viai-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: viai_user
+      DB_PASSWORD: viai_pass_2026_secure
+      DB_DATABASE: viai_db
+      JWT_SECRET: viai-jwt-secret-2026-x9k2m5r
+      JWT_REFRESH_SECRET: viai-refresh-secret-2026-p4n8q7w
+      CORS_ORIGINS: https://viai.phanmemaiagent.net
+      PUBLIC_URL: https://viai.phanmemaiagent.net
+    ports:
+      - "127.0.0.1:4001:3001"
+    volumes:
+      - viai_uploads:/app/uploads
+
+  frontend:
+    build:
+      context: ./fe-vsoftware
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://viai.phanmemaiagent.net/api
+        NEXT_PUBLIC_SITE_URL: https://viai.phanmemaiagent.net
+        NEXT_PUBLIC_SITE_NAME: ViAI
+    container_name: viai-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "127.0.0.1:4000:3000"
+
+volumes:
+  viai_postgres_data:
+  viai_uploads:
