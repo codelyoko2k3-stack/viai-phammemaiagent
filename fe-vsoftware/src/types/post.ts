@@ -1,10 +1,11 @@
 export type SeoAnalyzePayload = {
+    focusKeyword: string
     title?: string
+    slug?: string
     content?: string
-    focusKeyword?: string
-    excerpt?: string
     seoTitle?: string
     seoDescription?: string
+    thumbnail?: string
 }
 
 export type SeoCheck = {

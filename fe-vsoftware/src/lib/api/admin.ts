@@ -148,8 +148,8 @@ export function adminDraftPost(id: number): Promise<ApiResponse<Post>> {
   return withRevalidate(apiClient.patch(`/api/admin/posts/${id}/draft`, {}, true))
 }
 
-export function adminAnalyzePostSeo(id: number | string, payload: SeoAnalyzePayload): Promise<SeoScoreResult> {
-  return apiClient.post(`/api/admin/posts/${id}/seo-score`, payload, true)
+export function adminAnalyzeSeoRaw(payload: SeoAnalyzePayload): Promise<SeoScoreResult> {
+  return apiClient.post(`/api/admin/seo/analyze`, payload, true)
 }
 
 // ─── Categories ──────────────────────────────────────────────────────────────

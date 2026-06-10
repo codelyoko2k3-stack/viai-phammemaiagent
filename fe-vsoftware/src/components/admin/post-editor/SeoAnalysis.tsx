@@ -5,44 +5,47 @@ import { useFormContext } from 'react-hook-form'
 import { FormData } from './PostEditor'
 import { useDebounce } from '@/hooks/useDebounce'
 import useSWR from 'swr'
-import { adminAnalyzePostSeo } from '@/lib/api/admin'
+import { adminAnalyzeSeoRaw } from '@/lib/api/admin'
 import { SeoSection } from '@/types'
 
 const useSeoAnalysis = () => {
   const { watch } = useFormContext<FormData>()
 
-  const [title, content, focusKeyword, excerpt, seoTitle, seoDescription] = watch([
-    'title', 'content', 'seoKeywords', 'excerpt', 'seoTitle', 'seoDescription'
+  const [title, slug, content, focusKeyword, seoTitle, seoDescription, thumbnail] = watch([
+    'title', 'slug', 'content', 'seoKeywords', 'seoTitle', 'seoDescription', 'thumbnail'
   ])
 
   const debouncedFields = useDebounce(
-    { title, content, focusKeyword, excerpt, seoTitle, seoDescription },
+    { title, slug, content, focusKeyword, seoTitle, seoDescription, thumbnail },
     5000,
-    [title, content, focusKeyword, excerpt, seoTitle, seoDescription]
+    [title, slug, content, focusKeyword, seoTitle, seoDescription, thumbnail]
   )
 
-  const isReady = !!(
-    debouncedFields.title?.trim() ||
-    debouncedFields.content?.trim() ||
-    debouncedFields.focusKeyword?.trim() ||
-    debouncedFields.excerpt?.trim() ||
-    debouncedFields.seoTitle?.trim() ||
-    debouncedFields.seoDescription?.trim()
-  )
+  // focusKeyword là bắt buộc với API chấm điểm SEO — chưa có thì chưa phân tích
+  const isReady = !!debouncedFields.focusKeyword?.trim()
 
   const swrKey = isReady ? ['admin-posts-seo-score', JSON.stringify({
     title: debouncedFields.title,
+    slug: debouncedFields.slug,
     contentLength: debouncedFields.content?.length,
     focusKeyword: debouncedFields.focusKeyword,
-    excerpt: debouncedFields.excerpt,
     seoTitle: debouncedFields.seoTitle,
     seoDescription: debouncedFields.seoDescription,
+    thumbnail: debouncedFields.thumbnail,
   })] : null
 
   return useSWR(
     swrKey,
-    () => adminAnalyzePostSeo(1, debouncedFields),
-    { 
+    () => adminAnalyzeSeoRaw({
+      focusKeyword: debouncedFields.focusKeyword || '',
+      title: debouncedFields.title,
+      slug: debouncedFields.slug,
+      seoTitle: debouncedFields.seoTitle,
+      seoDescription: debouncedFields.seoDescription,
+      content: debouncedFields.content,
+      thumbnail: debouncedFields.thumbnail,
+    }),
+    {
       keepPreviousData: true,
       revalidateOnFocus: false,
       revalidateIfStale: false,
@@ -176,7 +179,7 @@ export const SeoAnalysisSections = () => {
             <div className="text-sm text-slate-500">Đang phân tích SEO...</div>
           </div>
         ) : (
-          <div className="text-sm text-slate-500">Nhập thông tin bài viết để hệ thống tự động phân tích SEO</div>
+          <div className="text-sm text-slate-500">Nhập từ khóa chính (Focus Keyword) để hệ thống tự động phân tích SEO</div>
         )}
       </div>
     )
