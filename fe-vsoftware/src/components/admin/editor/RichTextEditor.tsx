@@ -7,6 +7,9 @@ import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
+import TextStyle from '@tiptap/extension-text-style'
+import Color from '@tiptap/extension-color'
+import Highlight from '@tiptap/extension-highlight'
 import { useEffect, useCallback } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -54,6 +57,25 @@ export default function RichTextEditor({
       Link.configure({ openOnClick: false }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Placeholder.configure({ placeholder }),
+      TextStyle,
+      Color,
+      // Word paste tô màu nền bằng style="background-color:..." (thường trên <span>), không phải <mark> —
+      // dùng parse rule theo "style" (song song với rule "tag") để bắt được màu nền này.
+      Highlight.extend({
+        parseHTML() {
+          return [
+            { tag: 'mark' },
+            {
+              style: 'background-color',
+              getAttrs: (value) => {
+                const v = String(value).trim().toLowerCase()
+                const ignore = ['', 'transparent', 'inherit', 'initial', 'unset', 'white', '#fff', '#ffffff', 'rgb(255, 255, 255)', 'rgb(255,255,255)']
+                return ignore.includes(v) ? false : { color: value }
+              },
+            },
+          ]
+        },
+      }).configure({ multicolor: true }),
     ],
     content: value,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
@@ -123,6 +145,34 @@ export default function RichTextEditor({
         </ToolbarButton>
         <ToolbarButton onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} title="Underline">
           <u>U</u>
+        </ToolbarButton>
+
+        <span className="w-px bg-slate-200 mx-1 self-stretch min-h-[1.5rem]" />
+
+        <label className="flex items-center gap-1 rounded-lg px-1.5 py-1 text-sm font-medium text-slate-600 hover:bg-slate-100 cursor-pointer" title="Màu chữ">
+          <span className="font-bold">A</span>
+          <input
+            type="color"
+            value={editor.getAttributes('textStyle').color || '#000000'}
+            onInput={(e) => editor.chain().focus().setColor((e.target as HTMLInputElement).value).run()}
+            className="h-4 w-4 cursor-pointer rounded border-0 bg-transparent p-0"
+          />
+        </label>
+        <ToolbarButton onClick={() => editor.chain().focus().unsetColor().run()} title="Xoá màu chữ">
+          A<span className="line-through">x</span>
+        </ToolbarButton>
+
+        <label className="flex items-center gap-1 rounded-lg px-1.5 py-1 text-sm font-medium text-slate-600 hover:bg-slate-100 cursor-pointer" title="Màu nền (highlight)">
+          <span className="font-bold">H</span>
+          <input
+            type="color"
+            value={editor.getAttributes('highlight').color || '#ffff00'}
+            onInput={(e) => editor.chain().focus().toggleHighlight({ color: (e.target as HTMLInputElement).value }).run()}
+            className="h-4 w-4 cursor-pointer rounded border-0 bg-transparent p-0"
+          />
+        </label>
+        <ToolbarButton onClick={() => editor.chain().focus().unsetHighlight().run()} title="Xoá màu nền">
+          H<span className="line-through">x</span>
         </ToolbarButton>
 
         <span className="w-px bg-slate-200 mx-1 self-stretch min-h-[1.5rem]" />

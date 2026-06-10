@@ -8,9 +8,21 @@ const nextConfig = {
       { protocol: 'https', hostname: 'picsum.photos' },
       { protocol: 'http', hostname: '192.168.1.18' },
       { protocol: 'http', hostname: 'localhost' },
+      { protocol: 'http', hostname: 'localhost', port: '3001' },
+      { protocol: 'http', hostname: 'localhost', port: '4001' },
       { protocol: 'https', hostname: 'api.viai.vn' },
       { protocol: 'https', hostname: 'viai.vn' },
+      { protocol: 'https', hostname: 'viai.phanmemaiagent.net' },
     ],
+  },
+  async headers() {
+    return [
+      {
+        // HTML pages không cache ở CDN — admin save → trang public cập nhật ngay
+        source: '/((?!_next/static|_next/image|uploads|favicon.ico|icon.png).*)',
+        headers: [{ key: 'Cache-Control', value: 'no-store' }],
+      },
+    ]
   },
   // Slug cũ chứa "vsoftware" đã đổi sang "viai" khi rebrand — redirect 308 để giữ SEO/link cũ.
   async redirects() {
