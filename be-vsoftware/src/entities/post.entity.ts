@@ -28,7 +28,10 @@ export class Post {
   @Column({ length: 255 })
   title: string;
 
-  @Column({ unique: true })
+  // Unique chỉ áp dụng cho bài chưa xoá — slug của bài đã soft-delete
+  // (deletedAt khác null) có thể được tái sử dụng cho bài mới.
+  @Index('IDX_posts_slug_active', { unique: true, where: '"deletedAt" IS NULL' })
+  @Column()
   slug: string;
 
   @Column({ type: 'text', nullable: true })
