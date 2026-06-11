@@ -10,6 +10,7 @@ import {
     HeroSection,
 } from './_components/Sections';
 import ServicesSection from './_components/ServicesSection';
+import SolutionsSection from './_components/SolutionsSection';
 import ShowcaseTabs from './_components/ShowcaseTabs';
 import WhySection from './_components/WhySection';
 import { getCategories, getCategoryPosts, getCommitmentsConfig, getContactConfig, getHomepageConfig, getPosts } from '@/lib/api/public';
@@ -75,6 +76,7 @@ export default async function HomePage() {
       />
       {show(hp?.hero) && <HeroSection config={hp?.hero} />}
       {show(hp?.painPoints) && <PainPointsSection config={hp?.painPoints} />}
+      {show(hp?.solutions) && <SolutionsSection config={hp?.solutions} />}
       {show(hp?.services) && <ServicesSection categories={categories.data} posts={posts.data} config={hp?.services} />}
       {show(hp?.aiAgent) && <AiAgentSection aiPosts={aiPosts.data} config={hp?.aiAgent} />}
       {show(hp?.howItWorks) && <HowItWorksSection config={hp?.howItWorks} />}

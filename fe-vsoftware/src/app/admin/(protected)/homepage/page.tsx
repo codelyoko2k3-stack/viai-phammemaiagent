@@ -6,6 +6,7 @@ import type {
   HomepageConfig,
   HomepageHeroConfig,
   HomepagePainPointsConfig,
+  HomepageSolutionsConfig,
   HomepageHowItWorksConfig,
   HomepageWhyConfig,
   HomepagePricingConfig,
@@ -52,6 +53,34 @@ const DEFAULT_CONFIG: HomepageConfig = {
       { title: 'Phần mềm mua rồi không dùng được', description: 'Mua giải pháp có sẵn nhưng không vừa quy trình. Tiền mất, nhân viên vẫn làm tay, không ai hài lòng.' },
       { title: 'Quy trình vận hành bằng người, không bằng hệ thống', description: 'Nhân viên chủ chốt nghỉ việc — quy trình đứng lại. Kiến thức nằm trong đầu người chứ không trong phần mềm.' },
       { title: 'Không có dữ liệu để ra quyết định', description: 'Không biết khách nào sinh lời, kênh nào hiệu quả, nhân viên nào bán tốt. Quyết định bằng cảm tính = rủi ro.' },
+    ],
+  },
+  solutions: {
+    heading: 'Giải pháp',
+    headingEm: 'của ViAI',
+    description: '3 trụ cột giúp doanh nghiệp bạn ứng dụng AI vào vận hành thực tế — từ phần mềm, triển khai đến đào tạo đội ngũ.',
+    items: [
+      {
+        iconName: 'Bot',
+        title: 'PHẦN MỀM AI AGENT',
+        description: 'Trợ lý AI tự động hoá quy trình bán hàng, chăm sóc khách hàng, vận hành nội bộ — tích hợp ngay vào hệ thống hiện có.',
+        ctaText: 'Khám phá sản phẩm',
+        ctaHref: '/ai-agent',
+      },
+      {
+        iconName: 'Workflow',
+        title: 'DỊCH VỤ TRIỂN KHAI AI',
+        description: 'Tư vấn, xây dựng và triển khai giải pháp AI theo đúng bài toán của doanh nghiệp — từ A đến Z, có đội ngũ đồng hành.',
+        ctaText: 'Xem dịch vụ',
+        ctaHref: '/services',
+      },
+      {
+        iconName: 'GraduationCap',
+        title: 'KHÓA HỌC AI AGENT',
+        description: 'Đào tạo đội ngũ nội bộ sử dụng và xây dựng AI Agent — từ cơ bản đến nâng cao, thực hành trên case thực tế.',
+        ctaText: 'Liên hệ tư vấn',
+        ctaHref: '/contact',
+      },
     ],
   },
   howItWorks: {
@@ -490,6 +519,134 @@ function PainPointsTab({
           </ListItemCard>
         ))}
       </div>
+    </div>
+  )
+}
+
+// ─── Tab: Solutions (Giải pháp) ────────────────────────────────────────────────
+
+function SolutionsTab({
+  config,
+  onChange,
+}: {
+  config: HomepageConfig
+  onChange: (c: HomepageConfig) => void
+}) {
+  const solutions = config.solutions ?? DEFAULT_CONFIG.solutions!
+  function set(patch: Partial<HomepageSolutionsConfig>) {
+    onChange({ ...config, solutions: { ...solutions, ...patch } })
+  }
+
+  return (
+    <div className="space-y-4">
+      <SectionVisibilityToggle hidden={solutions.hidden ?? false} onChange={(h) => set({ hidden: h })} sectionLabel="Giải pháp" />
+      <SectionCard title="Tiêu đề section">
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="Heading (phần thường)">
+            <input value={solutions.heading} onChange={(e) => set({ heading: e.target.value })} className={inputCls} />
+          </Field>
+          <Field label="Heading highlight (in nghiêng, màu xanh)">
+            <input
+              value={solutions.headingEm ?? ''}
+              onChange={(e) => set({ headingEm: e.target.value })}
+              className={inputCls}
+            />
+          </Field>
+        </div>
+        <Field label="Mô tả">
+          <textarea
+            value={solutions.description ?? ''}
+            onChange={(e) => set({ description: e.target.value })}
+            rows={2}
+            className={inputCls}
+          />
+        </Field>
+      </SectionCard>
+
+      <SectionCard title="Trụ cột (items)">
+        <button
+          type="button"
+          onClick={() => set({ items: [{ iconName: 'Star', title: '', description: '', ctaText: '', ctaHref: '' }, ...solutions.items] })}
+          className="mb-2 flex items-center gap-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+        >
+          <span className="text-base leading-none">+</span> Thêm trụ cột (lên đầu)
+        </button>
+        <div className="space-y-3">
+          {solutions.items.map((item, i) => (
+            <ListItemCard
+              key={i}
+              index={i}
+              onRemove={() => set({ items: solutions.items.filter((_, j) => j !== i) })}
+            >
+              <Field label="Ảnh minh hoạ (rộng bằng khung, không cắt xén — hiển thị thay icon nếu có)">
+                <MediaPicker
+                  value={{ src: item.image ?? '', alt: item.imageAlt ?? '' }}
+                  onChange={(v) => {
+                    const items = solutions.items.map((it, j) =>
+                      j === i ? { ...it, image: v.src || null, imageAlt: v.alt || null } : it
+                    )
+                    set({ items })
+                  }}
+                  minimal
+                />
+              </Field>
+              <Field label="Tiêu đề">
+                <input
+                  value={item.title}
+                  onChange={(e) => {
+                    const items = solutions.items.map((it, j) =>
+                      j === i ? { ...it, title: e.target.value } : it
+                    )
+                    set({ items })
+                  }}
+                  className={inputCls}
+                />
+              </Field>
+              <Field label="Mô tả">
+                <textarea
+                  value={item.description}
+                  onChange={(e) => {
+                    const items = solutions.items.map((it, j) =>
+                      j === i ? { ...it, description: e.target.value } : it
+                    )
+                    set({ items })
+                  }}
+                  rows={2}
+                  className={inputCls}
+                />
+              </Field>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Nút CTA — Text">
+                  <input
+                    value={item.ctaText ?? ''}
+                    onChange={(e) => {
+                      const items = solutions.items.map((it, j) =>
+                        j === i ? { ...it, ctaText: e.target.value } : it
+                      )
+                      set({ items })
+                    }}
+                    className={inputCls}
+                    placeholder="VD: Khám phá sản phẩm"
+                  />
+                </Field>
+                <Field label="Nút CTA — URL">
+                  <input
+                    value={item.ctaHref ?? ''}
+                    onChange={(e) => {
+                      const items = solutions.items.map((it, j) =>
+                        j === i ? { ...it, ctaHref: e.target.value } : it
+                      )
+                      set({ items })
+                    }}
+                    className={inputCls}
+                    placeholder="VD: /ai-agent"
+                  />
+                </Field>
+              </div>
+            </ListItemCard>
+          ))}
+        </div>
+      </SectionCard>
     </div>
   )
 }
@@ -1410,7 +1567,7 @@ function BlogTab({
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
-type Tab = 'hero' | 'painPoints' | 'services' | 'aiAgent' | 'howItWorks' | 'why' | 'showcase' | 'pricing' | 'highlights' | 'blog' | 'cta' | 'seo'
+type Tab = 'hero' | 'painPoints' | 'solutions' | 'services' | 'aiAgent' | 'howItWorks' | 'why' | 'showcase' | 'pricing' | 'highlights' | 'blog' | 'cta' | 'seo'
 
 export default function HomepageEditorPage() {
   const [config, setConfig] = useState<HomepageConfig | null>(null)
@@ -1453,6 +1610,7 @@ export default function HomepageEditorPage() {
   const tabs: { key: Tab; label: string }[] = [
     { key: 'hero', label: 'Hero' },
     { key: 'painPoints', label: 'Pain Points' },
+    { key: 'solutions', label: 'Giải pháp' },
     { key: 'services', label: 'Dịch vụ' },
     { key: 'aiAgent', label: 'AI Agent' },
     { key: 'howItWorks', label: 'Quy trình' },
@@ -1507,6 +1665,7 @@ export default function HomepageEditorPage() {
 
           {activeTab === 'hero' && <HeroTab config={config} onChange={setConfig} />}
           {activeTab === 'painPoints' && <PainPointsTab config={config} onChange={setConfig} />}
+          {activeTab === 'solutions' && <SolutionsTab config={config} onChange={setConfig} />}
           {activeTab === 'services' && <ServicesTab config={config} onChange={setConfig} />}
           {activeTab === 'aiAgent' && <AiAgentTab config={config} onChange={setConfig} />}
           {activeTab === 'howItWorks' && <HowItWorksTab config={config} onChange={setConfig} />}
