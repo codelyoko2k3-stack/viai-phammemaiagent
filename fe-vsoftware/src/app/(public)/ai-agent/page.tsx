@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { getCategoryPosts } from '@/lib/api/public'
 import { getEmojiForPost } from '@/lib/public-content'
 import { AI_AGENT_SLUGS } from '@/constants/app.constants'
@@ -38,33 +39,52 @@ export default async function AiAgentIndexPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {products.map((post) => {
                 const href = `/${AI_AGENT_SLUGS}/${post.slug}`
+                const features = post.productPageConfig?.features?.items ?? []
+                const bullets = features.slice(0, 4).map((f) => f.title).filter(Boolean)
                 return (
                   <Link
                     key={post.id}
                     href={href}
-                    className="group relative bg-white rounded-2xl p-6 shadow-vs hover:shadow-vs-md hover:-translate-y-1 transition-all flex flex-col no-underline"
+                    className="group relative rounded-2xl p-6 no-underline transition-all flex flex-col bg-white shadow-vs hover:shadow-vs-lg hover:-translate-y-1 hover:bg-vs-dark-gradient"
                   >
                     {post.badge && (
-                      <span className="absolute top-4 right-4 text-[10px] font-extrabold bg-vs-orange text-white px-2.5 py-1 rounded-full uppercase tracking-[0.08em]">
+                      <span className="absolute top-4 right-4 z-10 text-[10px] font-extrabold bg-vs-orange text-white px-2.5 py-1 rounded-full uppercase tracking-[0.08em] shadow-md">
                         {post.badge}
                       </span>
                     )}
-                    <div className="w-[60px] h-[60px] p-2 rounded-xl flex items-center justify-center text-2xl mb-4 overflow-hidden bg-vs-blue-light">
+                    <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden mb-4 bg-transparent flex items-center justify-center">
                       {post.logoUrl ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img src={post.logoUrl} alt={post.title} className="w-full h-full object-contain" />
+                        <Image
+                          src={post.logoUrl}
+                          alt={post.title}
+                          fill
+                          unoptimized
+                          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                          className="object-contain p-2"
+                        />
                       ) : (
-                        getEmojiForPost(post.slug, post.title)
+                        <span className="text-5xl">{getEmojiForPost(post.slug, post.title)}</span>
                       )}
                     </div>
-                    <h3 className="text-[17px] font-extrabold text-vs-dark mb-2 leading-snug">
+                    <h3 className="text-[17px] font-extrabold mb-2 leading-snug text-vs-dark group-hover:text-white line-clamp-2">
                       {post.title}
                     </h3>
-                    <p className="text-[13.5px] text-vs-gray-600 leading-[1.65] mb-4 flex-1 whitespace-pre-line">
-                      {post.excerpt || post.seoDescription || 'Giải pháp AI Agent thông minh.'}
-                    </p>
-                    <span className="inline-flex items-center gap-1 text-[13px] font-extrabold text-vs-blue transition-[gap] group-hover:gap-2">
-                      Xem chi tiết →
+                    {bullets.length > 0 ? (
+                      <ul className="flex flex-col gap-1.5 mb-4 flex-1">
+                        {bullets.map((b, bi) => (
+                          <li key={bi} className="flex items-start gap-2 text-[13px] leading-snug text-vs-gray-700 group-hover:text-white/85">
+                            <span className="text-vs-orange shrink-0 mt-0.5 font-bold">✓</span>
+                            <span className="line-clamp-2">{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-[13.5px] text-vs-gray-600 leading-[1.65] mb-4 flex-1 whitespace-pre-line group-hover:text-white/75">
+                        {post.excerpt || post.seoDescription || 'Giải pháp AI Agent thông minh.'}
+                      </p>
+                    )}
+                    <span className="inline-flex items-center gap-1 text-[13px] font-extrabold transition-[gap] group-hover:gap-2 text-vs-blue group-hover:text-vs-orange">
+                      Tìm hiểu thêm →
                     </span>
                   </Link>
                 )
