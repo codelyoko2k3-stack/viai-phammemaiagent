@@ -36,7 +36,7 @@ export class MenusService {
   async findBySlug(slug: string) {
     const menu = await this.menuRepo.findOne({ where: { slug } });
     if (!menu) throw new NotFoundException('Menu không tồn tại');
-    menu.items = await this.buildTree(menu.id);
+    menu.items = this.filterVisible(await this.buildTree(menu.id));
     return menu;
   }
 
@@ -135,6 +135,15 @@ export class MenusService {
     });
 
     return roots;
+  }
+
+  /** Loại bỏ các item bị ẩn (isActive = false) và toàn bộ con cháu của chúng — dùng cho menu công khai */
+  private filterVisible(
+    nodes: (MenuItem & { children: any[] })[],
+  ): (MenuItem & { children: any[] })[] {
+    return nodes
+      .filter((node) => node.isActive !== false)
+      .map((node) => ({ ...node, children: this.filterVisible(node.children) }));
   }
 
   private async getDepth(itemId: number): Promise<number> {

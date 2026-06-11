@@ -1,5 +1,6 @@
 'use client'
 
+import { Eye, EyeOff } from 'lucide-react'
 import { sitePageMenuUrl, SITE_PAGES } from '@/lib/menuItemForm'
 import type { FlatNode } from './types'
 import { TYPE_LABELS } from './types'
@@ -13,12 +14,14 @@ interface MenuItemRowProps {
   isCollapsed: boolean
   reordering: boolean
   isLast: boolean
+  togglingActive: boolean
   onToggleCollapse: (id: number) => void
   onMoveUp: () => void
   onMoveDown: () => void
   onAddChild: (id: number) => void
   onEdit: (item: FlatNode) => void
   onDelete: (id: number) => void
+  onToggleActive: (item: FlatNode) => void
 }
 
 export function MenuItemRow({
@@ -29,13 +32,16 @@ export function MenuItemRow({
   isCollapsed,
   reordering,
   isLast,
+  togglingActive,
   onToggleCollapse,
   onMoveUp,
   onMoveDown,
   onAddChild,
   onEdit,
   onDelete,
+  onToggleActive,
 }: MenuItemRowProps) {
+  const isHidden = item.isActive === false
   function itemMeta() {
     if (item.url) return item.url
     if (item.type === 'page' && item.targetId != null) {
@@ -55,7 +61,7 @@ export function MenuItemRow({
         'flex items-center gap-2 py-3 pr-3',
         'transition-colors duration-100',
         isLast ? '' : 'border-b border-slate-100',
-        'hover:bg-slate-50',
+        isHidden ? 'bg-slate-50/80 opacity-60' : 'hover:bg-slate-50',
       ].filter(Boolean).join(' ')}
       style={{ paddingLeft: `${4 + item.depth * 24}px` }}
     >
@@ -90,6 +96,11 @@ export function MenuItemRow({
           {hasChildren && isCollapsed && (
             <span className="text-[10px] font-medium bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded shrink-0">
               đã thu gọn
+            </span>
+          )}
+          {isHidden && (
+            <span className="text-[10px] font-medium bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded shrink-0">
+              đã ẩn
             </span>
           )}
         </p>
@@ -127,6 +138,19 @@ export function MenuItemRow({
 
       {/* ── Actions ─────────────────────────────────────────────────── */}
       <div className="flex items-center gap-0.5 shrink-0">
+        <button
+          type="button"
+          disabled={togglingActive}
+          onClick={() => onToggleActive(item)}
+          className={`p-1.5 rounded-lg transition-colors disabled:opacity-40 ${
+            isHidden
+              ? 'text-amber-500 hover:text-amber-700 hover:bg-amber-50'
+              : 'text-slate-400 hover:text-emerald-600 hover:bg-emerald-50'
+          }`}
+          title={isHidden ? 'Bấm để HIỆN mục này' : 'Bấm để ẨN mục này'}
+        >
+          {isHidden ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+        </button>
         <button
           type="button"
           onClick={() => onAddChild(item.id)}

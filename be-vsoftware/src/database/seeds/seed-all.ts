@@ -92,7 +92,21 @@ async function run() {
   await bulkInsert('menus', snapshot.menus);
   console.log(`✅ menus:               ${snapshot.menus.length}`);
 
-  await bulkInsert('menu_items', snapshot.menuItems);
+  // Topological sort: insert parents trước children (tránh FK violation self-referencing)
+  const itemsById = new Map(snapshot.menuItems.map((item: any) => [item.id, item]));
+  const topoSorted: any[] = [];
+  const visited = new Set<number>();
+  function visitItem(item: any) {
+    if (visited.has(item.id)) return;
+    if (item.parentId != null) {
+      const parent = itemsById.get(item.parentId);
+      if (parent) visitItem(parent);
+    }
+    visited.add(item.id);
+    topoSorted.push(item);
+  }
+  for (const item of snapshot.menuItems) visitItem(item);
+  await bulkInsert('menu_items', topoSorted);
   console.log(`✅ menu_items:          ${snapshot.menuItems.length}`);
 
   await bulkInsert('posts', snapshot.posts);

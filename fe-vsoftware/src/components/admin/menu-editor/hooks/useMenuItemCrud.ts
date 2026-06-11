@@ -36,6 +36,21 @@ export function useMenuItemCrud({ menuId, flat, onUpdated, onToast, reorderToTar
   const [editingOriginalItem, setEditingOriginalItem] = useState<MenuItem | null>(null)
   const [formDefaults, setFormDefaults] = useState<MenuItemFormValues>(emptyMenuItemFormValues)
   const [saving, setSaving] = useState(false)
+  const [togglingId, setTogglingId] = useState<number | null>(null)
+
+  async function handleToggleActive(item: MenuItem) {
+    const nextActive = item.isActive === false
+    setTogglingId(item.id)
+    try {
+      await adminUpdateMenuItem(menuId, item.id, { isActive: nextActive })
+      onToast(nextActive ? 'Đã hiện mục menu' : 'Đã ẩn mục menu', 'success')
+      onUpdated()
+    } catch (err) {
+      onToast(getErrorMessage(err) || 'Cập nhật thất bại', 'error')
+    } finally {
+      setTogglingId(null)
+    }
+  }
 
   function positionOptions(parentId: string, excludeId?: number) {
     const pid = parentId === '' ? null : Number(parentId)
@@ -172,9 +187,11 @@ export function useMenuItemCrud({ menuId, flat, onUpdated, onToast, reorderToTar
     editingId,
     formDefaults,
     saving,
+    togglingId,
     openCreate,
     openEdit,
     handleSaveItem,
+    handleToggleActive,
     positionOptions,
   }
 }

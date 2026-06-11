@@ -49,6 +49,9 @@ export class MenuItem {
   @Column({ default: 0 })
   depth: number;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   @ManyToOne(() => MenuItem, (item) => item.children, { nullable: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'parentId' })
   parent: MenuItem;

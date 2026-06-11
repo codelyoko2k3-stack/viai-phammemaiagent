@@ -116,12 +116,14 @@ export default function MenuItemsEditor({ menuId, items, onUpdated }: MenuItemsE
                   isCollapsed={collapsedIds.has(item.id)}
                   reordering={reordering}
                   isLast={idx === visibleRows.length - 1}
+                  togglingActive={crud.togglingId === item.id}
                   onToggleCollapse={toggleCollapse}
                   onMoveUp={() => moveItem(item, 'up')}
                   onMoveDown={() => moveItem(item, 'down')}
                   onAddChild={crud.openCreate}
                   onEdit={crud.openEdit}
                   onDelete={setConfirmDeleteId}
+                  onToggleActive={crud.handleToggleActive}
                 />
               )
             })}

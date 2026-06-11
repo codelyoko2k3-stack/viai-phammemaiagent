@@ -12,6 +12,7 @@ export interface MenuItem {
   children?: MenuItem[]
   depth: number
   menuId: number
+  isActive?: boolean
 }
 
 export interface Menu {
@@ -52,6 +53,7 @@ export interface UpdateMenuItemPayload {
   url?: string
   order?: number
   parentId?: number | null
+  isActive?: boolean
 }
 
 export interface ReorderMenuItemPayload {

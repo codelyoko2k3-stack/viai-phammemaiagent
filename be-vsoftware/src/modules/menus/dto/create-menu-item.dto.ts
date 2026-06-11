@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsInt, IsOptional, IsString, MaxLength, Min } from 'class-validator';
+import { IsBoolean, IsEnum, IsInt, IsOptional, IsString, MaxLength, Min } from 'class-validator';
 import { MenuItemType } from '../../../entities/menu-item.entity';
 
 export class CreateMenuItemDto {
@@ -32,4 +32,9 @@ export class CreateMenuItemDto {
   @IsOptional()
   @IsInt()
   parentId?: number;
+
+  @ApiPropertyOptional({ example: true, description: 'Hiển thị item này trên menu công khai (mặc định true)' })
+  @IsOptional()
+  @IsBoolean()
+  isActive?: boolean;
 }
