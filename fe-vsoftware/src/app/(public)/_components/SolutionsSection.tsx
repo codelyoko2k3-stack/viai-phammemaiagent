@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import type { HomepageSolutionsConfig } from '@/types'
 import { DynamicIcon } from '@/components/admin/IconPicker'
@@ -62,37 +63,48 @@ function SolutionsSection({ config }: { config?: HomepageSolutionsConfig }) {
           {items.map((item, i) => (
             <div
               key={i}
-              className="flex flex-col rounded-2xl p-8 bg-white border border-vs-gray-200 hover:shadow-vs-md hover:-translate-y-1 transition-all"
+              className="flex flex-col rounded-2xl bg-white border border-vs-gray-200 hover:shadow-vs-md hover:-translate-y-1 transition-all overflow-hidden"
             >
-              {item.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={item.image} alt={item.imageAlt ?? item.title} className="w-full h-auto rounded-xl mb-5" />
-              ) : (
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-5 ${
-                  item.color === 'blue'
-                    ? 'bg-[linear-gradient(135deg,_#1E5BC6_0%,_#1749A8_100%)]'
-                    : 'bg-[linear-gradient(135deg,_#F47920_0%,_#D96510_100%)]'
-                }`}>
-                  <DynamicIcon name={item.iconName} className="h-7 w-7 text-white" />
+              {item.image && (
+                <div className="relative w-full aspect-video">
+                  <Image
+                    src={item.image}
+                    alt={item.imageAlt ?? item.title}
+                    fill
+                    unoptimized
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover"
+                  />
                 </div>
               )}
-              <h3 className="text-[17px] font-extrabold text-vs-dark mb-3 tracking-wide">
-                {item.title}
-              </h3>
-              <p className="text-[14px] text-vs-gray-600 leading-[1.65] mb-6 flex-1 whitespace-pre-line">
-                {item.description}
-              </p>
-              {item.ctaHref && (
-                <Link
-                  href={item.ctaHref}
-                  className={`inline-flex items-center gap-1.5 text-[14px] font-bold ${
-                    item.color === 'blue' ? 'text-vs-blue' : 'text-vs-orange'
-                  } hover:gap-2.5 transition-all`}
-                >
-                  {item.ctaText ?? 'Tìm hiểu thêm'}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              )}
+              <div className="flex flex-col flex-1 p-8">
+                {!item.image && (
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-5 ${
+                    item.color === 'blue'
+                      ? 'bg-[linear-gradient(135deg,_#1E5BC6_0%,_#1749A8_100%)]'
+                      : 'bg-[linear-gradient(135deg,_#F47920_0%,_#D96510_100%)]'
+                  }`}>
+                    <DynamicIcon name={item.iconName} className="h-7 w-7 text-white" />
+                  </div>
+                )}
+                <h3 className="text-[17px] font-extrabold text-vs-dark mb-3 tracking-wide">
+                  {item.title}
+                </h3>
+                <p className="text-[14px] text-vs-gray-600 leading-[1.65] mb-6 flex-1 whitespace-pre-line">
+                  {item.description}
+                </p>
+                {item.ctaHref && (
+                  <Link
+                    href={item.ctaHref}
+                    className={`inline-flex items-center gap-1.5 text-[14px] font-bold ${
+                      item.color === 'blue' ? 'text-vs-blue' : 'text-vs-orange'
+                    } hover:gap-2.5 transition-all`}
+                  >
+                    {item.ctaText ?? 'Tìm hiểu thêm'}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                )}
+              </div>
             </div>
           ))}
         </div>
