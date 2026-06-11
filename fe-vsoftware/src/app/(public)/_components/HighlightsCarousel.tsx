@@ -20,7 +20,7 @@ const DEFAULT_IMAGES: HomepageHighlightImage[] = [
 ]
 
 const PAGE_SIZE = 3
-const AUTO_INTERVAL_MS = 2000
+const AUTO_INTERVAL_MS = 5000
 
 function chunkInto<T>(arr: T[], size: number): T[][] {
   if (arr.length === 0) return []
@@ -35,15 +35,13 @@ export default function HighlightsCarousel({ config }: { config?: HomepageHighli
   const images = (config?.images && config.images.length > 0 ? config.images : DEFAULT_IMAGES).filter((img) => img.src)
   const pages = useMemo(() => chunkInto(images, PAGE_SIZE), [images])
   const [current, setCurrent] = useState(0)
-  const [dir, setDir] = useState<1 | -1>(1)
   const [animKey, setAnimKey] = useState(0)
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  const goTo = useCallback((n: number, direction: 1 | -1 = 1) => {
+  const goTo = useCallback((n: number) => {
     if (pages.length === 0) return
     setCurrent((n + pages.length) % pages.length)
-    setDir(direction)
     setAnimKey((k) => k + 1)
   }, [pages.length])
 
@@ -60,7 +58,6 @@ export default function HighlightsCarousel({ config }: { config?: HomepageHighli
     if (pages.length <= 1 || lightboxIdx !== null) return
     timerRef.current = setInterval(() => {
       setCurrent((c) => {
-        setDir(1)
         setAnimKey((k) => k + 1)
         return (c + 1) % pages.length
       })
@@ -106,7 +103,7 @@ export default function HighlightsCarousel({ config }: { config?: HomepageHighli
 
         <div className="relative">
           <button
-            onClick={() => goTo(current - 1, -1)}
+            onClick={() => goTo(current - 1)}
             className="absolute -left-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white border-2 border-gray-200 shadow-md text-[22px] font-bold text-[#1E5BC6] items-center justify-center transition-all hover:bg-[#1E5BC6] hover:text-white hover:border-[#1E5BC6] md:flex hidden"
             aria-label="Trang trước"
           >‹</button>
@@ -114,7 +111,7 @@ export default function HighlightsCarousel({ config }: { config?: HomepageHighli
           <div
             key={animKey}
             style={{
-              animation: `${dir > 0 ? 'slideInRight' : 'slideInLeft'} 0.4s ease both`,
+              animation: 'fadeIn 0.6s ease both',
             }}
             className="grid grid-cols-2 sm:grid-cols-3 gap-3"
           >
@@ -144,7 +141,7 @@ export default function HighlightsCarousel({ config }: { config?: HomepageHighli
           </div>
 
           <button
-            onClick={() => goTo(current + 1, 1)}
+            onClick={() => goTo(current + 1)}
             className="absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white border-2 border-gray-200 shadow-md text-[22px] font-bold text-[#1E5BC6] items-center justify-center transition-all hover:bg-[#1E5BC6] hover:text-white hover:border-[#1E5BC6] md:flex hidden"
             aria-label="Trang sau"
           >›</button>
@@ -154,7 +151,7 @@ export default function HighlightsCarousel({ config }: { config?: HomepageHighli
           {pages.map((_, i) => (
             <button
               key={i}
-              onClick={() => goTo(i, i > current ? 1 : -1)}
+              onClick={() => goTo(i)}
               aria-label={`Trang ${i + 1}`}
               className={`h-2 rounded-full border-none cursor-pointer transition-all duration-300 ${i === current ? 'bg-[#1E5BC6] w-7' : 'bg-gray-200 w-2 hover:bg-gray-300'
                 }`}
@@ -213,13 +210,9 @@ export default function HighlightsCarousel({ config }: { config?: HomepageHighli
       )}
 
       <style>{`
-        @keyframes slideInRight {
-          from { opacity: 0; transform: translateX(32px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInLeft {
-          from { opacity: 0; transform: translateX(-32px); }
-          to   { opacity: 1; transform: translateX(0); }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
         }
         @keyframes lbFadeIn {
           from { opacity: 0; }
