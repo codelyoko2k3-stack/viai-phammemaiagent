@@ -51,37 +51,37 @@ export default function HighlightsCarousel({ config }: { config?: HomepageHighli
   const trackImages = [...images, ...images]
 
   return (
-    <section className="bg-[#F5F7FA] py-12 overflow-hidden">
+    <section className="bg-[#F5F7FA] py-12">
       <div className="max-w-8xl mx-auto px-6">
         <h2 className="text-center text-2xl sm:text-[clamp(22px,3vw,34px)] font-extrabold uppercase tracking-wide mb-10 leading-tight">
           <span className="text-[#1E5BC6]">{heading}</span>{' '}
           <span className="text-[#F47920]">{headingEm}</span>
         </h2>
-      </div>
 
-      <div className="relative">
-        <div
-          className="viai-marquee-track flex w-max"
-          style={{ animationDuration: `${images.length * 4}s` }}
-        >
-          {trackImages.map((img, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setLightboxIdx(i % images.length)}
-              aria-label={`Xem ảnh ${(i % images.length) + 1}`}
-              className="relative shrink-0 w-[240px] sm:w-[320px] lg:w-[360px] aspect-video mr-3 rounded-xl overflow-hidden bg-gray-200 cursor-zoom-in group"
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                unoptimized
-                sizes="(max-width: 640px) 240px, (max-width: 1024px) 320px, 360px"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </button>
-          ))}
+        <div className="relative overflow-hidden">
+          <div
+            className="viai-marquee-track flex w-max"
+            style={{ animationDuration: `${images.length * 4}s` }}
+          >
+            {trackImages.map((img, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setLightboxIdx(i % images.length)}
+                aria-label={`Xem ảnh ${(i % images.length) + 1}`}
+                className="relative shrink-0 w-[240px] sm:w-[320px] lg:w-[360px] aspect-video mr-3 rounded-xl overflow-hidden bg-gray-200 cursor-zoom-in group"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  unoptimized
+                  sizes="(max-width: 640px) 240px, (max-width: 1024px) 320px, 360px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
