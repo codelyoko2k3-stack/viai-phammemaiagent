@@ -15,7 +15,7 @@ export class ContactService {
     private config: ConfigService,
   ) {}
 
-  async submit(dto: CreateContactDto): Promise<void> {
+  async submit(dto: CreateContactDto, userId: number | null = null): Promise<void> {
     await this.submissionRepo.save({
       name: dto.name,
       phone: dto.phone,
@@ -23,6 +23,7 @@ export class ContactService {
       company: dto.company ?? null,
       need: dto.need,
       description: dto.description ?? null,
+      userId,
     });
 
     const adminEmail = this.config.get<string>('CONTACT_RECEIVE_EMAIL', this.config.get('SMTP_FROM_ADDRESS'));
@@ -43,10 +44,27 @@ export class ContactService {
     }
   }
 
+  findByUser(userId: number): Promise<ContactSubmission[]> {
+    return this.submissionRepo.find({ where: { userId }, order: { createdAt: 'DESC' } });
+  }
+
   async findAll(params: { page?: number; limit?: number } = {}): Promise<{ data: ContactSubmission[]; meta: { page: number; limit: number; total: number; totalPages: number } }> {
     const page = params.page ?? 1;
     const limit = params.limit ?? 20;
     const [data, total] = await this.submissionRepo.findAndCount({
+      relations: { user: true },
+      select: {
+        id: true,
+        userId: true,
+        name: true,
+        phone: true,
+        email: true,
+        company: true,
+        need: true,
+        description: true,
+        createdAt: true,
+        user: { id: true, fullName: true, email: true },
+      },
       order: { createdAt: 'DESC' },
       skip: (page - 1) * limit,
       take: limit,

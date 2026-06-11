@@ -1,6 +1,26 @@
 import { getToken, getRefreshToken, setToken, setRefreshToken } from '@/lib/auth'
+import { getCustomerToken, getCustomerRefreshToken, setCustomerToken, setCustomerRefreshToken } from '@/lib/customer-auth'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+
+export type TokenType = 'admin' | 'customer'
+
+const tokenConfig = {
+  admin: {
+    getToken,
+    getRefreshToken,
+    setToken,
+    setRefreshToken,
+    refreshPath: '/api/admin/auth/refresh',
+  },
+  customer: {
+    getToken: getCustomerToken,
+    getRefreshToken: getCustomerRefreshToken,
+    setToken: setCustomerToken,
+    setRefreshToken: setCustomerRefreshToken,
+    refreshPath: '/api/auth/refresh',
+  },
+} as const
 
 type RequestOptions = Omit<RequestInit, 'body'> & {
   body?: unknown
@@ -8,13 +28,16 @@ type RequestOptions = Omit<RequestInit, 'body'> & {
   _retry?: boolean
   /** Số giây cache (Next.js Data Cache). Bỏ qua hoặc 0 = không cache (luôn fetch mới). */
   revalidate?: number
+  /** Loại token dùng cho request — admin (CMS) hoặc customer (tài khoản khách hàng). */
+  tokenType?: TokenType
 }
 
-async function refreshAccessToken(): Promise<string | null> {
-  const refreshToken = getRefreshToken()
+async function refreshAccessToken(tokenType: TokenType = 'admin'): Promise<string | null> {
+  const config = tokenConfig[tokenType]
+  const refreshToken = config.getRefreshToken()
   if (!refreshToken) return null
   try {
-    const res = await fetch(`${BASE_URL}/api/admin/auth/refresh`, {
+    const res = await fetch(`${BASE_URL}${config.refreshPath}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refreshToken }),
@@ -23,8 +46,8 @@ async function refreshAccessToken(): Promise<string | null> {
     const data = await res.json()
     const newAccess = data?.data?.accessToken || data?.accessToken
     const newRefresh = data?.data?.refreshToken || data?.refreshToken
-    if (newAccess) setToken(newAccess)
-    if (newRefresh) setRefreshToken(newRefresh)
+    if (newAccess) config.setToken(newAccess)
+    if (newRefresh) config.setRefreshToken(newRefresh)
     return newAccess ?? null
   } catch {
     return null
@@ -32,7 +55,7 @@ async function refreshAccessToken(): Promise<string | null> {
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const { body, auth = false, headers = {}, _retry = false, revalidate, ...rest } = options
+  const { body, auth = false, headers = {}, _retry = false, revalidate, tokenType = 'admin', ...rest } = options
 
   const reqHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -40,7 +63,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   }
 
   if (auth) {
-    const token = getToken()
+    const token = tokenConfig[tokenType].getToken()
     if (token) reqHeaders['Authorization'] = `Bearer ${token}`
   }
 
@@ -58,7 +81,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 
   // Nếu 401 và chưa retry → thử refresh token
   if (res.status === 401 && auth && !_retry) {
-    const newToken = await refreshAccessToken()
+    const newToken = await refreshAccessToken(tokenType)
     if (newToken) {
       reqHeaders['Authorization'] = `Bearer ${newToken}`
       const retryRes = await fetch(`${BASE_URL}${path}`, {
@@ -115,20 +138,20 @@ function normalizeMediaItem(item: Record<string, unknown>): Record<string, unkno
 }
 
 export const apiClient = {
-  get: <T>(path: string, auth = false, revalidate?: number) =>
-    request<T>(path, { method: 'GET', auth, revalidate }),
+  get: <T>(path: string, auth = false, revalidate?: number, tokenType: TokenType = 'admin') =>
+    request<T>(path, { method: 'GET', auth, revalidate, tokenType }),
 
-  post: <T>(path: string, body: unknown, auth = false) =>
-    request<T>(path, { method: 'POST', body, auth }),
+  post: <T>(path: string, body: unknown, auth = false, tokenType: TokenType = 'admin') =>
+    request<T>(path, { method: 'POST', body, auth, tokenType }),
 
-  patch: <T>(path: string, body: unknown, auth = false) =>
-    request<T>(path, { method: 'PATCH', body, auth }),
+  patch: <T>(path: string, body: unknown, auth = false, tokenType: TokenType = 'admin') =>
+    request<T>(path, { method: 'PATCH', body, auth, tokenType }),
 
-  put: <T>(path: string, body: unknown, auth = false) =>
-    request<T>(path, { method: 'PUT', body, auth }),
+  put: <T>(path: string, body: unknown, auth = false, tokenType: TokenType = 'admin') =>
+    request<T>(path, { method: 'PUT', body, auth, tokenType }),
 
-  delete: <T>(path: string, auth = false) =>
-    request<T>(path, { method: 'DELETE', auth }),
+  delete: <T>(path: string, auth = false, tokenType: TokenType = 'admin') =>
+    request<T>(path, { method: 'DELETE', auth, tokenType }),
 
   upload: async <T>(path: string, formData: FormData): Promise<T> => {
     const doFetch = (authToken: string | null) =>

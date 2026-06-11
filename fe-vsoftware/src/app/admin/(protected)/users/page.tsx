@@ -81,6 +81,7 @@ export default function AdminUsersPage() {
               <thead>
                 <tr>
                   <th>Người dùng</th>
+                  <th>SĐT</th>
                   <th>Vai trò</th>
                   <th>Trạng thái</th>
                   <th>Ngày tạo</th>
@@ -101,6 +102,9 @@ export default function AdminUsersPage() {
                           <p className="text-xs text-slate-400">{user.email}</p>
                         </div>
                       </div>
+                    </td>
+                    <td className="text-slate-600 text-sm whitespace-nowrap">
+                      {user.phone || '—'}
                     </td>
                     <td>
                       <span className={`badge ${user.role === 'admin' ? 'badge-blue' : 'badge-gray'}`}>

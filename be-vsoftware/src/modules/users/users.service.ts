@@ -37,7 +37,7 @@ export class UsersService {
 
   findAll() {
     return this.userRepo.find({
-      select: ['id', 'email', 'fullName', 'role', 'status', 'createdAt', 'updatedAt'],
+      select: ['id', 'email', 'fullName', 'phone', 'role', 'status', 'createdAt', 'updatedAt'],
       order: { createdAt: 'DESC' },
     });
   }
@@ -45,7 +45,7 @@ export class UsersService {
   async findOne(id: number) {
     const user = await this.userRepo.findOne({
       where: { id },
-      select: ['id', 'email', 'fullName', 'role', 'status', 'createdAt', 'updatedAt'],
+      select: ['id', 'email', 'fullName', 'phone', 'role', 'status', 'createdAt', 'updatedAt'],
     });
     if (!user) throw new NotFoundException('Tài khoản không tồn tại');
     return user;

@@ -18,6 +18,9 @@ import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { memoryStorage } from 'multer';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { UserRole } from '../../entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { MediaService } from './media.service';
 
@@ -27,7 +30,8 @@ const MAX_SIZE = 20 * 1024 * 1024; // 20MB trước khi convert (AVIF/TIFF có t
 @ApiTags('Media')
 @ApiBearerAuth()
 @Controller('api/admin/media')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 export class MediaController {
   constructor(
     private mediaService: MediaService,

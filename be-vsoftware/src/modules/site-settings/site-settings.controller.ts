@@ -1,5 +1,8 @@
 import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { UserRole } from '../../entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SiteSettingsService } from './site-settings.service';
 
@@ -16,7 +19,8 @@ export class SiteSettingsController {
 
   @Put(':key')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Cập nhật setting theo key (admin)' })
   upsert(@Param('key') key: string, @Body() body: object) {
     return this.service.upsert(key, body);

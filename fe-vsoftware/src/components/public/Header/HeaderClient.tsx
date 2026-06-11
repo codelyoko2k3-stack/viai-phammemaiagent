@@ -15,6 +15,7 @@ import { Category, MenuItem, Post } from "@/types"
 import Image from "next/image"
 import { AI_AGENT_SLUGS, SERVICES_URL, NEWS_SLUGS } from "@/constants/app.constants"
 import NewsMegaMenuTrigger from "./NewsMegaMenuTrigger"
+import UserNavButton from "./UserNavButton"
 
 const isAiAgentMenu = (item: MenuItem) => {
     if (item.url === '/ai-agent' || item.url === `/${AI_AGENT_SLUGS}`) return true
@@ -253,7 +254,8 @@ const HeaderClient = ({
                     </div>
 
                     {/* CTA */}
-                    <div className="hidden lg:flex items-center">
+                    <div className="hidden lg:flex items-center gap-1">
+                        <UserNavButton />
                         <Link
                             href="/contact"
                             className="relative inline-flex items-center gap-2 px-6 py-3 bg-vs-orange text-white text-[15px] font-bold rounded-vs hover:bg-vs-orange-dark transition-all overflow-visible"

@@ -1,12 +1,14 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
-import { User, UserStatus } from '../../entities/user.entity';
+import { User, UserRole, UserStatus } from '../../entities/user.entity';
 import { LoginDto } from './dto/login.dto';
 import { RefreshDto } from './dto/refresh.dto';
+import { RegisterDto } from './dto/register.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +17,36 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
+
+  async register(dto: RegisterDto) {
+    const existing = await this.userRepo.findOne({ where: { email: dto.email } });
+    if (existing) throw new ConflictException('Email đã được sử dụng');
+
+    const passwordHash = await bcrypt.hash(dto.password, 12);
+    const user = this.userRepo.create({
+      email: dto.email,
+      passwordHash,
+      fullName: dto.fullName,
+      phone: dto.phone,
+      role: UserRole.USER,
+      status: UserStatus.ACTIVE,
+    });
+    const saved = await this.userRepo.save(user);
+
+    const tokens = await this.generateTokens(saved);
+    await this.saveRefreshToken(saved.id, tokens.refreshToken);
+
+    return {
+      ...tokens,
+      user: { id: saved.id, email: saved.email, fullName: saved.fullName, role: saved.role },
+    };
+  }
+
+  async updateProfile(userId: number, dto: UpdateProfileDto) {
+    await this.userRepo.update(userId, dto);
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    return this.getMe(user);
+  }
 
   async login(dto: LoginDto) {
     const user = await this.userRepo.findOne({ where: { email: dto.email } });
@@ -69,6 +101,7 @@ export class AuthService {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
+      phone: user.phone,
       role: user.role,
       status: user.status,
     };

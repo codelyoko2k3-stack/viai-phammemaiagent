@@ -92,7 +92,7 @@ export interface ContactPayload {
 }
 
 export function submitContact(payload: ContactPayload): Promise<ApiResponse<{ message: string }>> {
-  return apiClient.post('/api/contact', payload)
+  return apiClient.post('/api/contact', payload, true, 'customer')
 }
 
 export function getFooterConfig(): Promise<{ data: FooterConfig }> {

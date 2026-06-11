@@ -19,6 +19,9 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { UserRole } from '../../entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { MenusService } from './menus.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
@@ -31,7 +34,8 @@ import { MenuItemType } from '../../entities/menu-item.entity';
 @ApiTags('Menus')
 @ApiBearerAuth()
 @Controller('api/admin/menus')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 export class AdminMenusController {
   constructor(private menusService: MenusService) {}
 

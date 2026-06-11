@@ -101,6 +101,33 @@ export interface AuthToken {
   }
 }
 
+export interface RegisterPayload {
+  email: string
+  password: string
+  fullName: string
+  phone?: string
+}
+
+export interface Customer {
+  id: number
+  email: string
+  fullName: string
+  phone?: string | null
+  role: string
+  status: string
+}
+
+export interface MyContactSubmission {
+  id: number
+  name: string
+  phone: string
+  email?: string | null
+  company?: string | null
+  need: string
+  description?: string | null
+  createdAt: string
+}
+
 export interface CreatePostPayload {
   title: string
   slug?: string
@@ -303,6 +330,26 @@ export interface HomepageHeroConfig {
   heroImageAlt?: string | null
 }
 
+export interface HomepageSolutionItem {
+  /** Lucide icon name — dùng khi chưa có ảnh */
+  iconName?: string
+  /** Ảnh minh hoạ — nếu có sẽ hiển thị thay icon */
+  image?: string | null
+  imageAlt?: string | null
+  title: string
+  description: string
+  ctaText?: string
+  ctaHref?: string
+}
+
+export interface HomepageSolutionsConfig {
+  hidden?: boolean
+  heading: string
+  headingEm?: string
+  description?: string
+  items: HomepageSolutionItem[]
+}
+
 export interface HomepagePainPointsConfig {
   hidden?: boolean
   heading: string
@@ -446,6 +493,7 @@ export interface HomepageSeoConfig {
 export interface HomepageConfig {
   hero: HomepageHeroConfig
   painPoints: HomepagePainPointsConfig
+  solutions?: HomepageSolutionsConfig
   services: HomepageServicesSectionConfig
   aiAgent: HomepageAiAgentSectionConfig
   howItWorks: HomepageHowItWorksConfig

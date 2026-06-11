@@ -24,6 +24,9 @@ export class User {
   @Column({ length: 255 })
   fullName: string;
 
+  @Column({ length: 20, nullable: true })
+  phone: string;
+
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
 

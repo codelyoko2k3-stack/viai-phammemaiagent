@@ -35,6 +35,10 @@ function DetailModal({ item, onClose }: { item: ContactSubmissionItem; onClose: 
             { label: 'Doanh nghiệp', value: item.company || '—' },
             { label: 'Nhu cầu', value: item.need },
             { label: 'Mô tả', value: item.description || '—' },
+            {
+              label: 'Tài khoản',
+              value: item.user ? `${item.user.fullName} (${item.user.email})` : 'Khách vãng lai',
+            },
             { label: 'Thời gian', value: formatDate(item.createdAt) },
           ].map(({ label, value }) => (
             <div key={label} className="flex gap-4 py-2.5">
@@ -98,6 +102,7 @@ export default function ContactsPage() {
                 <th className="px-4 py-3">Điện thoại</th>
                 <th className="px-4 py-3 hidden sm:table-cell">Email</th>
                 <th className="px-4 py-3 hidden md:table-cell">Nhu cầu</th>
+                <th className="px-4 py-3 hidden md:table-cell">Tài khoản</th>
                 <th className="px-4 py-3 hidden lg:table-cell">Thời gian</th>
                 <th className="px-4 py-3 text-right">Thao tác</th>
               </tr>
@@ -115,6 +120,15 @@ export default function ContactsPage() {
                     <span className="inline-block max-w-[200px] truncate rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700">
                       {c.need}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 hidden md:table-cell">
+                    {c.user ? (
+                      <span className="inline-block max-w-[160px] truncate rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700" title={c.user.email}>
+                        {c.user.fullName}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-slate-400">Khách vãng lai</span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-slate-400 text-xs hidden lg:table-cell whitespace-nowrap">
                     {formatDate(c.createdAt)}

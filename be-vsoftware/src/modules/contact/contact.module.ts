@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from '../auth/auth.module';
 import { ContactController } from './contact.controller';
 import { AdminContactsController } from './admin-contacts.controller';
 import { ContactService } from './contact.service';
 import { ContactSubmission } from '../../entities/contact-submission.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ContactSubmission])],
+  imports: [TypeOrmModule.forFeature([ContactSubmission]), AuthModule],
   controllers: [ContactController, AdminContactsController],
   providers: [ContactService],
 })

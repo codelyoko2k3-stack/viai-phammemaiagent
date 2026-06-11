@@ -58,6 +58,7 @@ export interface AdminUserItem {
   id: number
   fullName: string
   email: string
+  phone?: string | null
   role: 'admin' | 'user'
   status: 'active' | 'inactive'
   createdAt: string
@@ -266,6 +267,8 @@ export function adminReorderMenuItems(
 
 export interface ContactSubmissionItem {
   id: number
+  userId?: number | null
+  user?: { id: number; fullName: string; email: string } | null
   name: string
   phone: string
   email?: string

@@ -1,5 +1,8 @@
 import { Body, Controller, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { UserRole } from '../../entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SeoAnalyzeDto } from './dto/seo-analyze.dto';
 import { SeoRawAnalyzeDto } from './dto/seo-raw-analyze.dto';
@@ -7,7 +10,8 @@ import { SeoService } from './seo.service';
 
 @ApiTags('SEO')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(UserRole.ADMIN)
 @Controller('api/admin')
 export class SeoController {
   constructor(private seoService: SeoService) {}

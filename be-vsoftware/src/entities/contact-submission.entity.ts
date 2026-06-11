@@ -1,9 +1,17 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity('contact_submissions')
 export class ContactSubmission {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ nullable: true })
+  userId: number | null;
+
+  @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'userId' })
+  user?: User;
 
   @Column({ length: 255 })
   name: string;
