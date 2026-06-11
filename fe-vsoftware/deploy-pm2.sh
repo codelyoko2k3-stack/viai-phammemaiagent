@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # ─────────────────────────────────────────────────────────────────────────────
-# deploy-pm2.sh — Auto deploy FE trên prod (chạy qua PM2)
+# deploy-pm2.sh — Auto deploy FE trên prod (chạy qua PM2, output: standalone)
 #
 # Quy trình:
 #   1. git pull → lấy code mới
 #   2. npm ci → cài dependencies (chỉ khi lock file đổi)
 #   3. npm run build → build .next
-#   4. pm2 reload → restart không downtime
+#   4. copy .next/static + public vào .next/standalone (bắt buộc với output: standalone,
+#      Next.js không tự copy 2 thư mục này — thiếu sẽ khiến mọi /_next/static/* trả 404)
+#   5. pm2 reload → restart không downtime
 #
 # Usage (trên server prod):
-#   cd /home/vsoftware.vn      # hoặc thư mục chứa repo FE
+#   cd /home/viai-phammemaiagent/fe-vsoftware
 #   bash deploy-pm2.sh
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -49,23 +51,30 @@ else
 fi
 
 # ── Bước 3: Build ───────────────────────────────────────────────────────────
-log "[3/4] npm run build (có thể mất 2-5 phút)..."
+log "[3/5] npm run build (có thể mất 2-5 phút)..."
 npm run build
 ok "Build xong"
 
-# ── Bước 4: PM2 reload ──────────────────────────────────────────────────────
-log "[4/4] PM2 reload vsoftware-fe"
-if pm2 describe vsoftware-fe >/dev/null 2>&1; then
-  pm2 reload vsoftware-fe --update-env
+# ── Bước 4: Copy static + public vào standalone ────────────────────────────
+log "[4/5] Copy .next/static + public vào .next/standalone (output: standalone)"
+rm -rf .next/standalone/.next/static .next/standalone/public
+cp -r .next/static .next/standalone/.next/static
+cp -r public .next/standalone/public
+ok "Đã copy static assets vào standalone"
+
+# ── Bước 5: PM2 reload ──────────────────────────────────────────────────────
+log "[5/5] PM2 reload viai-frontend"
+if pm2 describe viai-frontend >/dev/null 2>&1; then
+  pm2 reload viai-frontend --update-env
   ok "FE đã reload (không downtime)"
 else
-  warn "Process vsoftware-fe chưa tồn tại — khởi động lần đầu:"
+  warn "Process viai-frontend chưa tồn tại — khởi động lần đầu:"
   pm2 start ecosystem.config.js
   pm2 save
   ok "FE đã khởi động lần đầu"
 fi
 
 echo ""
-ok "DEPLOY FE hoàn tất! Truy cập: https://vsoftware.vn"
+ok "DEPLOY FE hoàn tất! Truy cập: https://viai.phanmemaiagent.net"
 echo ""
-log "Xem log realtime: pm2 logs vsoftware-fe"
+log "Xem log realtime: pm2 logs viai-frontend"
