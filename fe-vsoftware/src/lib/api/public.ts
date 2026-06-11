@@ -44,7 +44,7 @@ export function getPost(slug: string): Promise<ApiResponse<Post>> {
 }
 
 export function getCategories(): Promise<ApiResponse<Category[]>> {
-  return apiClient.get('/api/categories', false, 300)
+  return apiClient.get('/api/categories', false, 30)
 }
 
 export async function getCategoryBySlug(slug: string): Promise<ApiResponse<Category>> {
@@ -79,7 +79,7 @@ export function getCategoryPosts(
 }
 
 export function getNavMenu(): Promise<ApiResponse<Menu>> {
-  return apiClient.get('/api/menus/nav-menu', false, 300)
+  return apiClient.get('/api/menus/nav-menu', false, 30)
 }
 
 export interface ContactPayload {
@@ -96,18 +96,18 @@ export function submitContact(payload: ContactPayload): Promise<ApiResponse<{ me
 }
 
 export function getFooterConfig(): Promise<{ data: FooterConfig }> {
-  return apiClient.get('/api/settings/footer', false, 300)
+  return apiClient.get('/api/settings/footer', false, 30)
 }
 
 export function getHomepageConfig(): Promise<{ data: HomepageConfig }> {
-  return apiClient.get('/api/settings/homepage', false, 300)
+  return apiClient.get('/api/settings/homepage', false, 30)
 }
 
 export function getContactConfig(): Promise<{ data: ContactConfig }> {
-  return apiClient.get('/api/settings/contact', false, 300)
+  return apiClient.get('/api/settings/contact', false, 30)
 }
 
 export function getCommitmentsConfig(): Promise<{ data: CommitmentsConfig }> {
-  return apiClient.get('/api/settings/commitments', false, 300)
+  return apiClient.get('/api/settings/commitments', false, 30)
 }
 
