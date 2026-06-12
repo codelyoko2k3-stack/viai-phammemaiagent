@@ -125,6 +125,7 @@ export default async function GioiThieuPage() {
                 width={800}
                 height={460}
                 className="w-full h-[460px] object-cover"
+                unoptimized
                 priority
               />
               <div className="absolute bottom-6 left-6 bg-vs-navy/90 backdrop-blur-sm rounded-xl px-5 py-4 text-white">
@@ -180,6 +181,7 @@ export default async function GioiThieuPage() {
                   width={700}
                   height={380}
                   className="w-full h-[380px] object-cover"
+                  unoptimized
                 />
               </div>
               <div className="mt-6 bg-vs-bg rounded-[14px] p-6">
@@ -233,7 +235,7 @@ export default async function GioiThieuPage() {
             {productsToDisplay.map((p, i) => (
               <Link key={i} href={p.href} className="group bg-white rounded-2xl overflow-hidden shadow-vs hover:border hover:border-vs-blue hover:shadow-vs-md hover:-translate-y-1 transition-all no-underline">
                 <div className="relative h-[180px] overflow-hidden">
-                  <Image src={p.img} alt={p.alt} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image src={p.img} alt={p.alt} fill unoptimized className="object-cover group-hover:scale-105 transition-transform duration-300" />
                   <span className={`absolute top-3 left-3 text-[11px] font-extrabold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full ${p.tagColor === 'orange' ? 'bg-vs-orange text-white' : 'bg-vs-blue text-white'}`}>{p.tag}</span>
                 </div>
                 <div className="p-5">
@@ -259,7 +261,7 @@ export default async function GioiThieuPage() {
             {TEAM.map((m, i) => (
               <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-vs hover:shadow-vs-md hover:-translate-y-1 transition-all">
                 <div className="h-[200px] overflow-hidden">
-                  <Image src={m.img} alt={m.name} width={400} height={200} className="w-full h-full object-cover" />
+                  <Image src={m.img} alt={m.name} width={400} height={200} unoptimized className="w-full h-full object-cover" />
                 </div>
                 <div className="p-5">
                   <div className="text-[15px] font-extrabold text-vs-dark">{m.name}</div>
