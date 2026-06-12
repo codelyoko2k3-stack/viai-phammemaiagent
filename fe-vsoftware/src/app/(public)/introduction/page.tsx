@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import PageHero from '@/components/common/PageHero'
-import CTASection from '@/components/common/CTASection'
 import AiAgentSection from '../_components/AiAgentSection'
+import CtaSection from '../_components/CtaSection'
 import { getPosts, getCategoryPosts } from '@/lib/api/public'
 import type { Post } from '@/types'
 import { AI_AGENT_SLUGS } from '@/constants/app.constants'
@@ -278,6 +278,17 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
+      {/* AI Agent */}
+      <AiAgentSection
+        aiPosts={aiPostsRes.data}
+        config={{
+          label: 'AI Agent',
+          heading: 'Phần mềm AI Agent -',
+          headingEm: 'ViAI',
+          description: 'Không phải chatbot trả lời câu hỏi. Đây là nhân viên AI làm việc 24/7 — tích hợp sâu với phần mềm doanh nghiệp.',
+        }}
+      />
+
       {/* Products */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
@@ -304,24 +315,16 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* AI Agent */}
-      <AiAgentSection
-        aiPosts={aiPostsRes.data}
+      <CtaSection
         config={{
-          label: 'AI Agent',
-          heading: 'Phần mềm AI Agent -',
-          headingEm: 'ViAI',
-          description: 'Không phải chatbot trả lời câu hỏi. Đây là nhân viên AI làm việc 24/7 — tích hợp sâu với phần mềm doanh nghiệp.',
+          heading: 'Sẵn sàng bắt đầu dự án phần mềm của bạn?',
+          description: 'Tư vấn miễn phí 30 phút — đội ngũ ViAI phân tích bài toán, đề xuất giải pháp và ước tính chi phí không ràng buộc.',
+          ctaPrimaryText: 'Đặt lịch tư vấn miễn phí',
+          ctaPrimaryHref: '/lien-he',
+          ctaSecondaryText: '💬 Chat Zalo ngay',
+          ctaSecondaryHref: 'https://zalo.me/viai',
+          note: 'Phản hồi trong vòng 2 giờ làm việc. Không phí tư vấn.',
         }}
-      />
-
-      <CTASection
-        title="Sẵn sàng bắt đầu dự án phần mềm của bạn?"
-        description="Tư vấn miễn phí 30 phút — đội ngũ ViAI phân tích bài toán, đề xuất giải pháp và ước tính chi phí không ràng buộc."
-        primaryLabel="Đặt lịch tư vấn miễn phí"
-        primaryHref="/lien-he"
-        secondaryLabel="Chat Zalo ngay"
-        secondaryHref="https://zalo.me/viai"
       />
     </>
   )
