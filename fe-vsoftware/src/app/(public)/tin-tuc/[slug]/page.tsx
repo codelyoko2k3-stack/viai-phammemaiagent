@@ -10,7 +10,7 @@ import SidebarCategories from "./_components/SidebarCategories";
 import SidebarServices from "./_components/SidebarServices";
 import { decodeHtmlContent } from "@/lib/utils";
 import type { Metadata } from "next";
-import { SERVICES_SLUGS, NEWS_SLUGS } from "@/constants/app.constants";
+import { AI_AGENT_SLUGS, NEWS_SLUGS } from "@/constants/app.constants";
 
 interface Props {
   params: { slug: string }
@@ -46,10 +46,11 @@ const ArticleLayout = async ({ params }: Props) => {
   const postsRes = await getCategoryPosts(NEWS_SLUGS, { limit: 100 }).catch(() => null);
   const allNews = postsRes?.data || [];
 
-  const servicesPosts = await getCategoryPosts(SERVICES_SLUGS, { limit: 100 }).then(res => res.data).catch(() => []);
+  const aiPosts = await getCategoryPosts(AI_AGENT_SLUGS, { limit: 50 }).then(res => res.data).catch(() => []);
 
-  const featuredServices = [...servicesPosts]
-    .sort((a, b) => b.viewCount - a.viewCount)
+  const aiAgentPosts = [...aiPosts]
+    .filter(p => !!p.badge)
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
     .slice(0, 4);
 
   const parentCat = allCategories.find(c => c.slug === NEWS_SLUGS);
@@ -153,7 +154,7 @@ const ArticleLayout = async ({ params }: Props) => {
           <aside className="hidden lg:flex flex-col gap-5 sticky top-[86px]">
             {/* <div className="text-red-500 text-xs">Debug cats: {sidebarCategoriesData.length}</div> */}
             <SidebarCategories categories={sidebarCategoriesData} activeSlug={news.category?.slug} />
-            <SidebarServices featuredServices={featuredServices} />
+            <SidebarServices aiAgentPosts={aiAgentPosts} />
             <SidebarNewsletter />
           </aside>
 

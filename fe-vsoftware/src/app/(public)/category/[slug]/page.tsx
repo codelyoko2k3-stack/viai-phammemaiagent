@@ -1,10 +1,9 @@
 import { Suspense } from "react"
 import NewsPageContent from "./NewsPageContent"
-import { getCategories, getPosts, getCategoryPosts, getCategoryBySlug } from "@/lib/api/public"
-import { getPostsForCategoryTree } from "@/lib/public-content"
+import { getCategories, getCategoryPosts, getCategoryBySlug } from "@/lib/api/public"
 import { Post } from "@/types"
 import type { Metadata } from "next"
-import { SERVICES_SLUGS } from "@/constants/app.constants"
+import { AI_AGENT_SLUGS } from "@/constants/app.constants"
 
 const PAGE_SIZE = 9
 
@@ -39,7 +38,7 @@ export default async function NewsPage({ params, searchParams }: Props) {
   const categoryParam = searchParams.category || "all"
   const selectedSlug = categoryParam === "all" ? slug : categoryParam
 
-  const [categoriesRes, countsRes, postsRes, allPostsRes] = await Promise.all([
+  const [categoriesRes, countsRes, postsRes] = await Promise.all([
     getCategories().catch(() => ({ data: [] })),
     getCategoryPosts(slug, { limit: 100 }).catch(() => ({ data: [], total: 0 })),
     getCategoryPosts(selectedSlug, { page, limit: PAGE_SIZE }).catch(() => ({
@@ -47,27 +46,26 @@ export default async function NewsPage({ params, searchParams }: Props) {
       total: 0,
       totalPages: 1,
     })),
-    getPosts({ limit: 100 }).catch(() => ({ data: [] })),
   ])
 
   const categories = categoriesRes?.data ?? []
-  const allPosts = allPostsRes?.data ?? []
 
-  let featuredServices: Post[] = []
+  let aiAgentPosts: Post[] = []
   try {
-    const servicesPosts = getPostsForCategoryTree(SERVICES_SLUGS, categories, allPosts)
-    featuredServices = [...servicesPosts]
-      .sort((a, b) => b.viewCount - a.viewCount)
+    const aiRes = await getCategoryPosts(AI_AGENT_SLUGS, { limit: 50 }).catch(() => ({ data: [] }))
+    aiAgentPosts = (aiRes?.data ?? [])
+      .filter((p) => !!p.badge)
+      .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
       .slice(0, 4)
   } catch (err) {
-    console.error("Failed to fetch featured services:", err)
+    console.error("Failed to fetch AI Agent posts:", err)
   }
 
   return (
     <Suspense fallback={<NewsPageFallback />}>
       <NewsPageContent
         slug={slug}
-        featuredServices={featuredServices}
+        aiAgentPosts={aiAgentPosts}
         initialCategories={categories}
         initialCounts={countsRes}
         initialPosts={postsRes}

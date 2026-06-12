@@ -47,7 +47,7 @@ function mapPostToArticle(p: Post, allCategories: { id: number; slug: string }[]
 }
 
 interface Props {
-  featuredServices?: Post[]
+  aiAgentPosts?: Post[]
   /** Slug danh mục đang xem. Bỏ trống = tất cả tin tức (parent). Đặt slug = chỉ sub đó. */
   activeCategorySlug?: string
   /** Tên hiển thị cho hero/heading. Bỏ trống = "Tin Tức & Kiến Thức". */
@@ -55,7 +55,7 @@ interface Props {
 }
 
 export default function NewsPageContent({
-  featuredServices = [],
+  aiAgentPosts = [],
   activeCategorySlug,
   heroTitle,
 }: Props) {
@@ -140,7 +140,7 @@ export default function NewsPageContent({
                 onFilter={handleFilter}
                 categories={dynamicCategories}
               />
-              <SidebarServices featuredServices={featuredServices} />
+              <SidebarServices aiAgentPosts={aiAgentPosts} />
               <SidebarNewsletter />
             </aside>
           </div>

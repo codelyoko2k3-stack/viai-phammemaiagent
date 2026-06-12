@@ -38,7 +38,7 @@ function mapPostToArticle(p: Post, allCategories: { id: number; slug: string }[]
 
 type Props = {
   slug: string
-  featuredServices?: Post[]
+  aiAgentPosts?: Post[]
   initialCategories: Category[]
   initialCounts: { data: Post[]; total: number }
   initialPosts: { data: Post[]; total: number; totalPages: number }
@@ -48,7 +48,7 @@ type Props = {
 
 export default function NewsPageContent({
   slug,
-  featuredServices = [],
+  aiAgentPosts = [],
   initialCategories,
   initialCounts,
   initialPosts,
@@ -166,7 +166,7 @@ export default function NewsPageContent({
                 onFilter={(key) => { setActiveCat(key); updateQuery({ category: key }) }}
                 categories={dynamicCategories}
               />
-              <SidebarServices featuredServices={featuredServices} />
+              <SidebarServices aiAgentPosts={aiAgentPosts} />
               <SidebarNewsletter />
             </aside>
           </div>

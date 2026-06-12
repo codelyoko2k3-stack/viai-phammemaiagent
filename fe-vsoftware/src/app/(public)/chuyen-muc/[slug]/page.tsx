@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 import NewsPageContent from "@/app/(public)/tin-tuc/NewsPageContent"
 import { getCategories, getCategoryPosts } from "@/lib/api/public"
 import { Post } from "@/types"
-import { SERVICES_SLUGS, NEWS_SLUGS } from "@/constants/app.constants"
+import { AI_AGENT_SLUGS, NEWS_SLUGS } from "@/constants/app.constants"
 
 interface Props {
   params: { slug: string }
@@ -41,19 +41,22 @@ export default async function ChuyenMucPage({ params }: Props) {
   const isValid = cat.slug === NEWS_SLUGS || cat.parentId === tinTuc?.id
   if (!isValid) notFound()
 
-  // Featured services cho sidebar
-  let featuredServices: Post[] = []
+  // AI Agent posts cho sidebar
+  let aiAgentPosts: Post[] = []
   try {
-    const svcRes = await getCategoryPosts(SERVICES_SLUGS, { limit: 100 }).catch(() => ({ data: [] }))
-    featuredServices = (svcRes?.data ?? []).slice(0, 4)
+    const aiRes = await getCategoryPosts(AI_AGENT_SLUGS, { limit: 50 }).catch(() => ({ data: [] }))
+    aiAgentPosts = (aiRes?.data ?? [])
+      .filter((p) => !!p.badge)
+      .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+      .slice(0, 4)
   } catch (err) {
-    console.error("Failed to fetch featured services:", err)
+    console.error("Failed to fetch AI Agent posts:", err)
   }
 
   return (
     <Suspense fallback={<Fallback />}>
       <NewsPageContent
-        featuredServices={featuredServices}
+        aiAgentPosts={aiAgentPosts}
         activeCategorySlug={params.slug}
         heroTitle={cat.name}
       />

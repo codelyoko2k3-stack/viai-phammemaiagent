@@ -1,10 +1,9 @@
 import { Suspense } from "react"
 import type { Metadata } from "next"
 import NewsPageContent from "./NewsPageContent"
-import { getCategories, getPosts } from "@/lib/api/public"
-import { getPostsForCategoryTree } from "@/lib/public-content"
+import { getCategoryPosts } from "@/lib/api/public"
 import { Post } from "@/types"
-import { SERVICES_SLUGS } from "@/constants/app.constants"
+import { AI_AGENT_SLUGS } from "@/constants/app.constants"
 
 export const metadata: Metadata = {
   title: 'Tin tức & Kiến thức chuyển đổi số',
@@ -20,26 +19,20 @@ function NewsPageFallback() {
 }
 
 export default async function NewsPage() {
-  let featuredServices: Post[] = []
+  let aiAgentPosts: Post[] = []
   try {
-    const [categoriesRes, postsRes] = await Promise.all([
-      getCategories().catch(() => ({ data: [] })),
-      getPosts({ limit: 100 }).catch(() => ({ data: [] }))
-    ])
-    const categories = categoriesRes?.data ?? []
-    const posts = postsRes?.data ?? []
-    const servicesPosts = getPostsForCategoryTree(SERVICES_SLUGS, categories, posts)
-
-    featuredServices = [...servicesPosts]
-      .sort((a, b) => b.viewCount - a.viewCount)
+    const aiRes = await getCategoryPosts(AI_AGENT_SLUGS, { limit: 50 }).catch(() => ({ data: [] }))
+    aiAgentPosts = (aiRes?.data ?? [])
+      .filter((p) => !!p.badge)
+      .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
       .slice(0, 4)
   } catch (err) {
-    console.error("Failed to fetch featured services for news sidebar:", err)
+    console.error("Failed to fetch AI Agent posts for news sidebar:", err)
   }
 
   return (
     <Suspense fallback={<NewsPageFallback />}>
-      <NewsPageContent featuredServices={featuredServices} />
+      <NewsPageContent aiAgentPosts={aiAgentPosts} />
     </Suspense>
   )
 }
