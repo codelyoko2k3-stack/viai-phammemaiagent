@@ -62,13 +62,6 @@ const TEAM = [
   { name: 'Phạm Văn Hùng', role: 'COO', desc: 'Vận hành và triển khai dự án — đảm bảo mọi sản phẩm đến tay khách hàng đúng cam kết', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&h=200&q=80' },
 ]
 
-const ECOSYSTEM = [
-  { bg: 'bg-[#21428A]', icon: '🏢', name: 'ViTechGroup', sub: 'Tập đoàn công nghệ mẹ' },
-  { bg: 'bg-vs-blue', icon: '💻', name: 'ViAI', sub: 'Phần mềm theo yêu cầu cho SME' },
-  { bg: 'bg-vs-orange', icon: '🤖', name: 'ViAI', sub: 'AI Agent & Automation solutions' },
-  { bg: 'bg-teal-600', icon: '📚', name: 'ViEdu', sub: 'Đào tạo chuyển đổi số cho doanh nghiệp' },
-]
-
 export default async function GioiThieuPage() {
   let dbPosts: Post[] = []
   try {
@@ -154,14 +147,6 @@ export default async function GioiThieuPage() {
       {/* Story */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Từ bài toán thực tế đến <em className="not-italic text-vs-blue">sản phẩm thực chiến</em>
-            </h2>
-            <p className="text-[16px] text-vs-gray-600 mt-3 max-w-[560px] mx-auto leading-[1.65]">
-              ViAI ra đời không phải từ phòng lab — mà từ những lần ngồi cùng chủ doanh nghiệp tìm hiểu vì sao phần mềm cũ không giải quyết được vấn đề của họ.
-            </p>
-          </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div className="text-[15.5px] text-vs-gray-700 leading-[1.85]">
               <p className="mb-5">Năm 2020, đội sáng lập ViTechGroup nhận ra một nghịch lý: thị trường phần mềm Việt không thiếu sản phẩm — nhưng hàng chục nghìn doanh nghiệp vừa và nhỏ vẫn dùng Excel, Zalo và sổ tay. Không phải vì họ không biết công nghệ, mà vì các phần mềm đang có <strong>không vừa vặn với bài toán của họ.</strong></p>
@@ -174,6 +159,14 @@ export default async function GioiThieuPage() {
               </blockquote>
             </div>
             <div>
+              <div className="mb-8">
+                <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
+                  Từ bài toán thực tế đến <em className="not-italic text-vs-blue">sản phẩm thực chiến</em>
+                </h2>
+                <p className="text-[16px] text-vs-gray-600 mt-3 leading-[1.65]">
+                  ViAI ra đời không phải từ phòng lab — mà từ những lần ngồi cùng chủ doanh nghiệp tìm hiểu vì sao phần mềm cũ không giải quyết được vấn đề của họ.
+                </p>
+              </div>
               <div className="rounded-2xl overflow-hidden shadow-vs-md">
                 <Image
                   src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=700&h=380&q=80"
@@ -183,20 +176,6 @@ export default async function GioiThieuPage() {
                   className="w-full h-[380px] object-cover"
                   unoptimized
                 />
-              </div>
-              <div className="mt-6 bg-vs-bg rounded-[14px] p-6">
-                <div className="text-[15px] font-extrabold text-vs-dark mb-4">ViAI thuộc hệ sinh thái</div>
-                <div className="flex flex-col gap-3.5">
-                  {ECOSYSTEM.map((item, i) => (
-                    <div key={i} className="flex items-center gap-3.5">
-                      <div className={`w-11 h-11 rounded-[10px] ${item.bg} flex items-center justify-center flex-shrink-0 text-xl`}>{item.icon}</div>
-                      <div>
-                        <div className="text-[14px] font-extrabold text-vs-dark">{item.name}</div>
-                        <div className="text-[12px] text-vs-gray-600">{item.sub}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
