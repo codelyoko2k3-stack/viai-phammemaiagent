@@ -22,36 +22,42 @@ const STATS = [
   { num: '98%', label: 'Khách hàng hài lòng sau 3 tháng sử dụng đầu tiên', color: 'orange' },
 ]
 
-const VALUES = [
+const REASONS = [
   {
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
       </svg>
     ),
-    title: 'Thực chiến, không lý thuyết',
-    desc: 'Mỗi tính năng phải giải quyết một bài toán thực tế đang gây đau đớn cho doanh nghiệp. Chúng tôi đo lường kết quả bằng số liệu kinh doanh của khách hàng, không phải bằng điểm UX nội bộ.',
-    iconBg: 'bg-vs-orange',
+    title: 'Native tiếng Việt',
+    desc: 'Phần mềm được xây mới hoàn toàn cho quy trình và ngôn ngữ Việt Nam — không phải bản dịch từ phần mềm ngoại, không lệch chuẩn kế toán, thuế hay thói quen vận hành của doanh nghiệp Việt.',
   },
   {
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
       </svg>
     ),
-    title: 'Rõ ràng từ đầu, không bất ngờ',
-    desc: 'Trước khi ký hợp đồng, chúng tôi nói rõ phần mềm làm được gì, không làm được gì, thời gian bao lâu, chi phí bao nhiêu. Không có điều khoản ẩn, không có phí phát sinh bất ngờ.',
-    iconBg: 'bg-white/15',
+    title: 'Giá hợp lý cho SMEs',
+    desc: 'Báo giá theo module, dự án nhỏ từ 30 triệu — phù hợp ngân sách doanh nghiệp vừa và nhỏ, không tính phí theo mức enterprise quốc tế.',
   },
   {
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>
       </svg>
     ),
-    title: 'Đồng hành dài hạn',
-    desc: 'Triển khai xong không phải là hết. ViAI cung cấp hỗ trợ kỹ thuật liên tục, cập nhật tính năng theo phản hồi thực tế và tư vấn mở rộng khi doanh nghiệp phát triển.',
-    iconBg: 'bg-vs-orange',
+    title: 'Triển khai nhanh',
+    desc: 'Bàn giao theo từng module trong 4–8 tuần. Bạn dùng được phần đầu trong khi phần sau vẫn đang được xây dựng.',
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+      </svg>
+    ),
+    title: 'Hỗ trợ người Việt 24/7',
+    desc: 'Đội ngũ kỹ thuật người Việt phản hồi qua Zalo, hotline — không rào cản ngôn ngữ, không chờ đợi qua múi giờ khác.',
   },
 ]
 
@@ -182,19 +188,26 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* Values */}
-      <section className="py-20 bg-vs-navy-gradient">
+      {/* Reasons */}
+      <section className="py-20 bg-vs-bg">
         <div className="container mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-white leading-[1.25]">Ba nguyên tắc chúng tôi không thỏa hiệp</h2>
-            <p className="text-[16px] text-white/65 mt-3 max-w-[560px] mx-auto leading-[1.65]">Mỗi quyết định sản phẩm, mỗi dòng code, mỗi cuộc tư vấn — đều xuất phát từ ba nguyên tắc này.</p>
+            <div className="w-14 h-14 rounded-2xl bg-vs-orange flex items-center justify-center mx-auto mb-5">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
+              4 lý do <em className="not-italic text-vs-blue">SMEs Việt</em> chọn ViAI
+            </h2>
+            <p className="text-[16px] text-vs-gray-600 mt-3 max-w-[620px] mx-auto leading-[1.65]">Khác biệt thực tế giữa ViAI và các giải pháp khác — không marketing rỗng, có thể kiểm chứng được.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {VALUES.map((v, i) => (
-              <div key={i} className="bg-[rgba(255,255,255,.08)] rounded-2xl p-9 border border-white/10 hover:bg-[rgba(255,255,255,.13)] hover:-translate-y-1 transition-all">
-                <div className={`w-14 h-14 rounded-[14px] ${v.iconBg} flex items-center justify-center mb-5`}>{v.icon}</div>
-                <h3 className="text-[18px] font-extrabold text-white mb-3">{v.title}</h3>
-                <p className="text-[14.5px] text-white/70 leading-[1.7] m-0 whitespace-pre-line">{v.desc}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {REASONS.map((r, i) => (
+              <div key={i} className="bg-white rounded-2xl p-7 shadow-vs hover:shadow-vs-md hover:-translate-y-1 transition-all">
+                <div className="w-12 h-12 rounded-xl bg-vs-navy flex items-center justify-center mb-5">{r.icon}</div>
+                <h3 className="text-[17px] font-extrabold text-vs-blue mb-2.5">{r.title}</h3>
+                <p className="text-[14px] text-vs-gray-600 leading-[1.7] m-0">{r.desc}</p>
               </div>
             ))}
           </div>
