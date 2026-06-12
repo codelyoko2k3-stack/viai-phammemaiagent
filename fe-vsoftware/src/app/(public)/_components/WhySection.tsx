@@ -23,7 +23,7 @@ function WhySection({ config }: { config?: HomepageWhyConfig }) {
     return (
         <section className="py-20 bg-white" id="why-us">
             <div className="max-w-8xl mx-auto px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
                     <div>
                         <h2 className="text-[clamp(22px,3vw,34px)] font-extrabold text-vs-dark leading-[1.25] mb-4">
                             {heading}
@@ -51,8 +51,8 @@ function WhySection({ config }: { config?: HomepageWhyConfig }) {
                         </div>
                     </div>
 
-                    <div>
-                        <div className="bg-[linear-gradient(135deg,_#1E5BC6_0%,_#2E6FD6_55%,_#F47920_100%)] rounded-2xl p-8">
+                    <div className="h-full">
+                        <div className="h-full flex flex-col bg-[linear-gradient(135deg,_#1E5BC6_0%,_#2E6FD6_55%,_#F47920_100%)] rounded-2xl p-8">
                             <div className="grid grid-cols-2 gap-4 mb-6">
                                 {stats.map((stat, i) => (
                                     <div key={i} className="bg-white/10 rounded-xl p-5 text-center">
@@ -63,7 +63,7 @@ function WhySection({ config }: { config?: HomepageWhyConfig }) {
                                     </div>
                                 ))}
                             </div>
-                            <blockquote className="mt-6 rounded-xl border-l-[3px] border-orange-500 bg-white/10 p-5">
+                            <blockquote className="mt-6 flex-1 flex flex-col justify-center rounded-xl border-l-[3px] border-orange-500 bg-white/10 p-5">
                                 <p className="text-[14px] text-white/80 italic leading-[1.7] mb-3">
                                     &ldquo;{quote}&rdquo;
                                 </p>
