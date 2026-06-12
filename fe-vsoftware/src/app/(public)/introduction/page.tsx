@@ -6,6 +6,7 @@ import CTASection from '@/components/common/CTASection'
 import { getPosts } from '@/lib/api/public'
 import type { Post } from '@/types'
 import { AI_AGENT_SLUGS } from '@/constants/app.constants'
+import { Layers, Bot, RefreshCw, MessagesSquare, BarChart3, Plug, Network, ArrowRight } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -58,6 +59,39 @@ const REASONS = [
     ),
     title: 'Hỗ trợ người Việt 24/7',
     desc: 'Đội ngũ kỹ thuật người Việt phản hồi qua Zalo, hotline — không rào cản ngôn ngữ, không chờ đợi qua múi giờ khác.',
+  },
+]
+
+const SOLUTIONS = [
+  {
+    icon: Bot,
+    title: 'AI Agent tự động hỗ trợ vận hành doanh nghiệp',
+    desc: 'AI Agent thay nhân viên xử lý các tác vụ lặp đi lặp lại — vận hành doanh nghiệp 24/7 không gián đoạn.',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Tự động hoá quy trình (Workflow Automation)',
+    desc: 'Số hoá và tự động hoá các luồng công việc nội bộ — duyệt đơn, báo giá, xác nhận, escalate.',
+  },
+  {
+    icon: MessagesSquare,
+    title: 'AI chăm sóc khách hàng & marketing',
+    desc: 'Trả lời inbox, comment, gửi tin nhắn marketing đa kênh — hiểu ngữ cảnh, tone giọng theo brand.',
+  },
+  {
+    icon: BarChart3,
+    title: 'AI hỗ trợ sales, quản lý dữ liệu & vận hành nội bộ',
+    desc: 'Phân tích doanh thu, theo dõi KPI, đề xuất tối ưu — biến dữ liệu thô thành insight bán hàng.',
+  },
+  {
+    icon: Plug,
+    title: 'Kết nối CRM, phần mềm & hệ thống hiện có',
+    desc: 'Tích hợp sẵn với Facebook, Zalo, WordPress, MISA AMIS, Pancake, Haravan, Sapo, KiotViet...',
+  },
+  {
+    icon: Network,
+    title: 'Xây dựng hệ thống AI ứng dụng thực tế cho SME Việt',
+    desc: 'Giải pháp được đóng gói, tinh chỉnh cho nghiệp vụ doanh nghiệp Việt — không phải tool quốc tế chung chung.',
   },
 ]
 
@@ -210,6 +244,40 @@ export default async function GioiThieuPage() {
                 <p className="text-[14px] text-vs-gray-600 leading-[1.7] m-0">{r.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Solutions */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-14">
+            <div className="w-14 h-14 rounded-2xl bg-vs-orange flex items-center justify-center mx-auto mb-5">
+              <Layers className="w-6 h-6 text-white" />
+            </div>
+            <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
+              Chúng tôi cung cấp <em className="not-italic text-vs-blue">các giải pháp</em>
+            </h2>
+            <p className="text-[16px] text-vs-gray-600 mt-3 max-w-[620px] mx-auto leading-[1.65]">6 nhóm giải pháp AI thực chiến — đóng gói sẵn, triển khai nhanh, đo lường được.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {SOLUTIONS.map((s, i) => (
+              <div key={i} className="bg-white rounded-2xl p-7 border border-vs-gray-200 hover:shadow-vs-md hover:-translate-y-1 transition-all">
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-11 h-11 rounded-xl bg-vs-orange flex items-center justify-center">
+                    <s.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-[11px] font-extrabold uppercase tracking-[0.08em] text-vs-gray-600 bg-vs-bg px-2.5 py-1 rounded-full">Giải pháp {String(i + 1).padStart(2, '0')}</span>
+                </div>
+                <h3 className="text-[16px] font-extrabold text-vs-dark mb-2 leading-[1.4]">{s.title}</h3>
+                <p className="text-[14px] text-vs-gray-600 leading-[1.65] m-0">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <Link href="/ai-agent" className="inline-flex items-center gap-2 bg-vs-orange text-white font-bold text-[14px] px-7 py-3.5 rounded-full hover:bg-vs-orange-dark transition-colors no-underline">
+              Khám phá 4 AI Agent của ViAI <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
