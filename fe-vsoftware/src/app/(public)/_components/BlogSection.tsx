@@ -10,6 +10,7 @@ const FALLBACK_IMG =
 type BlogCard = {
   href: string
   title: string
+  excerpt: string
   img: string
   imgAlt: string
   dateLabel: string
@@ -28,6 +29,7 @@ function postToCard(p: Post): BlogCard {
   return {
     href: '/tin-tuc/' + p.slug,
     title: p.title,
+    excerpt: p.excerpt || p.seoDescription || '',
     img: p.thumbnail || FALLBACK_IMG,
     imgAlt: p.title,
     dateLabel: formatDate(p.publishedAt ?? p.createdAt ?? p.updatedAt),
@@ -74,6 +76,9 @@ async function BlogSection({ config }: { config?: HomepageBlogConfig }) {
               <h3 className="text-[clamp(16px,1.8vw,20px)] font-extrabold text-[#1A1A1A] mb-2 leading-snug line-clamp-2">
                 {featured.title}
               </h3>
+              {featured.excerpt && (
+                <p className="text-[13px] text-gray-500 mb-2 line-clamp-1">{featured.excerpt}</p>
+              )}
               {featured.dateLabel && (
                 <div className="text-[12px] text-gray-500 mb-3">
                   Ngày đăng: <strong className="text-gray-700">{featured.dateLabel}</strong>
@@ -104,9 +109,12 @@ async function BlogSection({ config }: { config?: HomepageBlogConfig }) {
                   />
                 </div>
                 <div className="flex flex-col justify-center flex-1 pr-4 py-3 min-w-0">
-                  <div className="text-[14px] font-extrabold text-[#1A1A1A] mb-1.5 leading-snug line-clamp-2 group-hover:text-[#1E5BC6] transition-colors">
+                  <div className="text-[14px] font-extrabold text-[#1A1A1A] mb-1 leading-snug line-clamp-2 group-hover:text-[#1E5BC6] transition-colors">
                     {a.title}
                   </div>
+                  {a.excerpt && (
+                    <p className="text-[12px] text-gray-500 mb-1 line-clamp-1">{a.excerpt}</p>
+                  )}
                   {a.dateLabel && (
                     <div className="text-[11.5px] text-gray-500">
                       Ngày đăng: <strong className="text-gray-700">{a.dateLabel}</strong>
