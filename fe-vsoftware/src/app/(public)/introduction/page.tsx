@@ -4,9 +4,9 @@ import Link from 'next/link'
 import PageHero from '@/components/common/PageHero'
 import AiAgentSection from '../_components/AiAgentSection'
 import CtaSection from '../_components/CtaSection'
-import { getPosts, getCategoryPosts } from '@/lib/api/public'
+import { getCategoryPosts } from '@/lib/api/public'
 import type { Post } from '@/types'
-import { AI_AGENT_SLUGS } from '@/constants/app.constants'
+import { AI_AGENT_SLUGS, NEWS_SLUGS } from '@/constants/app.constants'
 import { Layers, Bot, RefreshCw, MessagesSquare, BarChart3, Plug, Network, ArrowRight } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -97,33 +97,17 @@ const SOLUTIONS = [
 ]
 
 export default async function GioiThieuPage() {
-  let dbPosts: Post[] = []
-  try {
-    const res = await getPosts({ limit: 6 })
-    dbPosts = res?.data ?? []
-  } catch (err) {
-    console.error('Failed to fetch posts in introduction page:', err)
-  }
-
   const aiPostsRes = await getCategoryPosts(AI_AGENT_SLUGS, { limit: 50 }).catch(() => ({ data: [] as Post[] }))
+  const newsRes = await getCategoryPosts(NEWS_SLUGS, { limit: 6 }).catch(() => ({ data: [] as Post[] }))
 
-  const productsToDisplay = dbPosts.length > 0 
-    ? dbPosts.map(post => {
-        const catSlug = post.category?.slug || ''
-        const isAi = catSlug.startsWith(AI_AGENT_SLUGS) || catSlug.includes('ai')
-        const href = isAi ? `/ai-agent/${post.slug}` : `/dich-vu/${post.slug}`
-        
-        return {
-          href,
-          img: post.thumbnail || 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=180&q=80',
-          alt: post.title,
-          tag: post.category?.name || 'Phần mềm',
-          tagColor: isAi ? 'orange' : 'blue',
-          title: post.title,
-          desc: post.excerpt || post.seoDescription || 'Dịch vụ phần mềm chất lượng cao từ ViAI.'
-        }
-      })
-    : []
+  const productsToDisplay = newsRes.data.map(post => ({
+    href: `/tin-tuc/${post.slug}`,
+    img: post.thumbnail || 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=180&q=80',
+    alt: post.title,
+    tag: post.category?.name || 'Tin tức',
+    title: post.title,
+    desc: post.excerpt || post.seoDescription || 'Cập nhật kiến thức và xu hướng công nghệ mới nhất từ ViAI.'
+  }))
 
   return (
     <>
@@ -294,16 +278,16 @@ export default async function GioiThieuPage() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Những gì <em className="not-italic text-vs-blue">chúng tôi đã xây dựng</em>
+              Tin tức & <em className="not-italic text-vs-blue">kiến thức mới nhất</em>
             </h2>
-            <p className="text-[16px] text-vs-gray-600 mt-3 max-w-[560px] mx-auto leading-[1.65]">Mỗi sản phẩm là câu chuyện của một doanh nghiệp — với bài toán riêng và giải pháp riêng.</p>
+            <p className="text-[16px] text-vs-gray-600 mt-3 max-w-[560px] mx-auto leading-[1.65]">Cập nhật xu hướng AI, automation và case study thực tế từ ViAI.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {productsToDisplay.map((p, i) => (
               <Link key={i} href={p.href} className="group bg-white rounded-2xl overflow-hidden shadow-vs hover:border hover:border-vs-blue hover:shadow-vs-md hover:-translate-y-1 transition-all no-underline">
                 <div className="relative h-[180px] overflow-hidden">
                   <Image src={p.img} alt={p.alt} fill unoptimized className="object-cover group-hover:scale-105 transition-transform duration-300" />
-                  <span className={`absolute top-3 left-3 text-[11px] font-extrabold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full ${p.tagColor === 'orange' ? 'bg-vs-orange text-white' : 'bg-vs-blue text-white'}`}>{p.tag}</span>
+                  <span className="absolute top-3 left-3 text-[11px] font-extrabold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full bg-vs-blue text-white">{p.tag}</span>
                 </div>
                 <div className="p-5">
                   <h3 className="text-[16px] font-extrabold text-vs-dark mb-2 group-hover:text-vs-blue transition-colors">{p.title}</h3>
