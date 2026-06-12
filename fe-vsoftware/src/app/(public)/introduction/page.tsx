@@ -3,7 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PageHero from '@/components/common/PageHero'
 import CTASection from '@/components/common/CTASection'
-import { getPosts } from '@/lib/api/public'
+import AiAgentSection from '../_components/AiAgentSection'
+import { getPosts, getCategoryPosts } from '@/lib/api/public'
 import type { Post } from '@/types'
 import { AI_AGENT_SLUGS } from '@/constants/app.constants'
 import { Layers, Bot, RefreshCw, MessagesSquare, BarChart3, Plug, Network, ArrowRight } from 'lucide-react'
@@ -95,13 +96,6 @@ const SOLUTIONS = [
   },
 ]
 
-const TEAM = [
-  { name: 'Lê Đức Nam', role: 'Founder & CEO', desc: '10+ năm trong mảng công nghệ và tư vấn chuyển đổi số cho doanh nghiệp Việt', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&h=200&q=80' },
-  { name: 'Nguyễn Minh Tuấn', role: 'CTO', desc: 'Kiến trúc sư hệ thống, chuyên về SaaS multi-tenant và tích hợp AI vào sản phẩm thực tế', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&h=200&q=80' },
-  { name: 'Trần Thị Lan Anh', role: 'Chief Product Officer', desc: 'Chuyên gia UX và nghiên cứu người dùng với 8 năm thiết kế sản phẩm cho thị trường SME', img: 'https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=400&h=200&q=80' },
-  { name: 'Phạm Văn Hùng', role: 'COO', desc: 'Vận hành và triển khai dự án — đảm bảo mọi sản phẩm đến tay khách hàng đúng cam kết', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&h=200&q=80' },
-]
-
 export default async function GioiThieuPage() {
   let dbPosts: Post[] = []
   try {
@@ -110,6 +104,8 @@ export default async function GioiThieuPage() {
   } catch (err) {
     console.error('Failed to fetch posts in introduction page:', err)
   }
+
+  const aiPostsRes = await getCategoryPosts(AI_AGENT_SLUGS, { limit: 50 }).catch(() => ({ data: [] as Post[] }))
 
   const productsToDisplay = dbPosts.length > 0 
     ? dbPosts.map(post => {
@@ -308,37 +304,16 @@ export default async function GioiThieuPage() {
         </div>
       </section>
 
-      {/* Team */}
-      <section className="py-20 bg-vs-bg">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="text-[clamp(24px,3vw,36px)] font-extrabold text-vs-dark leading-[1.25]">
-              Những người xây dựng <em className="not-italic text-vs-blue">ViAI</em>
-            </h2>
-            <p className="text-[16px] text-vs-gray-600 mt-3 max-w-[560px] mx-auto leading-[1.65]">Đội ngũ kết hợp giữa kỹ sư phần mềm thực chiến và chuyên gia am hiểu bài toán kinh doanh SME Việt.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TEAM.map((m, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-vs hover:shadow-vs-md hover:-translate-y-1 transition-all">
-                <div className="h-[200px] overflow-hidden">
-                  <Image src={m.img} alt={m.name} width={400} height={200} unoptimized className="w-full h-full object-cover" />
-                </div>
-                <div className="p-5">
-                  <div className="text-[15px] font-extrabold text-vs-dark">{m.name}</div>
-                  <div className="text-[13px] font-semibold text-vs-blue mt-0.5 mb-2">{m.role}</div>
-                  <div className="text-[13px] text-vs-gray-600 leading-[1.5] whitespace-pre-line">{m.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <p className="text-[15px] text-vs-gray-600 mb-5">Đội ngũ ViAI còn có 20+ kỹ sư phần mềm, chuyên gia thiết kế UI/UX và chuyên viên hỗ trợ khách hàng.</p>
-            <Link href="/lien-he" className="inline-flex items-center gap-2 text-[14px] font-bold text-vs-blue border-2 border-vs-blue px-6 py-2.5 rounded-vs hover:bg-vs-blue hover:text-white transition-all no-underline">
-              Gia nhập đội ngũ ViAI →
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* AI Agent */}
+      <AiAgentSection
+        aiPosts={aiPostsRes.data}
+        config={{
+          label: 'AI Agent',
+          heading: 'Phần mềm AI Agent -',
+          headingEm: 'ViAI',
+          description: 'Không phải chatbot trả lời câu hỏi. Đây là nhân viên AI làm việc 24/7 — tích hợp sâu với phần mềm doanh nghiệp.',
+        }}
+      />
 
       <CTASection
         title="Sẵn sàng bắt đầu dự án phần mềm của bạn?"
