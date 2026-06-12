@@ -120,6 +120,9 @@ async function BlogSection({ config }: { config?: HomepageBlogConfig }) {
                       Ngày đăng: <strong className="text-gray-700">{a.dateLabel}</strong>
                     </div>
                   )}
+                  <span className="inline-flex items-center gap-1 text-[12px] font-extrabold text-[#1E5BC6] mt-1 transition-[gap] duration-150 group-hover:gap-2">
+                    Đọc thêm »
+                  </span>
                 </div>
               </Link>
             ))}
