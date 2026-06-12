@@ -102,9 +102,14 @@ export default function DangKyPage() {
                   </div>
 
                   <div>
-                    <label className="block text-[13px] font-bold text-vs-gray-700 mb-1.5">Số điện thoại</label>
+                    <label className="block text-[13px] font-bold text-vs-gray-700 mb-1.5">
+                      Số điện thoại <span className="text-vs-orange">*</span>
+                    </label>
                     <input
-                      {...register('phone', { pattern: { value: /^0\d{9}$/, message: 'Số điện thoại không hợp lệ' } })}
+                      {...register('phone', {
+                        required: 'Số điện thoại là bắt buộc',
+                        pattern: { value: /^0\d{9}$/, message: 'Số điện thoại không hợp lệ' },
+                      })}
                       type="tel"
                       placeholder="0912 345 678"
                       className="w-full px-4 py-3 border-[1.5px] border-vs-gray-200 rounded-lg text-[14px] text-vs-dark bg-white outline-none focus:border-vs-blue transition-colors"
