@@ -110,13 +110,12 @@ export default async function GioiThieuPage() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-4 items-center">
             <div>
-              <h1 className="text-[clamp(28px,3.5vw,44px)] font-extrabold text-vs-dark leading-[1.2] mb-6">
-                Phần mềm <em className="not-italic text-vs-blue">vừa vặn</em> cho doanh nghiệp Việt — không phải trang trí công nghệ
+              <h1 className="text-[clamp(28px,3.5vw,44px)] font-extrabold text-vs-blue leading-[1.2] mb-6">
+                ViAI - Phần mềm AI Agent cho doanh nghiệp Việt
               </h1>
               <div className="text-[16px] text-vs-gray-700 leading-[1.85]">
                 <p className="mb-[18px]">ViAI là đơn vị phát triển phần mềm theo yêu cầu thuộc hệ sinh thái <strong>ViTechGroup</strong> — tập đoàn công nghệ tập trung vào chuyển đổi số thực chất cho doanh nghiệp vừa và nhỏ tại Việt Nam.</p>
-                <p className="mb-[18px]">Chúng tôi không bán phần mềm đóng hộp. Mỗi sản phẩm được phân tích, thiết kế và xây dựng riêng theo bài toán thực tế của từng khách hàng — từ spa 3 nhân viên đến chuỗi nhà hàng 20 chi nhánh.</p>
-                <p>Triết lý của ViAI: <strong>giải quyết bài toán thực chiến, không phải trang trí công nghệ.</strong></p>
+                <p>Chúng tôi không bán phần mềm đóng hộp. Mỗi sản phẩm được phân tích, thiết kế và xây dựng riêng theo bài toán thực tế của từng khách hàng — từ spa 3 nhân viên đến chuỗi nhà hàng 20 chi nhánh.</p>
               </div>
             </div>
             <div className="relative rounded-[20px] overflow-hidden shadow-vs-lg">
