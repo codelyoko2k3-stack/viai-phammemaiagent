@@ -1,7 +1,7 @@
 
 
 import PageHero from "@/components/common/PageHero";
-import { getCategories, getCategoryPosts, getPost, getPosts } from "@/lib/api/public";
+import { getCategories, getCategoryPosts, getPost } from "@/lib/api/public";
 import { notFound } from 'next/navigation';
 import SidebarNewsletter from "../_components/SidebarNewsletter";
 import AuthorCard from "./_components/AuthorCard";
@@ -38,13 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const ArticleLayout = async ({ params }: Props) => {
   const news = await getPost(params.slug).then(res => res.data).catch(() => null);
-  const relatedResponse = await getPosts({ limit: 3 }).catch(() => null);
-  const relatedArticles = relatedResponse?.data || [];
 
   const categoriesResponse = await getCategories().catch(() => null);
   const allCategories = categoriesResponse?.data || [];
   const postsRes = await getCategoryPosts(NEWS_SLUGS, { limit: 100 }).catch(() => null);
   const allNews = postsRes?.data || [];
+
+  const relatedArticles = allNews.filter(p => p.slug !== params.slug).slice(0, 3);
 
   const aiPosts = await getCategoryPosts(AI_AGENT_SLUGS, { limit: 50 }).then(res => res.data).catch(() => []);
 
